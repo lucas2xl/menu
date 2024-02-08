@@ -1,0 +1,132 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  USER
+}
+
+enum StatusPlan {
+  ACTIVE
+  INACTIVE
+}
+
+enum OrderStatus {
+  PENDING
+  PREPARING
+  DONE
+  PAID
+  CANCELED
+}
+
+model UserPlan {
+  id       String     @id @default(cuid())
+  userId   String
+  quantity Int        @default(1)
+  price    Int        @default(0)
+  status   StatusPlan @default(ACTIVE)
+
+  @@unique([userId])
+  @@map("user_plan")
+}
+
+model Company {
+  id         String     @id @default(cuid())
+  name       String
+  logo       String?
+  userId     String
+  slug       String     @unique
+  orders     Order[]
+  categories Category[]
+  products   Product[]
+
+  @@unique([userId])
+  @@map("companies")
+}
+
+model Category {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String?
+  companyId   String    @map("company_id")
+  company     Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  products    Product[]
+
+  @@map("categories")
+}
+
+model Product {
+  id          Int             @id @default(autoincrement())
+  name        String
+  description String?
+  price       Int
+  time        Int
+  serves      Int
+  isFeatured  Boolean?        @default(false) @map("is_featured")
+  discount    Int?            @default(0)
+  categoryId  Int             @map("category_id")
+  companyId   String          @map("company_id")
+  company     Company         @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  category    Category        @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  images      ProductImage[]
+  options     ProductOption[]
+  orderItem   OrderItem[]
+
+  @@map("products")
+}
+
+model ProductImage {
+  id        Int     @id @default(autoincrement())
+  image     String
+  productId Int     @map("product_id")
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("product_images")
+}
+
+model ProductOption {
+  id          Int     @id @default(autoincrement())
+  name        String
+  description String?
+  price       Int
+  productId   Int     @map("product_id")
+  inputType   String  @map("input_type") // swiche / number
+  product     Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("product_options")
+}
+
+model Order {
+  id          Int         @id @default(autoincrement())
+  companyId   String      @map("company_id")
+  qrcodeId    String      @map("qrcode_id")
+  tableId     String      @map("table_id")
+  total       Int
+  observation String?
+  status      OrderStatus @default(PENDING)
+  company     Company     @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  orderItems  OrderItem[]
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id        Int     @id @default(autoincrement())
+  orderId   Int     @map("order_id")
+  productId Int     @map("product_id")
+  quantity  Int
+  isDone    Boolean @default(false) @map("is_done")
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("order_items")
+}
