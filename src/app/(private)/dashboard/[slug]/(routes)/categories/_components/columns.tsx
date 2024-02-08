@@ -1,9 +1,9 @@
 "use client";
 
+import { Category } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 
 import { Checkbox } from "@/components/ui/checkbox";
-import { Category } from "@/server/models/category";
 
 import { DataTableColumnHeader } from "@/app/(private)/dashboard/[slug]/(routes)/categories/_components/data-table-column-header";
 import { DataTableRowActions } from "@/app/(private)/dashboard/[slug]/(routes)/categories/_components/data-table-row-actions";

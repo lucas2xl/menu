@@ -2,7 +2,6 @@ import { UserButton } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
 import React from "react";
 
-import { Container } from "@/components/container";
 import { CompanySwitcher } from "@/components/dashboard/company-switcher";
 import { MainNav } from "@/components/dashboard/main-nav";
 import { ModeToggle } from "@/components/mode-toggle";
@@ -24,7 +23,7 @@ export default async function DashboardCompanyLayout({
   console.log(companies);
 
   return (
-    <Container className="px-8">
+    <div className="px-8">
       <div className="flex h-16 items-center border-b">
         <CompanySwitcher companies={companies} />
         <MainNav className="mx-6" />
@@ -35,6 +34,6 @@ export default async function DashboardCompanyLayout({
         </div>
       </div>
       {children}
-    </Container>
+    </div>
   );
 }

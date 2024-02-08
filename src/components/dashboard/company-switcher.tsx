@@ -4,8 +4,6 @@ import { CheckIcon, ChevronsUpDownIcon, PlusCircleIcon } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 
-import { AlertError } from "@/components/alert-error";
-import { AlertSuccess } from "@/components/alert-success";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -56,8 +54,7 @@ interface Props {
 }
 
 export function CompanySwitcher({ className, companies }: Props) {
-  const { isPending, error, success, onSubmit, onDrop, form, previewUrl } =
-    useAddCompany();
+  const { isPending, onSubmit, onDrop, form, previewUrl } = useAddCompany();
   const [open, setOpen] = useState(false);
   const [showNewCompanyDialog, setShowNewCompanyDialog] = useState(false);
   const [selectedCompany, setSelectedCompany] = useState<Company>(companies[0]);
@@ -222,9 +219,6 @@ export function CompanySwitcher({ className, companies }: Props) {
                 </div>
               )}
             </div>
-
-            <AlertError message={error} />
-            <AlertSuccess message={success} />
 
             <DialogFooter>
               <Button

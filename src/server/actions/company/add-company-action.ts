@@ -1,8 +1,8 @@
 "use server";
 
+import { ActionResponse } from "@/@types/action-response";
 import { AddCompanySchema } from "@/schemas/company";
 import { db } from "@/server/db";
-import { ActionResponse } from "@/server/models/action-response";
 
 export async function addCompanyAction({
   values,

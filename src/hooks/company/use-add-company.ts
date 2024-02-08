@@ -2,6 +2,7 @@ import { useAuth } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 import { AddCompanySchema } from "@/schemas/company";
 import { addCompanyAction } from "@/server/actions/company/add-company-action";
@@ -9,8 +10,7 @@ import { addCompanyAction } from "@/server/actions/company/add-company-action";
 export function useAddCompany() {
   const { userId } = useAuth();
   const [isPending, startTransition] = useTransition();
-  const [success, setSuccess] = useState("");
-  const [error, setError] = useState("");
+
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   const form = useForm<AddCompanySchema>({
@@ -18,17 +18,19 @@ export function useAddCompany() {
     defaultValues: { name: "", logo: null },
   });
 
-  const onSubmit = (values: AddCompanySchema) => {
-    setError("");
-    setSuccess("");
-
+  const onSubmit = async (values: AddCompanySchema) => {
     startTransition(async () => {
-      const response = await addCompanyAction({ values, userId });
-      if (response.status === "error") {
-        return setError(response.message);
-      }
+      return new Promise(async (resolve) => {
+        const response = await addCompanyAction({ values, userId });
+        if (response.status === "error") {
+          return toast.error(response.message);
+        }
 
-      // revalidatePath("/");
+        toast.success("Companhia criada com sucesso!");
+
+        // revalidatePath("/");
+        resolve();
+      });
     });
   };
 
@@ -59,5 +61,5 @@ export function useAddCompany() {
     }
   }
 
-  return { isPending, error, success, onSubmit, onDrop, form, previewUrl };
+  return { isPending, onSubmit, onDrop, form, previewUrl };
 }

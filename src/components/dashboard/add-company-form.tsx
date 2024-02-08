@@ -1,8 +1,6 @@
 "use client";
 import Image from "next/image";
 
-import { AlertError } from "@/components/alert-error";
-import { AlertSuccess } from "@/components/alert-success";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -25,8 +23,7 @@ import { useAddCompany } from "@/hooks/company/use-add-company";
 import { toSlug } from "@/lib/utils";
 
 export function AddCompanyForm() {
-  const { isPending, error, success, onSubmit, onDrop, form, previewUrl } =
-    useAddCompany();
+  const { isPending, onSubmit, onDrop, form, previewUrl } = useAddCompany();
 
   return (
     <div className="flex items-center justify-center bg-background min-h-screen">
@@ -109,9 +106,6 @@ export function AddCompanyForm() {
                   </div>
                 )}
               </div>
-
-              <AlertError message={error} />
-              <AlertSuccess message={success} />
 
               <Button
                 loading
