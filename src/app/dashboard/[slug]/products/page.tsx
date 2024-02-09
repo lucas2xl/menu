@@ -12,16 +12,10 @@ export default async function ProductsPage({
   params: { slug: string };
 }) {
   const products = db.product.findMany({
-    where: { company: { slug: params.slug } },
-  });
-  const categories = db.category.findMany({
-    where: { company: { slug: params.slug } },
+    where: { store: { slug: params.slug } },
   });
 
-  const [productsData, categoriesData] = await Promise.all([
-    products,
-    categories,
-  ]);
+  const [productsData] = await Promise.all([products]);
 
   return (
     <div className="flex h-full flex-1 flex-col space-y-8 p-8 ">

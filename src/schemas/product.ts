@@ -10,21 +10,21 @@ export const ProductSchema = z.object({
   isFeatured: z.optional(z.boolean()),
   discount: z.optional(z.number()),
   categoryId: z.number(),
-  companyId: z.string(),
+  storeId: z.string(),
 });
 
 export const AddProductSchema = z.object({
   name: z.string().min(1, {
-    message: "Name is required",
+    message: "Nome é obrigatório",
   }),
   description: z.optional(z.string()),
-  price: z.string().min(1, { message: "Price is required" }),
-  time: z.string().min(1, { message: "Time is required" }),
-  serves: z.string().min(1, { message: "Serves is required" }),
+  price: z.string().min(1, { message: "Preço é obrigatório" }),
+  time: z.string().min(1, { message: "Tempo de preparo é obrigatório" }),
+  serves: z.string().min(1, { message: "Quantidade de porções é obrigatório" }),
   isFeatured: z.optional(z.boolean()),
   discount: z.optional(z.string()),
   categoryId: z.string(),
-  companySlug: z.string(),
+  storeSlug: z.string(),
 });
 
 export type ProductSchema = z.infer<typeof ProductSchema>;

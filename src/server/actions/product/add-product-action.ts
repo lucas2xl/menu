@@ -30,15 +30,15 @@ export async function addProductAction({
     isFeatured,
     discount,
     categoryId,
-    companySlug,
+    storeSlug,
   } = validatedFields.data;
 
-  const companyExists = await db.company.findUnique({
-    where: { slug: companySlug },
+  const storeExists = await db.store.findUnique({
+    where: { slug: storeSlug },
   });
 
-  if (!companyExists) {
-    return { message: "Company does not exist", status: "error" };
+  if (!storeExists) {
+    return { message: "Store does not exist", status: "error" };
   }
 
   const categoryExists = await db.category.findUnique({
@@ -59,7 +59,7 @@ export async function addProductAction({
       discount: discount ? parseFloat(discount) : null,
       isFeatured,
       categoryId: categoryExists.id,
-      companyId: companyExists.id,
+      storeId: storeExists.id,
     },
   });
 

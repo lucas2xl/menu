@@ -4,7 +4,7 @@ export const CategorySchema = z.object({
   id: z.number(),
   name: z.string(),
   description: z.optional(z.string()),
-  companyId: z.string(),
+  storeId: z.string(),
 });
 
 export const AddCategorySchema = z.object({
@@ -12,7 +12,7 @@ export const AddCategorySchema = z.object({
     message: "Name is required",
   }),
   description: z.optional(z.string()),
-  companySlug: z.string(),
+  storeSlug: z.string(),
 });
 
 export type CategorySchema = z.infer<typeof CategorySchema>;

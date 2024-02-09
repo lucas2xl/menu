@@ -16,25 +16,22 @@ export function useAddCategory() {
 
   const form = useForm<AddCategorySchema>({
     resolver: zodResolver(AddCategorySchema),
-    defaultValues: { name: "", description: "", companySlug: params.slug },
+    defaultValues: { name: "", description: "", storeSlug: params.slug },
   });
 
   const onSubmit = async (values: AddCategorySchema) => {
-    startTransition(() => {
-      return new Promise(async (resolve) => {
-        const response = await addCategoryAction({
-          values,
-          userId,
-        });
-        if (response.status === "error") {
-          toast.error(response.message);
-        } else {
-          toast.success("Categoria adicionado com sucesso");
-        }
-
-        router.push(`/dashboard/${params.slug}/categories`);
-        resolve();
+    startTransition(async () => {
+      const response = await addCategoryAction({
+        values,
+        userId,
       });
+      if (response.status === "error") {
+        toast.error(response.message);
+      } else {
+        toast.success("Categoria adicionado com sucesso");
+        router.push(`/dashboard/${params.slug}/categories`);
+        router.refresh();
+      }
     });
   };
 

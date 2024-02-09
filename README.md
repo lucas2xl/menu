@@ -4,7 +4,7 @@
 
 // lucas - qrcode X
 // lucas - table X
-// lucas - company X
+// lucas - store X
 // lucas - order X, Y -> agua e um pastel
 // finaliza o pedido do qrcodeId X -> todas as orders do qrcodeId que estao com o status DONE -> PAID
 

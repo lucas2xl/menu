@@ -27,13 +27,13 @@ export function useAddProduct() {
       price: "",
       isFeatured: false,
       discount: "",
-      companySlug: params.slug,
+      storeSlug: params.slug,
     },
   });
 
   useEffect(() => {
     const fetchCategories = async () => {
-      const res = await getCategoriesAction({ companySlug: params.slug });
+      const res = await getCategoriesAction({ storeSlug: params.slug });
       if (res.status === "error") {
         return toast.error(res.message);
       }
@@ -45,17 +45,15 @@ export function useAddProduct() {
   }, [params.slug]);
 
   const onSubmit = async (values: AddProductSchema): Promise<void> => {
-    startTransition(() => {
-      return new Promise(async (resolve) => {
-        const response = await addProductAction({ values, userId });
-        if (response.status === "error") {
-          return toast.error(response.message);
-        }
-
+    startTransition(async () => {
+      const response = await addProductAction({ values, userId });
+      if (response.status === "error") {
+        toast.error(response.message);
+      } else {
         toast.success("Produto adicionado com sucesso!");
         router.push(`/dashboard/${params.slug}/products`);
-        resolve();
-      });
+        router.refresh();
+      }
     });
   };
 

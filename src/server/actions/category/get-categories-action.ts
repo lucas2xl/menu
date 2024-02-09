@@ -5,28 +5,28 @@ import { db } from "@/server/db";
 import { Category } from "@prisma/client";
 
 export async function getCategoriesAction({
-  companySlug,
+  storeSlug,
 }: {
-  companySlug: string;
+  storeSlug: string;
 }): Promise<ActionResponse<Category[]>> {
-  if (!companySlug) {
+  if (!storeSlug) {
     return { message: "Slug not provided", status: "error" };
   }
 
-  const companyExists = await db.company.findUnique({
-    where: { slug: companySlug },
+  const storeExists = await db.store.findUnique({
+    where: { slug: storeSlug },
   });
 
-  if (!companyExists) {
-    return { message: "Company does not exist", status: "error" };
+  if (!storeExists) {
+    return { message: "Store does not exist", status: "error" };
   }
 
   const categories = await db.category.findMany({
-    where: { companyId: companyExists.id },
+    where: { storeId: storeExists.id },
   });
 
   return {
-    message: "Categories fetched successfully",
+    message: "Stores fetched successfully",
     status: "success",
     body: categories,
   };

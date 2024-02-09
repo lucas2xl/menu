@@ -5,14 +5,14 @@ import { capitalize } from "@/lib/utils";
 export const ProfileSchema = z
   .object({
     name: z.string().min(1, {
-      message: "Name is required",
+      message: "Nome é obrigatório",
     }),
     email: z
       .string({
-        invalid_type_error: "Please enter a valid email",
+        invalid_type_error: "Por favor, insira um email válido",
       })
       .email({
-        message: "Email is required",
+        message: "Email é obrigatório",
       }),
     isTwoFactorEnabled: z.boolean(),
   })

@@ -21,18 +21,18 @@ export async function addCategoryAction({
     return { message: "Invalid fields", status: "error" };
   }
 
-  const { name, description, companySlug } = validatedFields.data;
+  const { name, description, storeSlug } = validatedFields.data;
 
-  const companyExists = await db.company.findUnique({
-    where: { slug: companySlug },
+  const storeExists = await db.store.findUnique({
+    where: { slug: storeSlug },
   });
 
-  if (!companyExists) {
-    return { message: "Company does not exist", status: "error" };
+  if (!storeExists) {
+    return { message: "Store does not exist", status: "error" };
   }
 
   await db.category.create({
-    data: { name, description, companyId: companyExists.id },
+    data: { name, description, storeId: storeExists.id },
   });
 
   return { message: "Category added successfully", status: "success" };

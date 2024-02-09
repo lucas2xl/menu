@@ -5,8 +5,8 @@ import { ColumnDef } from "@tanstack/react-table";
 
 import { Checkbox } from "@/components/ui/checkbox";
 
-import { DataTableColumnHeader } from "@/app/(private)/dashboard/[slug]/(routes)/categories/_components/data-table-column-header";
-import { DataTableRowActions } from "@/app/(private)/dashboard/[slug]/(routes)/categories/_components/data-table-row-actions";
+import { DataTableColumnHeader } from "@/app/dashboard/[slug]/categories/_components/data-table-column-header";
+import { DataTableRowActions } from "@/app/dashboard/[slug]/categories/_components/data-table-row-actions";
 
 export const columns: ColumnDef<Product>[] = [
   {

@@ -39,48 +39,48 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useAddCompany } from "@/hooks/company/use-add-company";
+import { useAddStore } from "@/hooks/store/use-add-store";
 import { cn } from "@/lib/utils";
 
-type Company = {
+type Store = {
   id: string;
   name: string;
   logo: string | null;
 };
 
 interface Props {
-  companies: Company[];
+  stores: Store[];
   className?: string;
 }
 
-export function CompanySwitcher({ className, companies }: Props) {
-  const { isPending, onSubmit, onDrop, form, previewUrl } = useAddCompany();
+export function StoreSwitcher({ className, stores }: Props) {
+  const { isPending, onSubmit, onDrop, form, previewUrl } = useAddStore();
   const [open, setOpen] = useState(false);
-  const [showNewCompanyDialog, setShowNewCompanyDialog] = useState(false);
-  const [selectedCompany, setSelectedCompany] = useState<Company>(companies[0]);
+  const [showNewStoreDialog, setShowNewStoreDialog] = useState(false);
+  const [selectedStore, setSelectedStore] = useState<Store>(stores[0]);
 
   return (
-    <Dialog open={showNewCompanyDialog} onOpenChange={setShowNewCompanyDialog}>
+    <Dialog open={showNewStoreDialog} onOpenChange={setShowNewStoreDialog}>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            aria-label="Select a company"
+            aria-label="Select a store"
             className={cn("w-[200px] justify-between", className)}
           >
             <Avatar className="mr-2 h-5 w-5">
               <AvatarImage
-                src={selectedCompany.logo ?? ""}
-                alt={selectedCompany.name}
+                src={selectedStore.logo ?? ""}
+                alt={selectedStore.name}
                 className="grayscale"
               />
               <AvatarFallback>
-                {selectedCompany.name.slice(0, 2).toUpperCase()}
+                {selectedStore.name.slice(0, 2).toUpperCase()}
               </AvatarFallback>
             </Avatar>
-            {selectedCompany.name}
+            {selectedStore.name}
             <ChevronsUpDownIcon className="ml-auto h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
@@ -88,32 +88,32 @@ export function CompanySwitcher({ className, companies }: Props) {
         <PopoverContent className="w-[200px] p-0">
           <Command>
             <CommandList>
-              <CommandInput placeholder="Search Company..." />
-              <CommandEmpty>No Company found.</CommandEmpty>
-              {companies.map((company) => (
+              <CommandInput placeholder="Search Store..." />
+              <CommandEmpty>No Store found.</CommandEmpty>
+              {stores.map((store) => (
                 <CommandItem
-                  key={company.id}
+                  key={store.id}
                   onSelect={() => {
-                    setSelectedCompany(company);
+                    setSelectedStore(store);
                     setOpen(false);
                   }}
                   className="text-sm"
                 >
                   <Avatar className="mr-2 h-5 w-5">
                     <AvatarImage
-                      src={company.logo ?? ""}
-                      alt={company.name}
+                      src={store.logo ?? ""}
+                      alt={store.name}
                       className="grayscale"
                     />
                     <AvatarFallback>
-                      {company.name.slice(0, 2).toUpperCase()}
+                      {store.name.slice(0, 2).toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
-                  {company.name}
+                  {store.name}
                   <CheckIcon
                     className={cn(
                       "ml-auto h-4 w-4",
-                      selectedCompany.name === company.name
+                      selectedStore.name === store.name
                         ? "opacity-100"
                         : "opacity-0"
                     )}
@@ -128,12 +128,12 @@ export function CompanySwitcher({ className, companies }: Props) {
                   <CommandItem
                     onSelect={() => {
                       setOpen(false);
-                      setShowNewCompanyDialog(true);
+                      setShowNewStoreDialog(true);
                     }}
-                    disabled={1 <= companies.length}
+                    disabled={1 <= stores.length}
                   >
                     <PlusCircleIcon className="mr-2 h-5 w-5" />
-                    Create Company
+                    Create Store
                   </CommandItem>
                 </DialogTrigger>
               </CommandGroup>
@@ -144,9 +144,9 @@ export function CompanySwitcher({ className, companies }: Props) {
 
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Create Company</DialogTitle>
+          <DialogTitle>Create Store</DialogTitle>
           <DialogDescription>
-            Add a new Company to manage products and customers.
+            Add a new Store to manage products and customers.
           </DialogDescription>
         </DialogHeader>
 
@@ -163,7 +163,7 @@ export function CompanySwitcher({ className, companies }: Props) {
                       <Input
                         {...field}
                         disabled={isPending}
-                        placeholder="XPTO Company"
+                        placeholder="XPTO Store"
                       />
                     </FormControl>
                     <FormMessage />
@@ -181,7 +181,7 @@ export function CompanySwitcher({ className, companies }: Props) {
                       <Input
                         {...field}
                         disabled={isPending}
-                        placeholder="XPTO Company"
+                        placeholder="XPTO Store"
                       />
                     </FormControl>
                     <FormMessage />
@@ -211,7 +211,7 @@ export function CompanySwitcher({ className, companies }: Props) {
                 <div className="flex items-center justify-center gap-3 p-4 relative">
                   <Image
                     src={previewUrl}
-                    alt="Company logo"
+                    alt="Store logo"
                     width={100}
                     height={100}
                     className="rounded-lg"
@@ -223,14 +223,14 @@ export function CompanySwitcher({ className, companies }: Props) {
             <DialogFooter>
               <Button
                 variant="outline"
-                onClick={() => setShowNewCompanyDialog(false)}
+                onClick={() => setShowNewStoreDialog(false)}
               >
                 Cancel
               </Button>
 
               <Button loading type="submit" disabled={isPending}>
                 {isPending && <div className="loading" />}
-                Create Company
+                Create Store
               </Button>
             </DialogFooter>
           </form>

@@ -2,13 +2,13 @@ import { z } from "zod";
 
 import { capitalize } from "@/lib/utils";
 
-export const AddCompanySchema = z
+export const AddStoreSchema = z
   .object({
     name: z.string().min(1, {
-      message: "Name is required",
+      message: "Nome é obrigatório",
     }),
     slug: z.string().min(1, {
-      message: "Slug is required",
+      message: "Slug é obrigatório",
     }),
     logo: z.any().optional(),
   })
@@ -20,4 +20,4 @@ export const AddCompanySchema = z
     return true;
   });
 
-export type AddCompanySchema = z.infer<typeof AddCompanySchema>;
+export type AddStoreSchema = z.infer<typeof AddStoreSchema>;

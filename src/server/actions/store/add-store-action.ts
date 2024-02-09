@@ -1,21 +1,21 @@
 "use server";
 
 import { ActionResponse } from "@/@types/action-response";
-import { AddCompanySchema } from "@/schemas/company";
+import { AddStoreSchema } from "@/schemas/store";
 import { db } from "@/server/db";
 
-export async function addCompanyAction({
+export async function addStoreAction({
   values,
   userId,
 }: {
-  values: AddCompanySchema;
+  values: AddStoreSchema;
   userId?: string | null;
 }): Promise<ActionResponse> {
   if (!userId) {
     return { message: "User id not provided", status: "error" };
   }
 
-  const validatedFields = AddCompanySchema.safeParse(values);
+  const validatedFields = AddStoreSchema.safeParse(values);
 
   if (!validatedFields.success) {
     return { message: "Invalid fields", status: "error" };
@@ -23,15 +23,15 @@ export async function addCompanyAction({
 
   const { name, logo, slug } = validatedFields.data;
 
-  const companyExists = await db.company.findUnique({
+  const storeExists = await db.store.findUnique({
     where: { slug },
   });
 
-  if (companyExists) {
-    return { message: "Company already exists", status: "error" };
+  if (storeExists) {
+    return { message: "Store already exists", status: "error" };
   }
 
-  await db.company.create({
+  await db.store.create({
     data: {
       name,
       slug,
@@ -40,5 +40,5 @@ export async function addCompanyAction({
     },
   });
 
-  return { message: "Company added successfully", status: "success" };
+  return { message: "Store added successfully", status: "success" };
 }

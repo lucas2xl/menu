@@ -4,33 +4,29 @@ import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-import { AddCompanySchema } from "@/schemas/company";
-import { addCompanyAction } from "@/server/actions/company/add-company-action";
+import { AddStoreSchema } from "@/schemas/store";
+import { addStoreAction } from "@/server/actions/store/add-store-action";
 
-export function useAddCompany() {
+export function useAddStore() {
   const { userId } = useAuth();
   const [isPending, startTransition] = useTransition();
 
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
-  const form = useForm<AddCompanySchema>({
-    resolver: zodResolver(AddCompanySchema),
+  const form = useForm<AddStoreSchema>({
+    resolver: zodResolver(AddStoreSchema),
     defaultValues: { name: "", logo: null },
   });
 
-  const onSubmit = async (values: AddCompanySchema) => {
+  const onSubmit = async (values: AddStoreSchema) => {
     startTransition(async () => {
-      return new Promise(async (resolve) => {
-        const response = await addCompanyAction({ values, userId });
-        if (response.status === "error") {
-          return toast.error(response.message);
-        }
-
-        toast.success("Companhia criada com sucesso!");
-
-        // revalidatePath("/");
-        resolve();
-      });
+      const response = await addStoreAction({ values, userId });
+      console.log({ response });
+      if (response.status === "error") {
+        toast.error(response.message);
+      } else {
+        toast.success("Loja criada com sucesso!");
+      }
     });
   };
 

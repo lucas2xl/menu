@@ -10,8 +10,8 @@ export default async function CategoriesPage({
 }: {
   params: { slug: string };
 }) {
-  const categories = await db.category.findMany({
-    where: { company: { slug: params.slug } },
+  const stores = await db.category.findMany({
+    where: { store: { slug: params.slug } },
   });
 
   return (
@@ -30,7 +30,7 @@ export default async function CategoriesPage({
           </Link>
         </div>
       </div>
-      <DataTable data={categories} columns={columns} />
+      <DataTable data={stores} columns={columns} />
     </div>
   );
 }

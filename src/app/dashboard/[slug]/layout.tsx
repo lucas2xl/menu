@@ -1,31 +1,27 @@
 import { UserButton } from "@clerk/nextjs";
-import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 import React from "react";
 
-import { CompanySwitcher } from "@/components/dashboard/company-switcher";
 import { MainNav } from "@/components/dashboard/main-nav";
+import { StoreSwitcher } from "@/components/dashboard/store-switcher";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Search } from "@/components/search";
 import { db } from "@/server/db";
-import { RedirectType, redirect } from "next/navigation";
 
-export default async function DashboardCompanyLayout({
+export default async function DashboardLayout({
   children,
   params,
 }: {
   children: React.ReactNode;
   params: { slug: string };
 }) {
-  const { userId } = auth();
-
-  const companies = await db.company.findMany({ where: { userId: userId! } });
-  if (!companies) return redirect("/dashboard", RedirectType.replace);
-  console.log(companies);
+  const stores = await db.store.findMany({ where: { slug: params.slug } });
+  if (!stores.length) return redirect("/dashboard");
 
   return (
     <div className="px-8">
       <div className="flex h-16 items-center border-b">
-        <CompanySwitcher companies={companies} />
+        <StoreSwitcher stores={stores} />
         <MainNav className="mx-6" />
         <div className="ml-auto flex items-center space-x-4">
           <Search />

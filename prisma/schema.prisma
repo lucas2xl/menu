@@ -39,7 +39,7 @@ model UserPlan {
   @@map("user_plan")
 }
 
-model Company {
+model Store {
   id         String     @id @default(cuid())
   name       String
   logo       String?
@@ -50,15 +50,15 @@ model Company {
   products   Product[]
 
   @@unique([userId])
-  @@map("companies")
+  @@map("stores")
 }
 
 model Category {
   id          Int       @id @default(autoincrement())
   name        String
   description String?
-  companyId   String    @map("company_id")
-  company     Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  storeId     String    @map("store_id")
+  store       Store     @relation(fields: [storeId], references: [id], onDelete: Cascade)
   products    Product[]
 
   @@map("categories")
@@ -74,8 +74,8 @@ model Product {
   isFeatured  Boolean?        @default(false) @map("is_featured")
   discount    Int?            @default(0)
   categoryId  Int             @map("category_id")
-  companyId   String          @map("company_id")
-  company     Company         @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  storeId     String          @map("store_id")
+  store       Store           @relation(fields: [storeId], references: [id], onDelete: Cascade)
   category    Category        @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   images      ProductImage[]
   options     ProductOption[]
@@ -107,13 +107,13 @@ model ProductOption {
 
 model Order {
   id          Int         @id @default(autoincrement())
-  companyId   String      @map("company_id")
+  storeId     String      @map("store_id")
   qrcodeId    String      @map("qrcode_id")
   tableId     String      @map("table_id")
   total       Int
   observation String?
   status      OrderStatus @default(PENDING)
-  company     Company     @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  store       Store       @relation(fields: [storeId], references: [id], onDelete: Cascade)
   orderItems  OrderItem[]
 
   @@map("orders")
