@@ -12,7 +12,7 @@ export function Providers({ children }: { children: ReactNode }) {
     <>
       <ThemeProvider
         attribute="class"
-        defaultTheme="light"
+        defaultTheme="dark"
         enableSystem
         disableTransitionOnChange
       >

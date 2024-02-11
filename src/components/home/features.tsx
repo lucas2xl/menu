@@ -1,4 +1,5 @@
 import { features } from "@/lib/features";
+import { HoverEffect } from "../ui/card-hover-effect";
 import { LayoutEffect } from "./layout-effect";
 import { SectionWrapper } from "./section-wrapper";
 
@@ -33,22 +34,7 @@ export function Features() {
           }}
         >
           <div className="relative mt-12">
-            <ul className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-              {features.map((item, idx) => (
-                <li
-                  key={idx}
-                  className="space-y-3 p-4 rounded-xl border border-border bg-card overflow-hidden"
-                >
-                  <div className="w-12 h-12 flex items-center justify-center bg-foreground rounded-lg text-background">
-                    {item.icon}
-                  </div>
-                  <h3 className="text-lg text-foreground font-semibold">
-                    {item.title}
-                  </h3>
-                  <p className="text-muted-foreground">{item.desc}</p>
-                </li>
-              ))}
-            </ul>
+            <HoverEffect items={features} />
           </div>
         </LayoutEffect>
       </div>

@@ -27,12 +27,20 @@ export function Pricing() {
             <div
               key={idx}
               className={cn(
-                "relative flex-1 flex items-stretch flex-col rounded-xl border border-border mt-6 sm:mt-0",
-                item.isMostPop && "border border-primary"
+                "relative flex-1 flex items-stretch flex-col rounded-xl border border-border mt-6 sm:mt-0 overflow-hidden bg-card",
+                item.isMostPop &&
+                  "border border-primary bg-gradient-radial from-primary/40 to-background/40"
               )}
             >
-              <div className="p-8 space-y-4 border-b border-gray-800 text-center">
-                <span className="text-primary font-medium">{item.name}</span>
+              <div className="p-10 space-y-4 border-b border-gray-800 text-center">
+                <span
+                  className={cn(
+                    "text-primary font-medium",
+                    item.isMostPop && "text-foreground"
+                  )}
+                >
+                  {item.name}
+                </span>
                 <div className="text-foreground text-3xl font-semibold">
                   ${item.price}{" "}
                   <span className="text-xl text-muted-foreground font-normal">

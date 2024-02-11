@@ -1,12 +1,14 @@
 export const visualFeatures = [
   {
     title: "Send thousands of emails",
-    desc: "Send thousands of emails quickly and easily. You can customize the content of each email",
+    description:
+      "Send thousands of emails quickly and easily. You can customize the content of each email",
     img: "/images/Feature-1.svg",
   },
   {
     title: "Write your email content using AI",
-    desc: "AI-powered email content writing is the perfect solution for busy professionals who need to quickly create engaging emails.",
+    description:
+      "AI-powered email content writing is the perfect solution for busy professionals who need to quickly create engaging emails.",
     img: "/images/Feature-2.svg",
   },
 ];
@@ -30,7 +32,9 @@ export const features = [
       </svg>
     ),
     title: "Automated Personalization",
-    desc: "Our AI-based email marketing platform enables you to create highly targeted email campaigns",
+    description:
+      "Our AI-based email marketing platform enables you to create highly targeted email campaigns",
+    link: "/#",
   },
   {
     icon: (
@@ -50,7 +54,9 @@ export const features = [
       </svg>
     ),
     title: "AI-Powered Content Optimization",
-    desc: "This feature uses AI to analyze user data and optimize content for each segment of the email list.",
+    description:
+      "This feature uses AI to analyze user data and optimize content for each segment of the email list.",
+    link: "/#",
   },
   {
     icon: (
@@ -70,7 +76,9 @@ export const features = [
       </svg>
     ),
     title: "Personalized Email Experiences",
-    desc: "Mailgo uses AI to create personalized emails for each recipient based on their past interactions with the brand.",
+    description:
+      "Mailgo uses AI to create personalized emails for each recipient based on their past interactions with the brand.",
+    link: "/#",
   },
   {
     icon: (
@@ -90,7 +98,9 @@ export const features = [
       </svg>
     ),
     title: "Automated A/B Testing",
-    desc: "Test different versions of your emails in order to determine which one performs best with your audience.",
+    description:
+      "Test different versions of your emails in order to determine which one performs best with your audience.",
+    link: "/#",
   },
   {
     icon: (
@@ -110,7 +120,9 @@ export const features = [
       </svg>
     ),
     title: "Automated Segmentation",
-    desc: "This helps to ensure that the right message is sent to the right people at the right time.",
+    description:
+      "This helps to ensure that the right message is sent to the right people at the right time.",
+    link: "/#",
   },
   {
     icon: (
@@ -130,6 +142,8 @@ export const features = [
       </svg>
     ),
     title: "Integrate your sales dashboards",
-    desc: "Integrate your tools like Shopify, WooCommerce to see your sales information across platforms.",
+    description:
+      "Integrate your tools like Shopify, WooCommerce to see your sales information across platforms.",
+    link: "/#",
   },
 ];

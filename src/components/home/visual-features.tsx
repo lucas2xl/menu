@@ -45,7 +45,9 @@ export function VisualFeatures() {
                     <h3 className="text-foreground text-xl font-semibold">
                       {item.title}
                     </h3>
-                    <p className="mt-3 sm:text-sm md:text-base">{item.desc}</p>
+                    <p className="mt-3 sm:text-sm md:text-base">
+                      {item.description}
+                    </p>
                   </div>
 
                   <div className="pl-8">

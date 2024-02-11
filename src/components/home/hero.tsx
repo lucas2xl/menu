@@ -7,6 +7,8 @@ import { LayoutEffect } from "./layout-effect";
 
 import heroImg from "@/components/images/hero.webp";
 import { buttonVariants } from "../ui/button";
+import { Spotlight } from "../ui/spotlight";
+import { TextGenerateEffect } from "../ui/text-generate-effect";
 
 export function Hero() {
   return (
@@ -20,9 +22,12 @@ export function Hero() {
       >
         <div>
           <div className="space-y-5 max-w-3xl mx-auto text-center">
-            <h1 className="text-foreground text-4xl bg-clip-text bg-gradient-to-r font-extrabold mx-auto sm:text-6xl">
-              Manage your email marketing using AI
-            </h1>
+            <Spotlight className="-top-40 left-0 md:left-60 md:-top-20 fill-primary" />
+            <TextGenerateEffect
+              words="Manage your email marketing using AI"
+              textClassName="text-foreground text-4xl bg-clip-text bg-gradient-to-r font-extrabold mx-auto sm:text-6xl"
+            />
+
             <p className="max-w-xl mx-auto text-muted-foreground">
               Gain control of your business&apos;s growth with Mailgo&apos;s
               comprehensive marketing, automation, and email marketing platform.
