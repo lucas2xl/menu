@@ -54,32 +54,33 @@ model Store {
 }
 
 model Category {
-  id          Int       @id @default(autoincrement())
-  name        String
-  description String?
-  storeId     String    @map("store_id")
-  store       Store     @relation(fields: [storeId], references: [id], onDelete: Cascade)
-  products    Product[]
+  id              Int               @id @default(autoincrement())
+  name            String
+  description     String?
+  storeId         String            @map("store_id")
+  store           Store             @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  products        Product[]
+  ProductCategory ProductCategory[]
 
   @@map("categories")
 }
 
 model Product {
-  id          Int             @id @default(autoincrement())
-  name        String
-  description String?
-  price       Int
-  time        Int
-  serves      Int
-  isFeatured  Boolean?        @default(false) @map("is_featured")
-  discount    Int?            @default(0)
-  categoryId  Int             @map("category_id")
-  storeId     String          @map("store_id")
-  store       Store           @relation(fields: [storeId], references: [id], onDelete: Cascade)
-  category    Category        @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  images      ProductImage[]
-  options     ProductOption[]
-  orderItem   OrderItem[]
+  id              Int               @id @default(autoincrement())
+  name            String
+  description     String?
+  price           Int
+  time            Int
+  serves          Int
+  isFeatured      Boolean?          @default(false) @map("is_featured")
+  discount        Int?              @default(0)
+  categoryId      Int               @map("category_id")
+  storeId         String            @map("store_id")
+  store           Store             @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  category        Category          @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  images          ProductImage[]
+  orderItem       OrderItem[]
+  productCategory ProductCategory[]
 
   @@map("products")
 }
@@ -93,14 +94,25 @@ model ProductImage {
   @@map("product_images")
 }
 
-model ProductOption {
-  id          Int     @id @default(autoincrement())
-  name        String
-  description String?
-  price       Int
-  productId   Int     @map("product_id")
-  inputType   String  @map("input_type") // swiche / number
-  product     Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+model ProductCategory {
+  id           Int           @id @default(autoincrement())
+  productId    Int           @map("product_id")
+  categoryId   Int           @map("category_id")
+  product      Product       @relation(fields: [productId], references: [id], onDelete: Cascade)
+  category     Category      @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  productItems ProductItem[]
+
+  @@map("product_categories")
+}
+
+model ProductItem {
+  id                Int             @id @default(autoincrement())
+  name              String
+  description       String?
+  price             Int
+  inputType         String          @map("input_type") // swiche / number
+  productCategoryId Int             @map("product_category_id")
+  productCategory   ProductCategory @relation(fields: [productCategoryId], references: [id], onDelete: Cascade)
 
   @@map("product_options")
 }

@@ -1,6 +1,5 @@
 "use client";
 
-import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { DialogFooter } from "../ui/dialog";
@@ -24,24 +23,24 @@ export function AlertDialog({ isOpen, onClose, onConfirm, isLoading }: Props) {
 
   return (
     <Dialog
-      title="Are you Sure?"
-      description="This action cannot be undone"
+      title="Você tem certeza?"
+      description="Esta ação não pode ser desfeita."
       isOpen={isOpen}
       onClose={onClose}
     >
       <div className="flex w-full items-center justify-end space-x-2 pt-6">
         <DialogFooter className="w-full">
           <Button variant="outline" disabled={isLoading} onClick={onClose}>
-            Cancel
+            Cancelar
           </Button>
           <Button
             variant="destructive"
             disabled={isLoading}
-            className="gap-2"
             onClick={onConfirm}
+            loading
           >
-            {isLoading && <Loader2 className="h-5 w-5 animate-spin" />}
-            Confirm
+            {isLoading && <div className="loading" />}
+            Confirmar
           </Button>
         </DialogFooter>
       </div>

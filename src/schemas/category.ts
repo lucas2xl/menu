@@ -7,7 +7,7 @@ export const CategorySchema = z.object({
   storeId: z.string(),
 });
 
-export const AddCategorySchema = z.object({
+export const CreateCategorySchema = z.object({
   name: z.string().min(1, {
     message: "Name is required",
   }),
@@ -15,5 +15,16 @@ export const AddCategorySchema = z.object({
   storeSlug: z.string(),
 });
 
+export const UpdateCategorySchema = z.object({
+  id: z.number(),
+  name: z.optional(
+    z.string().min(1, {
+      message: "Name is required",
+    })
+  ),
+  description: z.optional(z.string()),
+});
+
 export type CategorySchema = z.infer<typeof CategorySchema>;
-export type AddCategorySchema = z.infer<typeof AddCategorySchema>;
+export type CreateCategorySchema = z.infer<typeof CreateCategorySchema>;
+export type UpdateCategorySchema = z.infer<typeof UpdateCategorySchema>;

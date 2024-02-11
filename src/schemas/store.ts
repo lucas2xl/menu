@@ -2,7 +2,7 @@ import { z } from "zod";
 
 import { capitalize } from "@/lib/utils";
 
-export const AddStoreSchema = z
+export const CreateStoreSchema = z
   .object({
     name: z.string().min(1, {
       message: "Nome é obrigatório",
@@ -20,4 +20,4 @@ export const AddStoreSchema = z
     return true;
   });
 
-export type AddStoreSchema = z.infer<typeof AddStoreSchema>;
+export type CreateStoreSchema = z.infer<typeof CreateStoreSchema>;

@@ -1,7 +1,5 @@
 "use client";
 
-import Image from "next/image";
-
 import { Dialog } from "@/components/dialogs/dialog";
 import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog";
@@ -15,13 +13,20 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useAddStore } from "@/hooks/store/use-add-store";
+import { useCreateStore } from "@/hooks/store/use-create-store";
 import { toSlug } from "@/lib/utils";
 import { useStoreDialog } from "@/stores/use-store-dialog";
 
 export function StoreDialog() {
   const { isOpen, onClose } = useStoreDialog();
-  const { isPending, onSubmit, onDrop, form, previewUrl } = useAddStore();
+  const {
+    isPending,
+    onSubmit,
+    onDrop,
+    form,
+    previewUrl,
+    onRemoveImagePreview,
+  } = useCreateStore();
 
   return (
     <Dialog
@@ -82,24 +87,14 @@ export function StoreDialog() {
                         {...field}
                         title="Drop file or click here"
                         handleOnDrop={onDrop}
+                        handleRemove={onRemoveImagePreview}
+                        preview={previewUrl}
                       />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-
-              {previewUrl && (
-                <div className="flex items-center justify-center gap-3 p-4 relative">
-                  <Image
-                    src={previewUrl}
-                    alt="Store logo"
-                    width={100}
-                    height={100}
-                    className="rounded-lg"
-                  />
-                </div>
-              )}
             </div>
 
             <DialogFooter>

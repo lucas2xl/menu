@@ -11,9 +11,5 @@ export function DialogProvider() {
 
   if (!isMounted) return null;
 
-  return (
-    <>
-      <StoreDialog />
-    </>
-  );
+  return <StoreDialog />;
 }

@@ -13,7 +13,7 @@ export const ProductSchema = z.object({
   storeId: z.string(),
 });
 
-export const AddProductSchema = z.object({
+export const CreateProductSchema = z.object({
   name: z.string().min(1, {
     message: "Nome é obrigatório",
   }),
@@ -28,4 +28,4 @@ export const AddProductSchema = z.object({
 });
 
 export type ProductSchema = z.infer<typeof ProductSchema>;
-export type AddProductSchema = z.infer<typeof AddProductSchema>;
+export type CreateProductSchema = z.infer<typeof CreateProductSchema>;
