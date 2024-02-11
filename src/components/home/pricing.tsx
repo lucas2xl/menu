@@ -10,7 +10,7 @@ export function Pricing() {
   return (
     <SectionWrapper id="pricing">
       <div className="relative max-w-xl mx-auto text-center">
-        <h2 className="text-gray-50 text-3xl font-semibold sm:text-4xl">
+        <h2 className="text-foreground text-3xl font-semibold sm:text-4xl">
           Find a plan to power your business
         </h2>
       </div>
@@ -27,31 +27,28 @@ export function Pricing() {
             <div
               key={idx}
               className={cn(
-                "relative flex-1 flex items-stretch flex-col rounded-xl border border-gray-800 mt-6 sm:mt-0",
-                item.isMostPop && "border border-purple-500"
+                "relative flex-1 flex items-stretch flex-col rounded-xl border border-border mt-6 sm:mt-0",
+                item.isMostPop && "border border-primary"
               )}
-              style={{
-                backgroundImage: item.isMostPop
-                  ? "radial-gradient(130.39% 130.39% at 51.31% -0.71%, #1F2937 0%, rgba(31, 41, 55, 0) 100%)"
-                  : "",
-              }}
             >
               <div className="p-8 space-y-4 border-b border-gray-800 text-center">
-                <span className="text-purple-600 font-medium">{item.name}</span>
-                <div className="text-gray-50 text-3xl font-semibold">
+                <span className="text-primary font-medium">{item.name}</span>
+                <div className="text-foreground text-3xl font-semibold">
                   ${item.price}{" "}
-                  <span className="text-xl text-gray-400 font-normal">/mo</span>
+                  <span className="text-xl text-muted-foreground font-normal">
+                    /mo
+                  </span>
                 </div>
-                <p className="text-gray-400">{item.desc}</p>
+                <p className="text-muted-foreground">{item.desc}</p>
               </div>
               <div className="p-8">
                 <ul className="space-y-3">
                   {item.features.map((featureItem, idx) => (
                     <li
                       key={idx}
-                      className="flex items-center gap-5 text-gray-300"
+                      className="flex items-center gap-5 text-muted-foreground"
                     >
-                      <CheckIcon className="h-5 w-5 text-indigo-600" />
+                      <CheckIcon className="h-5 w-5 text-primary" />
                       {featureItem}
                     </li>
                   ))}
@@ -60,8 +57,6 @@ export function Pricing() {
                   <Button
                     className={cn(
                       "w-full",
-                      item.isMostPop &&
-                        "bg-purple-600 hover:bg-purple-500 focus:bg-purple-700 ring-purple-600",
                       !item.isMostPop &&
                         "bg-gray-800 hover:bg-gray-700 ring-gray-800"
                     )}

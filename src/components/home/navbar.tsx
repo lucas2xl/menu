@@ -13,44 +13,45 @@ export function Navbar() {
 
   return (
     <header className="relative">
-      <div className="md:hidden">
+      <div className="md:hidden mt-4">
         <NavHeader state={state} onClick={() => setState(!state)} />
       </div>
+
       <nav
         className={cn(
-          "pb-5 md:text-sm md:static md:block",
-          state
-            ? "bg-gray-900 absolute z-20 top-0 inset-x-0 rounded-b-2xl shadow-xl md:bg-gray-900"
-            : "hidden"
+          "md:block fixed z-50 bg-background top-0 inset-x-0 rounded-b-2xl max-w-screen-xl mx-auto p-4",
+          !state && "hidden"
         )}
       >
         <div className="items-center md:flex">
           <NavHeader state={state} onClick={() => setState(!state)} />
+
           <div
             className={cn(
-              "flex-1 items-center mt-8 text-gray-300 md:font-medium md:mt-0 md:flex",
-              state ? "block" : "hidden"
+              "flex-1 items-center text-foreground md:font-medium md:flex",
+              state && "block mt-4",
+              !state && "hidden"
             )}
           >
             <ul className="flex-1 justify-center items-center space-y-6 md:flex md:space-x-6 md:space-y-0">
               {navigation.map((item, idx) => {
                 return (
-                  <li key={idx} className="hover:text-gray-50">
-                    <Link href={item.href} className="block">
+                  <li key={idx}>
+                    <Link
+                      href={item.href}
+                      className="block text-foreground w-full hover:text-muted-foreground"
+                    >
                       {item.name}
                     </Link>
                   </li>
                 );
               })}
             </ul>
+
             <div className="gap-x-6 items-center justify-end mt-6 space-y-6 md:flex md:space-y-0 md:mt-0">
               <Link
                 href="/login"
-                className={buttonVariants({
-                  size: "icon",
-                  variant: "link",
-                  className: "text-white",
-                })}
+                className="text-foreground w-full hover:text-muted-foreground"
               >
                 Sign in
               </Link>
@@ -58,8 +59,7 @@ export function Navbar() {
               <Link
                 href="/pricing"
                 className={buttonVariants({
-                  className:
-                    "custom-btn-bg border border-gray-500 active:bg-gray-900 w-full",
+                  className: "w-full",
                 })}
               >
                 Start now

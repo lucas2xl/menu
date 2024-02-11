@@ -20,27 +20,15 @@ export function Hero() {
       >
         <div>
           <div className="space-y-5 max-w-3xl mx-auto text-center">
-            <h1
-              className="text-4xl bg-clip-text text-transparent bg-gradient-to-r font-extrabold mx-auto sm:text-6xl"
-              style={{
-                backgroundImage:
-                  "linear-gradient(179.1deg, #FFFFFF 0.77%, rgba(255, 255, 255, 0) 182.09%)",
-              }}
-            >
+            <h1 className="text-foreground text-4xl bg-clip-text bg-gradient-to-r font-extrabold mx-auto sm:text-6xl">
               Manage your email marketing using AI
             </h1>
-            <p className="max-w-xl mx-auto text-gray-300">
+            <p className="max-w-xl mx-auto text-muted-foreground">
               Gain control of your business&apos;s growth with Mailgo&apos;s
               comprehensive marketing, automation, and email marketing platform.
             </p>
             <div className="flex justify-center font-medium text-sm">
-              <Link
-                href="/#pricing"
-                className={buttonVariants({
-                  className:
-                    "bg-purple-600 hover:bg-purple-500 active:bg-purple-700",
-                })}
-              >
+              <Link href="/#pricing" className={buttonVariants()}>
                 Get Started
                 <ChevronRightIcon className="w-5 h-5" />
               </Link>

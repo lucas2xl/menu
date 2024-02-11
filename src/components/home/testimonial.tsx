@@ -8,9 +8,9 @@ import { SectionWrapper } from "./section-wrapper";
 export function Testimonial() {
   return (
     <SectionWrapper>
-      <div id="testimonials" className="text-gray-300">
+      <div id="testimonials">
         <div className="max-w-2xl text-center md:mx-auto">
-          <h2 className="text-gray-50 text-3xl font-semibold sm:text-4xl">
+          <h2 className="text-foreground text-3xl font-semibold sm:text-4xl">
             Mailgo is loved by the best founders around the world
           </h2>
         </div>
@@ -27,17 +27,10 @@ export function Testimonial() {
           >
             <ul className="grid gap-6 duration-1000 delay-300 ease-in-out sm:grid-cols-2 lg:grid-cols-3">
               {testimonials.map((item, idx) => (
-                <li
-                  key={idx}
-                  className="p-4 rounded-xl border border-gray-800"
-                  style={{
-                    backgroundImage:
-                      "radial-gradient(100% 100% at 50% 50%, rgba(124, 58, 237, 0.05) 0%, rgba(124, 58, 237, 0) 100%)",
-                  }}
-                >
+                <li key={idx} className="p-4 rounded-xl border border-border">
                   <figure className="flex flex-col justify-between gap-y-6 h-full">
                     <blockquote className="">
-                      <p className="">{item.quote}</p>
+                      <p className="text-muted-foreground">{item.quote}</p>
                     </blockquote>
                     <div className="flex items-center gap-x-4">
                       <Image
@@ -48,10 +41,10 @@ export function Testimonial() {
                         height={56}
                       />
                       <div>
-                        <span className="block text-gray-50 font-semibold">
+                        <span className="block text-foreground font-semibold">
                           {item.name}
                         </span>
-                        <span className="block text-sm mt-0.5">
+                        <span className="block text-sm mt-0.5 text-muted-foreground">
                           {item.title}
                         </span>
                       </div>

@@ -20,32 +20,27 @@ export function CTA() {
           >
             <div className="relative z-10">
               <div className="max-w-xl mx-auto text-center">
-                <h2 className="text-gray-50 text-3xl font-semibold sm:text-4xl">
+                <h2 className="text-foreground text-3xl font-semibold sm:text-4xl">
                   Unleash the Power of AI with Email Marketing
                 </h2>
-                <p className="mt-5 text-gray-300">
+                <p className="mt-5 text-muted-foreground">
                   Mailgo is the perfect answer! Our AI-based email marketing
                   platform enables you to create highly targeted email campaigns
                   that are tailored to each individual subscriber.
                 </p>
               </div>
               <div className="mt-5 flex justify-center font-medium text-sm">
-                <Link
-                  href="/#pricing"
-                  className={buttonVariants({
-                    className:
-                      "bg-purple-600 hover:bg-purple-500 active:bg-purple-700",
-                  })}
-                >
+                <Link href="/#pricing" className={buttonVariants()}>
                   Start now
                   <ChevronRightIcon className="w-5 h-5" />
                 </Link>
               </div>
             </div>
           </LayoutEffect>
+
           <Image
             src="/images/bg-pattern.webp"
-            className="w-full h-full object-cover m-auto absolute inset-0 pointer-events-none"
+            className="w-full h-full object-cover  m-auto absolute inset-0 pointer-events-none"
             alt="Background pattern"
             width={500}
             height={500}

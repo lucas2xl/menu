@@ -1,3 +1,16 @@
+export const visualFeatures = [
+  {
+    title: "Send thousands of emails",
+    desc: "Send thousands of emails quickly and easily. You can customize the content of each email",
+    img: "/images/Feature-1.svg",
+  },
+  {
+    title: "Write your email content using AI",
+    desc: "AI-powered email content writing is the perfect solution for busy professionals who need to quickly create engaging emails.",
+    img: "/images/Feature-2.svg",
+  },
+];
+
 export const features = [
   {
     icon: (
