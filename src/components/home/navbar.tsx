@@ -33,7 +33,7 @@ export function Navbar() {
               !state && "hidden"
             )}
           >
-            <ul className="flex-1 justify-center items-center space-y-6 md:flex md:space-x-6 md:space-y-0">
+            <ul className="flex-1 md:ml-6 items-center space-y-6 md:flex md:space-x-6 md:space-y-0">
               {navigation.map((item, idx) => {
                 return (
                   <li key={idx}>
