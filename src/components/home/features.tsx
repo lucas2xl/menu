@@ -16,12 +16,14 @@ export function Features() {
         >
           <div className="max-w-xl mx-auto text-center">
             <h2 className="text-foreground text-3xl font-semibold sm:text-4xl">
-              Start growing your email marketing with Mailgo
+              Maximize o Potencial do seu Negócio com o Menu Inteligente
             </h2>
             <p className="mt-3 text-muted-foreground">
-              Mailgo makes it easy for you to create beautiful emails that get
-              noticed and opened, track results, and build relationships with
-              your customers.
+              O Menu oferece uma solução completa para impulsionar suas vendas.
+              Obtenha atualizações em tempo real sobre o status dos pedidos,
+              analise tendências de vendas e acesse relatórios detalhados para
+              tomar decisões estratégicas informadas. Transforme a experiência
+              do seu cliente e aumente a eficácia das suas operações com o Menu.
             </p>
           </div>
         </LayoutEffect>

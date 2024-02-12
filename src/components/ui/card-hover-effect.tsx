@@ -1,6 +1,5 @@
 "use client";
 import { AnimatePresence, motion } from "framer-motion";
-import Link from "next/link";
 import { useState } from "react";
 
 import { cn } from "@/lib/utils";
@@ -12,7 +11,6 @@ export const HoverEffect = ({
   items: {
     title: string;
     description: string;
-    link: string;
     icon: React.ReactNode;
   }[];
   className?: string;
@@ -27,9 +25,8 @@ export const HoverEffect = ({
       )}
     >
       {items.map((item, idx) => (
-        <Link
-          href={item?.link}
-          key={item?.link}
+        <div
+          key={idx}
           className="relative group block p-2 h-full w-full"
           onMouseEnter={() => setHoveredIndex(idx)}
           onMouseLeave={() => setHoveredIndex(null)}
@@ -52,7 +49,7 @@ export const HoverEffect = ({
             )}
           </AnimatePresence>
 
-          <div className="space-y-3 p-4 rounded-xl border border-border bg-card overflow-hidden group-hover:border-primary relative z-50 min-h-56">
+          <div className="space-y-3 h-full p-4 rounded-xl border border-border bg-card overflow-hidden group-hover:border-primary relative z-20 min-h-56">
             <div className="w-12 h-12 flex items-center justify-center bg-foreground rounded-lg text-background">
               {item.icon}
             </div>
@@ -64,7 +61,7 @@ export const HoverEffect = ({
               {item.description}
             </p>
           </div>
-        </Link>
+        </div>
       ))}
     </div>
   );

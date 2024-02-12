@@ -21,17 +21,19 @@ export function CTA() {
             <div className="relative z-10">
               <div className="max-w-xl mx-auto text-center">
                 <h2 className="text-foreground text-3xl font-semibold sm:text-4xl">
-                  Unleash the Power of AI with Email Marketing
+                  Desbloqueie o Poder da Tecnologia com o Menu
                 </h2>
-                <p className="mt-5 text-muted-foreground">
-                  Mailgo is the perfect answer! Our AI-based email marketing
-                  platform enables you to create highly targeted email campaigns
-                  that are tailored to each individual subscriber.
+                <p className="mt-5">
+                  O Menu é a solução definitiva! Nossa plataforma inteligente
+                  revoluciona a forma como você gerencia seu negócio. Com
+                  recursos avançados e personalizados, você pode dominar o
+                  mercado, oferecer uma experiência imbatível aos clientes e
+                  maximizar seus lucros.
                 </p>
               </div>
               <div className="mt-5 flex justify-center font-medium text-sm">
                 <Link href="/#pricing" className={buttonVariants()}>
-                  Start now
+                  Transforme seu negócio
                   <ChevronRightIcon className="w-5 h-5" />
                 </Link>
               </div>

@@ -24,17 +24,18 @@ export function Hero() {
           <div className="space-y-5 max-w-3xl mx-auto text-center">
             <Spotlight className="-top-40 left-0 md:left-60 md:-top-20 fill-primary" />
             <TextGenerateEffect
-              words="Manage your email marketing using AI"
+              words="Acelere sua empresa com Menu"
               textClassName="text-foreground text-4xl bg-clip-text bg-gradient-to-r font-extrabold mx-auto sm:text-6xl"
             />
 
             <p className="max-w-xl mx-auto text-muted-foreground">
-              Gain control of your business&apos;s growth with Mailgo&apos;s
-              comprehensive marketing, automation, and email marketing platform.
+              Com nosso produto, prometemos acelerar em até 100% o processo de
+              pedidos da sua empresa, com o objetivo de aumentar a satisfação do
+              seu cliente e reduzir seus gastos desnecessários.
             </p>
             <div className="flex justify-center font-medium text-sm">
               <Link href="/#pricing" className={buttonVariants()}>
-                Get Started
+                Transforme seu Negócio Agora!
                 <ChevronRightIcon className="w-5 h-5" />
               </Link>
             </div>

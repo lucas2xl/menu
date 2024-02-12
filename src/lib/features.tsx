@@ -1,14 +1,14 @@
 export const visualFeatures = [
   {
-    title: "Send thousands of emails",
+    title: "Adicione e Organize Itens Facilmente",
     description:
-      "Send thousands of emails quickly and easily. You can customize the content of each email",
+      "Nossa plataforma permite que os donos do estabelecimento adicionem e organizem itens ao cardápio de forma intuitiva, sem complicações.",
     img: "/images/Feature-1.svg",
   },
   {
-    title: "Write your email content using AI",
+    title: "Pedidos Personalizados com QR Code",
     description:
-      "AI-powered email content writing is the perfect solution for busy professionals who need to quickly create engaging emails.",
+      "Os clientes podem fazer pedidos personalizados escaneando um QR code diretamente na mesa, simplificando o processo de atendimento.",
     img: "/images/Feature-2.svg",
   },
 ];
@@ -31,10 +31,9 @@ export const features = [
         />
       </svg>
     ),
-    title: "Automated Personalization",
+    title: "Estimativas e Gráficos de Vendas",
     description:
-      "Our AI-based email marketing platform enables you to create highly targeted email campaigns",
-    link: "/#",
+      "Utilize os dados detalhados de vendas para criar estimativas precisas e visualizar informações através de gráficos, auxiliando na tomada de decisões estratégicas.",
   },
   {
     icon: (
@@ -53,10 +52,9 @@ export const features = [
         />
       </svg>
     ),
-    title: "AI-Powered Content Optimization",
+    title: "Visualização de Dados de Vendas",
     description:
-      "This feature uses AI to analyze user data and optimize content for each segment of the email list.",
-    link: "/#",
+      "Acesse facilmente os dados de vendas de todos os dias e visualize-os de maneira clara e intuitiva para melhorar a compreensão e análise.",
   },
   {
     icon: (
@@ -75,10 +73,9 @@ export const features = [
         />
       </svg>
     ),
-    title: "Personalized Email Experiences",
+    title: "Experiência de Pedido Personalizada",
     description:
-      "Mailgo uses AI to create personalized emails for each recipient based on their past interactions with the brand.",
-    link: "/#",
+      "Ofereça uma experiência de pedido personalizada para cada cliente, permitindo que cada um faça pedidos de acordo com suas preferências.",
   },
   {
     icon: (
@@ -97,10 +94,9 @@ export const features = [
         />
       </svg>
     ),
-    title: "Automated A/B Testing",
+    title: "Status em Tempo Real",
     description:
-      "Test different versions of your emails in order to determine which one performs best with your audience.",
-    link: "/#",
+      "Mantenha seus clientes informados com atualizações em tempo real sobre o status de seus pedidos, garantindo uma experiência satisfatória.",
   },
   {
     icon: (
@@ -119,10 +115,9 @@ export const features = [
         />
       </svg>
     ),
-    title: "Automated Segmentation",
+    title: "Análise de Tendências de Vendas",
     description:
-      "This helps to ensure that the right message is sent to the right people at the right time.",
-    link: "/#",
+      "Analise tendências de vendas ao longo do tempo para identificar padrões de compra e ajustar estratégias de forma proativa.",
   },
   {
     icon: (
@@ -141,9 +136,8 @@ export const features = [
         />
       </svg>
     ),
-    title: "Integrate your sales dashboards",
+    title: "Relatórios Detalhados de Vendas",
     description:
-      "Integrate your tools like Shopify, WooCommerce to see your sales information across platforms.",
-    link: "/#",
+      "Acesse relatórios detalhados de vendas para cada período, permitindo uma análise profunda e a tomada de decisões embasadas em dados concretos.",
   },
 ];

@@ -17,12 +17,14 @@ export function VisualFeatures() {
         >
           <div className="max-w-xl mx-auto text-center">
             <h2 className="text-foreground text-3xl font-semibold sm:text-4xl">
-              Take your email marketing to the next level with Mailgo
+              Maximize a eficiência e satisfação com o Menu
             </h2>
             <p className="mt-3">
-              With Mailgo&apos;s powerful features, you can easily create and
-              send beautiful emails that will engage your customers and drive
-              more sales.
+              Com o Menu, você pode otimizar seus processos de pedidos,
+              oferecendo uma experiência mais conveniente e satisfatória para
+              seus clientes. Além disso, nossas soluções inteligentes podem
+              ajudar a reduzir custos operacionais, tornando-se uma escolha
+              financeiramente inteligente para o seu negócio.
             </p>
           </div>
         </LayoutEffect>

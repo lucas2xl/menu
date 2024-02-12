@@ -8,10 +8,11 @@ export function FAQs() {
       <div>
         <div className="text-center">
           <h2 className="text-foreground text-3xl font-extrabold sm:text-4xl">
-            Everything you need to know
+            Tudo o que você precisa saber sobre o Menu
           </h2>
           <p className="mt-3 text-muted-foreground">
-            Here are the most questions people always ask about.
+            Aqui estão as perguntas mais frequentes que as pessoas sempre fazem
+            sobre o Menu.
           </p>
         </div>
 

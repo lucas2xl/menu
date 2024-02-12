@@ -1,26 +1,22 @@
 export const faqs = [
   {
-    q: "What is an email marketing tool?",
-    a: "An email marketing tool is a software application that allows you to create, send, and manage email campaigns. It helps you to create professional-looking emails, track their performance, and analyze the results.",
+    q: "O que é o Menu?",
+    a: "O Menu é uma plataforma online que permite aos restaurantes e estabelecimentos de alimentação criar e gerenciar cardápios digitais, oferecendo uma experiência de pedidos mais conveniente e eficiente para os clientes.",
   },
   {
-    q: "What are the benefits of using an email marketing tool?",
-    a: "An email marketing tool can help you reach a larger audience, increase engagement with your customers, and generate more leads.",
+    q: "Quais são os benefícios de usar o Menu?",
+    a: "Usar o Menu pode ajudar os estabelecimentos a aumentar a satisfação dos clientes, agilizar o processo de pedidos, reduzir erros e otimizar a gestão de estoque.",
   },
   {
-    q: "How do I get started with an email marketing tool?",
-    a: "To get started with an email marketing tool, you will need to sign up for an account with our provider, Once you have signed up for an account, you can start.",
+    q: "Como posso começar a usar o Menu?",
+    a: "Para começar a usar o Menu, basta se cadastrar em nossa plataforma e seguir as instruções para criar seu cardápio digital. Nossa equipe de suporte está disponível para ajudar em caso de dúvidas ou dificuldades.",
   },
   {
-    q: "How does an AI-powered email marketing tool work?",
-    a: "Social media is a great place for businesses because it has the An AI-powered email marketing tool works by analyzing customer data to identify patterns and trends in order to create more targeted campaigns.",
+    q: "Como o Menu utiliza a tecnologia?",
+    a: "O Menu utiliza tecnologias modernas para oferecer uma solução completa e eficiente para a gestão de cardápios e pedidos online. Isso inclui recursos de personalização, integrações com sistemas de pagamento e análise de dados para ajudar os estabelecimentos a melhorar sua operação.",
   },
   {
-    q: "What are the benefits of using an AI-powered email marketing tool?",
-    a: "AI-powered email marketing tools can help marketers save time and money by automating tasks such as segmentation, personalization, content optimization, and more.",
-  },
-  {
-    q: "Can I sell my digital products using Mailgo?",
-    a: "Of course you can market and sell your digital products and subscriptions with Mailgo to drive higher conversions and save big on fees.",
+    q: "Posso vender produtos digitais usando o Menu?",
+    a: "No momento, o Menu está focado em oferecer uma solução completa para restaurantes e estabelecimentos de alimentação. No entanto, estamos constantemente trabalhando para expandir nossas funcionalidades e podemos considerar essa possibilidade no futuro.",
   },
 ];
