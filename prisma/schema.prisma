@@ -54,13 +54,12 @@ model Store {
 }
 
 model Category {
-  id              Int               @id @default(autoincrement())
-  name            String
-  description     String?
-  storeId         String            @map("store_id")
-  store           Store             @relation(fields: [storeId], references: [id], onDelete: Cascade)
-  products        Product[]
-  ProductCategory ProductCategory[]
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String?
+  storeId     String    @map("store_id")
+  store       Store     @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  products    Product[]
 
   @@map("categories")
 }
@@ -95,26 +94,25 @@ model ProductImage {
 }
 
 model ProductCategory {
-  id           Int           @id @default(autoincrement())
-  productId    Int           @map("product_id")
-  categoryId   Int           @map("category_id")
-  product      Product       @relation(fields: [productId], references: [id], onDelete: Cascade)
-  category     Category      @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  productItems ProductItem[]
+  id                   Int                   @id @default(autoincrement())
+  name                 String
+  productId            Int                   @map("product_id")
+  product              Product               @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productCategoryItems ProductCategoryItem[]
 
   @@map("product_categories")
 }
 
-model ProductItem {
+model ProductCategoryItem {
   id                Int             @id @default(autoincrement())
   name              String
   description       String?
   price             Int
-  inputType         String          @map("input_type") // swiche / number
+  inputType         String          @map("input_type")
   productCategoryId Int             @map("product_category_id")
   productCategory   ProductCategory @relation(fields: [productCategoryId], references: [id], onDelete: Cascade)
 
-  @@map("product_options")
+  @@map("product_category_items")
 }
 
 model Order {

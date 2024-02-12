@@ -50,14 +50,14 @@ export function Navbar() {
 
             <div className="gap-x-6 items-center justify-end mt-6 space-y-6 md:flex md:space-y-0 md:mt-0">
               <Link
-                href="/login"
+                href="/sign-in"
                 className="text-foreground w-full hover:text-muted-foreground"
               >
                 Sign in
               </Link>
 
               <Link
-                href="/pricing"
+                href="/sign-up"
                 className={buttonVariants({
                   className: "w-full",
                 })}

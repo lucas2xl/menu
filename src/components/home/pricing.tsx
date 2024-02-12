@@ -29,7 +29,7 @@ export function Pricing() {
               className={cn(
                 "relative flex-1 flex items-stretch flex-col rounded-xl border border-border mt-6 sm:mt-0 overflow-hidden bg-card",
                 item.isMostPop &&
-                  "border border-primary bg-gradient-radial from-primary/40 to-background/40"
+                  "border border-primary bg-gradient-radial from-primary/20 to-indigo-600/20"
               )}
             >
               <div className="p-10 space-y-4 border-b border-gray-800 text-center">
