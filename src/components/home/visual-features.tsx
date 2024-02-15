@@ -7,7 +7,7 @@ import { SectionWrapper } from "./section-wrapper";
 export function VisualFeatures() {
   return (
     <SectionWrapper>
-      <div className="text-muted-foreground">
+      <div className="text-muted-foreground" id="eficiencia">
         <LayoutEffect
           className="duration-1000 delay-300"
           isInviewState={{

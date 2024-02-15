@@ -6,10 +6,13 @@ import { Hero } from "@/components/home/hero";
 import { Navbar } from "@/components/home/navbar";
 import { Pricing } from "@/components/home/pricing";
 import { VisualFeatures } from "@/components/home/visual-features";
+import { WhatsappFloat } from "@/components/whatsapp-float";
 
 export default function HomePage() {
   return (
-    <div className="max-w-screen-xl mx-auto px-4 md:px-8">
+    <div className="relative max-w-screen-xl mx-auto px-4 md:px-8">
+      <WhatsappFloat />
+
       <Navbar />
       <Hero />
       <VisualFeatures />

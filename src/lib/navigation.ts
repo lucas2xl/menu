@@ -1,6 +1,7 @@
 export const navigation = [
-  { name: "Recursos", href: "/#features" },
+  { name: "Eficiência", href: "/#eficiencia" },
+  { name: "Recursos", href: "/#recursos" },
   { name: "Preços", href: "/#pricing" },
   //{ name: "Depoimentos", href: "/#testimonials" },
-  { name: "Perguntas Frequentes", href: "/#faqs" },
+  { name: "Duvidas", href: "/#faqs" },
 ];

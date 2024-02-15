@@ -53,7 +53,7 @@ export function Navbar() {
                 href="/sign-in"
                 className="text-foreground w-full hover:text-muted-foreground"
               >
-                Sign in
+                Entrar
               </Link>
 
               <Link
@@ -62,7 +62,7 @@ export function Navbar() {
                   className: "w-full",
                 })}
               >
-                Start now
+                Cadastrar
                 <ChevronRightIcon className="w-5 h-5" />
               </Link>
             </div>
