@@ -55,73 +55,6 @@ export function CreateProductForm() {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-4">
-            <FormField
-              control={form.control}
-              name="images"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    Imagens <span className="text-destructive">*</span>
-                  </FormLabel>
-                  <FormDescription>
-                    Adicione imagens para o produto.
-                  </FormDescription>
-                  <FormControl>
-                    <>
-                      {!!previewUrls.length && (
-                        <div className="flex gap-2">
-                          {previewUrls.map((url, index) => (
-                            <div
-                              key={url}
-                              className={cn(
-                                "relative h-[150px] w-[150px] rounded-lg overflow-hidden"
-                              )}
-                            >
-                              <Button
-                                className="absolute top-0 right-0"
-                                variant="destructive"
-                                size="icon"
-                                onClick={() => onRemoveImagePreview(index)}
-                                type="button"
-                              >
-                                <XIcon size={16} />
-                              </Button>
-                              <Image
-                                src={url}
-                                alt="Store logo"
-                                width={100}
-                                height={100}
-                                className="rounded-lg w-full h-full object-cover"
-                              />
-                            </div>
-                          ))}
-                        </div>
-                      )}
-
-                      <Button
-                        onClick={() => inputRef.current?.click()}
-                        variant="secondary"
-                        type="button"
-                      >
-                        <Input
-                          {...field}
-                          value={undefined}
-                          type="file"
-                          className="sr-only"
-                          multiple
-                          ref={inputRef}
-                          onChange={(e) => onDrop(e.target.files || undefined)}
-                        />
-                        <ImagePlusIcon className="mr-2 h-4 w-4" />
-                        Adicionar imagem
-                      </Button>
-                    </>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
             <div className="grid grid-cols-2 gap-2">
               <FormField
                 control={form.control}
@@ -236,7 +169,7 @@ export function CreateProductForm() {
                 control={form.control}
                 name="categoryId"
                 render={({ field }) => (
-                  <FormItem className="flex flex-col">
+                  <FormItem>
                     <FormLabel>Categoria</FormLabel>
                     <Select onValueChange={field.onChange}>
                       <FormControl>
@@ -280,6 +213,73 @@ export function CreateProductForm() {
                       Marque para destacar o produto no menu.
                     </FormDescription>
                   </div>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="images"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    Imagens <span className="text-destructive">*</span>
+                  </FormLabel>
+                  <FormDescription>
+                    Adicione imagens para o produto.
+                  </FormDescription>
+                  <FormControl>
+                    <>
+                      <Button
+                        onClick={() => inputRef.current?.click()}
+                        variant="secondary"
+                        type="button"
+                      >
+                        <Input
+                          {...field}
+                          value={undefined}
+                          type="file"
+                          className="sr-only"
+                          multiple
+                          ref={inputRef}
+                          onChange={(e) => onDrop(e.target.files || undefined)}
+                        />
+                        <ImagePlusIcon className="mr-2 h-4 w-4" />
+                        Adicionar imagem
+                      </Button>
+
+                      {!!previewUrls.length && (
+                        <div className="flex gap-2">
+                          {previewUrls.map((url, index) => (
+                            <div
+                              key={url}
+                              className={cn(
+                                "relative h-[150px] w-[150px] rounded-lg overflow-hidden"
+                              )}
+                            >
+                              <Button
+                                className="absolute top-0 right-0"
+                                variant="destructive"
+                                size="icon"
+                                onClick={() => onRemoveImagePreview(index)}
+                                type="button"
+                              >
+                                <XIcon size={16} />
+                              </Button>
+                              <Image
+                                src={url}
+                                alt="Store logo"
+                                width={100}
+                                height={100}
+                                className="rounded-lg w-full h-full object-cover"
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </>
+                  </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />

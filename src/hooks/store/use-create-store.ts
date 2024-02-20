@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { createStoreAction } from "@/actions/store/create-store-action";
-import { currentUser } from "@/lib/auth/current-user";
 import { CreateStoreSchema } from "@/schemas/store";
 import { useStoreDialog } from "@/stores/use-store-dialog";
 
@@ -22,7 +21,6 @@ export function useCreateStore() {
 
   const onSubmit = (values: CreateStoreSchema) => {
     startTransition(async () => {
-      const { user } = await currentUser();
       const validatedFields = CreateStoreSchema.safeParse(values);
 
       if (!validatedFields.success) {
@@ -39,10 +37,7 @@ export function useCreateStore() {
         formData.append("logo", logo);
       }
 
-      const response = await createStoreAction({
-        values: formData,
-        userId: user?.id,
-      });
+      const response = await createStoreAction({ values: formData });
       if (response.status === "error") {
         toast.error(response.message);
         return;

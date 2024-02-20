@@ -27,9 +27,15 @@ export async function signInAction(
     return { message: "Email não autorizado", status: "error" };
   }
 
-  const twoFactorToken = await db.twoFactorToken.findFirst({
-    where: { email, token: code },
-  });
+  const user = await db.user.findUnique({ where: { email } });
+  if (!user) {
+    return { message: "Credenciais inválidas", status: "error" };
+  }
+
+  const passwordMatch = await hashed.compare(password, user.password);
+  if (!passwordMatch) {
+    return { message: "Credenciais inválidas", status: "error" };
+  }
 
   if (!code) {
     await generateTwoFactorToken(email);
@@ -41,25 +47,18 @@ export async function signInAction(
     };
   }
 
+  const twoFactorToken = await db.twoFactorToken.findFirst({
+    where: { email, token: code },
+  });
+
   if (!twoFactorToken || twoFactorToken.token !== code) {
     return { message: "Código de dois fatores inválido", status: "error" };
   }
+
   const hasExpired = new Date(twoFactorToken.expires) < new Date();
   if (hasExpired) {
     return { message: "Código de dois fatores expirado", status: "error" };
   }
-  await db.twoFactorToken.delete({ where: { id: twoFactorToken.id } });
-
-  const user = await db.user.findUnique({ where: { email } });
-  if (!user) {
-    return { message: "Credenciais inválidas", status: "error" };
-  }
-  const passwordMatch = await hashed.compare(password, user.password);
-  if (!passwordMatch) {
-    return { message: "Credenciais inválidas", status: "error" };
-  }
-
-  console.log("user", user);
 
   const session = await lucia.createSession(user.id, {});
   const sessionCookie = lucia.createSessionCookie(session.id);

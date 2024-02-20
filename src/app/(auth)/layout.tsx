@@ -1,4 +1,4 @@
-import { currentUser } from "@/lib/auth/current-user";
+import { auth } from "@/lib/auth/auth";
 import { redirects } from "@/lib/constants";
 import { redirect } from "next/navigation";
 
@@ -7,9 +7,9 @@ export default async function AuthLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { user } = await currentUser();
+  const { userId } = await auth();
 
-  if (user) redirect(redirects.afterSignIn);
+  if (userId) redirect(redirects.afterSignIn);
 
   return <>{children}</>;
 }

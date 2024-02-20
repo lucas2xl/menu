@@ -1,6 +1,6 @@
 "use server";
 
-import { currentUser } from "@/lib/auth/current-user";
+import { auth } from "@/lib/auth/auth";
 import { db } from "@/lib/db";
 import { CreateCategorySchema } from "@/schemas/category";
 import { ActionResponse } from "@/types/action-response";
@@ -10,9 +10,9 @@ export async function createCategoryAction({
 }: {
   values: CreateCategorySchema;
 }): Promise<ActionResponse> {
-  const { user } = await currentUser();
+  const { userId } = await auth();
 
-  if (!user) {
+  if (!userId) {
     return { message: "Usuário não fornecido", status: "error" };
   }
 

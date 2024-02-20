@@ -1,6 +1,6 @@
 "use server";
 
-import { currentUser } from "@/lib/auth/current-user";
+import { auth } from "@/lib/auth/auth";
 import { db } from "@/lib/db";
 import { uploadImage } from "@/lib/supabase/upload-image";
 import { ActionResponse } from "@/types/action-response";
@@ -10,9 +10,9 @@ export async function createProductAction({
 }: {
   values: FormData;
 }): Promise<ActionResponse<{ id: string }>> {
-  const { user } = await currentUser();
+  const { userId } = await auth();
 
-  if (!user) {
+  if (!userId) {
     return { message: "Usuário não fornecido", status: "error" };
   }
 
@@ -21,7 +21,6 @@ export async function createProductAction({
   const storeSlug = values.get("storeSlug") as string;
   const categoryId = values.get("categoryId") as string;
   const description = values.get("description") as string;
-  const time = values.get("time") as string;
   const serves = values.get("serves") as string;
   const price = values.get("price") as string;
   const discount = values.get("discount") as string;

@@ -8,3 +8,12 @@ export const redirects = {
   afterSignIn: "/dashboard",
   afterSignOut: "/",
 } as const;
+
+export const authRoutes = [
+  "/sign-in",
+  "/sign-up",
+  "/reset-password",
+  "/new-password",
+];
+export const publicRoutes = ["/"];
+export const apiAuthPrefix = "/api/auth";

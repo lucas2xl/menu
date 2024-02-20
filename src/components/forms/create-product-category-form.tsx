@@ -35,7 +35,7 @@ import { Textarea } from "../ui/textarea";
 
 type Props = {
   onClose: () => void;
-  productId: number | null;
+  productId: string | null;
 };
 
 export function CreateProductCategoryForm({ onClose, productId }: Props) {

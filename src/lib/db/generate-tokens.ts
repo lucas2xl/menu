@@ -25,7 +25,7 @@ export async function generateTwoFactorToken(email: string) {
 
   const existingToken = await db.twoFactorToken.findFirst({ where: { email } });
   if (existingToken) {
-    return db.twoFactorToken.delete({ where: { id: existingToken.id } });
+    await db.twoFactorToken.delete({ where: { id: existingToken.id } });
   }
 
   return db.twoFactorToken.create({ data: { email, expires, token } });

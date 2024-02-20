@@ -1,7 +1,7 @@
 import { validateRequest } from "@/lib/auth/validate-request";
 
-export async function currentUser() {
+export async function auth() {
   const { user } = await validateRequest();
 
-  return { user };
+  return { userId: user?.id };
 }

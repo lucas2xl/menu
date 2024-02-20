@@ -1,5 +1,6 @@
 "use server";
 
+import { auth } from "@/lib/auth/auth";
 import { db } from "@/lib/db";
 import { uploadImage } from "@/lib/supabase/upload-image";
 import { ActionResponse } from "@/types/action-response";
@@ -7,11 +8,10 @@ import { Store } from "@prisma/client";
 
 export async function createStoreAction({
   values,
-  userId,
 }: {
   values: FormData;
-  userId?: string | null;
 }): Promise<ActionResponse<Store>> {
+  const { userId } = await auth();
   if (!userId) {
     return { message: "Usuário não fornecido", status: "error" };
   }

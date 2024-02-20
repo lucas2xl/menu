@@ -23,6 +23,8 @@ export function DataTableToolbar<TData>({
     label: category.name,
     value: String(category.id),
   }));
+
+  console.log("🚀", options);
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">

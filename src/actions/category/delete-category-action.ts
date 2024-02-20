@@ -1,6 +1,6 @@
 "use server";
 
-import { currentUser } from "@/lib/auth/current-user";
+import { auth } from "@/lib/auth/auth";
 import { db } from "@/lib/db";
 import { ActionResponse } from "@/types/action-response";
 
@@ -9,9 +9,9 @@ export async function deleteCategoryAction({
 }: {
   id: string;
 }): Promise<ActionResponse> {
-  const { user } = await currentUser();
+  const { userId } = await auth();
 
-  if (!user) {
+  if (!userId) {
     return { message: "Usuário não fornecido", status: "error" };
   }
 
@@ -19,7 +19,7 @@ export async function deleteCategoryAction({
     return { message: "Campos inválidos", status: "error" };
   }
 
-  await db.category.delete({ where: { id, store: { userId: user.id } } });
+  await db.category.delete({ where: { id, store: { userId } } });
 
   return { message: "Categoria deletada com sucesso", status: "success" };
 }

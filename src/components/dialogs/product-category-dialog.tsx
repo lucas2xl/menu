@@ -6,7 +6,7 @@ import { CreateProductCategoryForm } from "@/components/forms/create-product-cat
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  productId: number | null;
+  productId: string | null;
 };
 
 export function ProductCategoryDialog({ isOpen, onClose, productId }: Props) {

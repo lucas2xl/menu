@@ -1,11 +1,14 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 
 import { signUpAction } from "@/actions/auth/sign-up-action";
+import { redirects } from "@/lib/constants";
 import { SignUpSchema } from "@/schemas/auth";
 
 export function useSignUp() {
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -27,6 +30,7 @@ export function useSignUp() {
 
       setSuccess(response.message);
       form.reset();
+      router.push(redirects.toSignIn);
     });
   };
 

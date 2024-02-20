@@ -22,6 +22,13 @@ const getAdmin = (password: string): Prisma.UserCreateInput => ({
   email: "admin@admin.com",
   name: "John Doe",
   password,
+  plan: {
+    create: {
+      price: 0,
+      quantity: 1,
+      status: "ACTIVE",
+    },
+  },
 });
 
 const getStore = (user: User): Prisma.StoreCreateInput => ({
