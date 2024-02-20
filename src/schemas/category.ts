@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const CategorySchema = z.object({
-  id: z.number(),
+  id: z.string(),
   name: z.string(),
   description: z.optional(z.string()),
   storeId: z.string(),
@@ -16,7 +16,7 @@ export const CreateCategorySchema = z.object({
 });
 
 export const UpdateCategorySchema = z.object({
-  id: z.number(),
+  id: z.string(),
   name: z.optional(
     z.string().min(1, {
       message: "Name is required",

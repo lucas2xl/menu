@@ -1,8 +1,8 @@
 import * as z from "zod";
 
-import { capitalize } from "@/lib/utils";
+import { capitalize } from "@/utils/capitalize";
 
-export const LoginSchema = z
+export const SignInSchema = z
   .object({
     email: z
       .string({
@@ -24,7 +24,7 @@ export const LoginSchema = z
     return true;
   });
 
-export const RegisterSchema = z
+export const SignUpSchema = z
   .object({
     name: z.string().min(1, {
       message: "Name is required",
@@ -85,7 +85,7 @@ export const NewPasswordSchema = z.object({
   }),
 });
 
-export type LoginSchema = z.infer<typeof LoginSchema>;
-export type RegisterSchema = z.infer<typeof RegisterSchema>;
+export type SignInSchema = z.infer<typeof SignInSchema>;
+export type SignUpSchema = z.infer<typeof SignUpSchema>;
 export type ResetSchema = z.infer<typeof ResetSchema>;
 export type NewPasswordSchema = z.infer<typeof NewPasswordSchema>;

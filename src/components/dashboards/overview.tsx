@@ -54,6 +54,11 @@ const data = [
 ];
 
 export function Overview() {
+  const error = console.error;
+  console.error = (...args: any) => {
+    if (/defaultProps/.test(args[0])) return;
+    error(...args);
+  };
   return (
     <ResponsiveContainer width="100%" height={350}>
       <BarChart data={data}>

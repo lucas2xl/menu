@@ -1,13 +1,13 @@
 import Image from "next/image";
 
-import { visualFeatures } from "@/lib/features";
+import { visualFeatures } from "@/utils/features";
 import { LayoutEffect } from "./layout-effect";
 import { SectionWrapper } from "./section-wrapper";
 
 export function VisualFeatures() {
   return (
     <SectionWrapper>
-      <div className="text-muted-foreground" id="eficiencia">
+      <div className="text-muted-foreground">
         <LayoutEffect
           className="duration-1000 delay-300"
           isInviewState={{

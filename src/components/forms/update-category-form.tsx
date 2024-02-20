@@ -16,19 +16,19 @@ import { Category } from "@prisma/client";
 import { useEffect } from "react";
 
 type Props = {
-  category: Category;
+  data: Category;
 };
-export function UpdateCategoryForm({ category }: Props) {
+export function UpdateCategoryForm({ data }: Props) {
   const router = useRouter();
   const { isPending, onSubmit, form } = useUpdateCategory();
 
   useEffect(() => {
     form.reset({
-      name: category.name,
-      description: category.description || "",
-      id: category.id,
+      name: data.name,
+      description: data.description || "",
+      id: data.id,
     });
-  }, [category, form]);
+  }, [data, form]);
 
   return (
     <Form {...form}>

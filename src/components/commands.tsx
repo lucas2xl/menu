@@ -20,7 +20,7 @@ export function Commands({ children }: ThemeProviderProps) {
       // ⇧⌘P
       if (e.metaKey && e.shiftKey && e.key === "p") {
         e.preventDefault();
-        router.push(`/dashboard/${pathname}/profile`);
+        router.push(`/${pathname}/profile`);
       }
     };
 

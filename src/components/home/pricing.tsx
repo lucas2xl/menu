@@ -1,7 +1,7 @@
 import { CheckIcon } from "lucide-react";
 
-import { plans } from "@/lib/plans";
 import { cn } from "@/lib/utils";
+import { plans } from "@/utils/plans";
 import { Button } from "../ui/button";
 import { LayoutEffect } from "./layout-effect";
 import { SectionWrapper } from "./section-wrapper";

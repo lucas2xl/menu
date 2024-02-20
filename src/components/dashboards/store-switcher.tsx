@@ -22,23 +22,23 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { useStoreDialog } from "@/stores/use-store-dialog";
-
-type Store = {
-  id: string;
-  name: string;
-  logo: string | null;
-};
+import { Store } from "@prisma/client";
+import { useRouter } from "next/navigation";
 
 interface Props {
   stores: Store[];
   className?: string;
+  slug: string;
 }
 
-export function StoreSwitcher({ className, stores }: Props) {
-  const [open, setOpen] = useState(false);
+export function StoreSwitcher({ className, stores, slug }: Props) {
+  const router = useRouter();
   const { onOpen } = useStoreDialog();
+  const [open, setOpen] = useState(false);
   const [showNewStoreDialog, setShowNewStoreDialog] = useState(false);
-  const [selectedStore, setSelectedStore] = useState<Store>(stores[0]);
+
+  const store = stores.find((store) => store.slug === slug);
+  if (!store) return null;
 
   return (
     <Dialog open={showNewStoreDialog} onOpenChange={setShowNewStoreDialog}>
@@ -53,15 +53,15 @@ export function StoreSwitcher({ className, stores }: Props) {
           >
             <Avatar className="mr-2 h-5 w-5">
               <AvatarImage
-                src={selectedStore.logo ?? ""}
-                alt={selectedStore.name}
+                src={store.logo ?? ""}
+                alt={store.name}
                 className="grayscale"
               />
               <AvatarFallback>
-                {selectedStore.name.slice(0, 2).toUpperCase()}
+                {store.name.slice(0, 2).toUpperCase()}
               </AvatarFallback>
             </Avatar>
-            {selectedStore.name}
+            {store.name}
             <ChevronsUpDownIcon className="ml-auto h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
@@ -70,33 +70,31 @@ export function StoreSwitcher({ className, stores }: Props) {
           <Command>
             <CommandList>
               <CommandInput placeholder="Search Store..." />
-              <CommandEmpty>No Store found.</CommandEmpty>
-              {stores.map((store) => (
+              <CommandEmpty>Nenhuma loja encontrada.</CommandEmpty>
+              {stores.map((state) => (
                 <CommandItem
-                  key={store.id}
+                  key={state.id}
                   onSelect={() => {
-                    setSelectedStore(store);
+                    router.push(`/${state.slug}`);
                     setOpen(false);
                   }}
                   className="text-sm"
                 >
                   <Avatar className="mr-2 h-5 w-5">
                     <AvatarImage
-                      src={store.logo ?? ""}
-                      alt={store.name}
+                      src={state.logo ?? ""}
+                      alt={state.name}
                       className="grayscale"
                     />
                     <AvatarFallback>
-                      {store.name.slice(0, 2).toUpperCase()}
+                      {state.name.slice(0, 2).toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
-                  {store.name}
+                  {state.name}
                   <CheckIcon
                     className={cn(
                       "ml-auto h-4 w-4",
-                      selectedStore.name === store.name
-                        ? "opacity-100"
-                        : "opacity-0"
+                      state.slug === store.slug ? "opacity-100" : "opacity-0"
                     )}
                   />
                 </CommandItem>
@@ -111,10 +109,10 @@ export function StoreSwitcher({ className, stores }: Props) {
                       setOpen(false);
                       onOpen();
                     }}
-                    // disabled={1 <= stores.length}
+                    disabled={true}
                   >
                     <PlusCircleIcon className="mr-2 h-5 w-5" />
-                    Create Store
+                    Nova Loja
                   </CommandItem>
                 </DialogTrigger>
               </CommandGroup>

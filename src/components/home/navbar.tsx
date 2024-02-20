@@ -3,8 +3,9 @@ import { ChevronRightIcon } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
-import { navigation } from "@/lib/navigation";
+import { redirects } from "@/lib/constants";
 import { cn } from "@/lib/utils";
+import { navigation } from "@/utils/navigation";
 import { buttonVariants } from "../ui/button";
 import { NavHeader } from "./nav-header";
 
@@ -50,14 +51,14 @@ export function Navbar() {
 
             <div className="gap-x-6 items-center justify-end mt-6 space-y-6 md:flex md:space-y-0 md:mt-0">
               <Link
-                href="/sign-in"
+                href={redirects.toSignIn}
                 className="text-foreground w-full hover:text-muted-foreground"
               >
                 Entrar
               </Link>
 
               <Link
-                href="/sign-up"
+                href={redirects.toSignUp}
                 className={buttonVariants({
                   className: "w-full",
                 })}

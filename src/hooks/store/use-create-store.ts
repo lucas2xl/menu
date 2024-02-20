@@ -1,36 +1,60 @@
-import { useAuth } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { redirect } from "next/navigation";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
+import { createStoreAction } from "@/actions/store/create-store-action";
+import { currentUser } from "@/lib/auth/current-user";
 import { CreateStoreSchema } from "@/schemas/store";
-import { createStoreAction } from "@/server/actions/store/create-store-action";
+import { useStoreDialog } from "@/stores/use-store-dialog";
 
 export function useCreateStore() {
-  const { userId } = useAuth();
   const [isPending, startTransition] = useTransition();
+  const { onClose } = useStoreDialog();
 
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | undefined>(undefined);
 
   const form = useForm<CreateStoreSchema>({
     resolver: zodResolver(CreateStoreSchema),
-    defaultValues: { name: "", logo: null },
+    defaultValues: { name: "", slug: "", logo: undefined },
   });
 
-  const onSubmit = async (values: CreateStoreSchema) => {
+  const onSubmit = (values: CreateStoreSchema) => {
     startTransition(async () => {
-      const response = await createStoreAction({ values, userId });
-      console.log({ response });
+      const { user } = await currentUser();
+      const validatedFields = CreateStoreSchema.safeParse(values);
+
+      if (!validatedFields.success) {
+        toast.error("Campos inválidos");
+        return;
+      }
+      const { name, slug, logo } = validatedFields.data;
+
+      const formData = new FormData();
+
+      formData.append("name", name);
+      formData.append("slug", slug);
+      if (logo) {
+        formData.append("logo", logo);
+      }
+
+      const response = await createStoreAction({
+        values: formData,
+        userId: user?.id,
+      });
       if (response.status === "error") {
         toast.error(response.message);
-      } else {
-        toast.success("Loja criada com sucesso!");
+        return;
       }
+
+      toast.success("Loja criada com sucesso!");
+      onClose();
+      redirect(`/${response.body?.slug}`);
     });
   };
 
-  function onDrop(acceptedFiles: FileList | null) {
+  function onDrop(acceptedFiles: FileList | undefined) {
     if (!acceptedFiles) return;
 
     const allowedTypes = [
@@ -42,7 +66,7 @@ export function useCreateStore() {
       allowedType.types.find((type) => type === acceptedFiles[0].type)
     );
     if (!fileType) {
-      form.setValue("logo", null);
+      form.setValue("logo", undefined);
       form.setError("logo", {
         message: "Logo type is not valid",
         type: "typeError",
@@ -54,21 +78,20 @@ export function useCreateStore() {
       const file = acceptedFiles[0];
       form.setValue("logo", file);
       setPreviewUrl(URL.createObjectURL(file));
-      form.clearErrors("logo");
     }
   }
 
   function onRemoveImagePreview() {
-    form.setValue("logo", null);
-    setPreviewUrl(null);
+    form.setValue("logo", undefined);
+    setPreviewUrl(undefined);
   }
 
   return {
     isPending,
     onSubmit,
-    onDrop,
     form,
     previewUrl,
+    onDrop,
     onRemoveImagePreview,
   };
 }

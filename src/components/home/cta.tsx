@@ -2,9 +2,11 @@ import { ChevronRightIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-import { buttonVariants } from "../ui/button";
-import { GradientWrapper } from "./gradient-wrapper";
-import { LayoutEffect } from "./layout-effect";
+import { GradientWrapper } from "@/components/home/gradient-wrapper";
+import { LayoutEffect } from "@/components/home/layout-effect";
+import { buttonVariants } from "@/components/ui/button";
+
+import bgPattern from "@/components/images/bg-pattern.webp";
 
 export function CTA() {
   return (
@@ -41,7 +43,7 @@ export function CTA() {
           </LayoutEffect>
 
           <Image
-            src="/images/bg-pattern.webp"
+            src={bgPattern}
             className="w-full h-full object-cover  m-auto absolute inset-0 pointer-events-none"
             alt="Background pattern"
             width={500}

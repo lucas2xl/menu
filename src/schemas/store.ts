@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { capitalize } from "@/lib/utils";
+import { capitalize } from "@/utils/capitalize";
 
 export const CreateStoreSchema = z
   .object({
@@ -10,7 +10,7 @@ export const CreateStoreSchema = z
     slug: z.string().min(1, {
       message: "Slug é obrigatório",
     }),
-    logo: z.any().optional(),
+    logo: z.custom<File>().optional(),
   })
   .refine((data) => {
     if (data.name) {

@@ -1,9 +1,15 @@
-import type { ReactNode } from "react";
+import { currentUser } from "@/lib/auth/current-user";
+import { redirects } from "@/lib/constants";
+import { redirect } from "next/navigation";
 
-export default function AuthPage({ children }: { children: ReactNode }) {
-  return (
-    <div className="flex h-full w-full items-center justify-center">
-      {children}
-    </div>
-  );
+export default async function AuthLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const { user } = await currentUser();
+
+  if (user) redirect(redirects.afterSignIn);
+
+  return <>{children}</>;
 }

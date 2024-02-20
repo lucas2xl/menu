@@ -11,7 +11,7 @@ export function MainNav({
 }: React.HTMLAttributes<HTMLElement>) {
   const pathname = usePathname();
   const params = useParams();
-  const currentPath = pathname.split(`/dashboard/${params.slug}`).join("");
+  const currentPath = pathname.split(`/${params.slug}`).join("");
 
   return (
     <nav
@@ -19,7 +19,7 @@ export function MainNav({
       {...props}
     >
       <Link
-        href={`/dashboard/${params.slug}`}
+        href={`/${params.slug}`}
         className={cn(
           "text-sm font-medium text-muted-foreground transition-colors hover:text-primary",
           currentPath === "" && "text-primary"
@@ -28,7 +28,7 @@ export function MainNav({
         Dashboard
       </Link>
       <Link
-        href={`/dashboard/${params.slug}/orders`}
+        href={`/${params.slug}/orders`}
         className={cn(
           "text-sm font-medium text-muted-foreground transition-colors hover:text-primary",
           currentPath === "/orders" && "text-primary"
@@ -37,7 +37,7 @@ export function MainNav({
         Orders
       </Link>
       <Link
-        href={`/dashboard/${params.slug}/categories`}
+        href={`/${params.slug}/categories`}
         className={cn(
           "text-sm font-medium text-muted-foreground transition-colors hover:text-primary",
           currentPath === "/categories" && "text-primary"
@@ -46,7 +46,7 @@ export function MainNav({
         Categories
       </Link>
       <Link
-        href={`/dashboard/${params.slug}/products`}
+        href={`/${params.slug}/products`}
         className={cn(
           "text-sm font-medium text-muted-foreground transition-colors hover:text-primary",
           currentPath === "/products" && "text-primary"
@@ -55,7 +55,7 @@ export function MainNav({
         Products
       </Link>
       {/* <Link
-        href={`/dashboard/${params.slug}/customers`}
+        href={`/${params.slug}/customers`}
         className={cn(
           "text-sm font-medium text-muted-foreground transition-colors hover:text-primary",
           currentPath === "/customers" && "text-primary"

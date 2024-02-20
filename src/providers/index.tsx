@@ -9,18 +9,16 @@ import { ThemeProvider } from "@/providers/theme-provider";
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
-    <>
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="dark"
-        enableSystem
-        disableTransitionOnChange
-      >
-        <DialogProvider />
-        <Toaster />
-        <TailwindIndicator />
-        {children}
-      </ThemeProvider>
-    </>
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="dark"
+      enableSystem
+      disableTransitionOnChange
+    >
+      <DialogProvider />
+      <Toaster />
+      <TailwindIndicator />
+      {children}
+    </ThemeProvider>
   );
 }

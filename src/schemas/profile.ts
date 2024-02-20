@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { capitalize } from "@/lib/utils";
+import { capitalize } from "@/utils/capitalize";
 
 export const ProfileSchema = z
   .object({

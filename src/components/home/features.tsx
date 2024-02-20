@@ -1,4 +1,4 @@
-import { features } from "@/lib/features";
+import { features } from "@/utils/features";
 import { HoverEffect } from "../ui/card-hover-effect";
 import { LayoutEffect } from "./layout-effect";
 import { SectionWrapper } from "./section-wrapper";
@@ -6,7 +6,7 @@ import { SectionWrapper } from "./section-wrapper";
 export function Features() {
   return (
     <SectionWrapper>
-      <div id="recursos">
+      <div id="features">
         <LayoutEffect
           className="duration-1000 delay-300"
           isInviewState={{

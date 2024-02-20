@@ -1,4 +1,4 @@
-import { faqs } from "@/lib/faq";
+import { faqs } from "@/utils/faq";
 import { LayoutEffect } from "./layout-effect";
 import { SectionWrapper } from "./section-wrapper";
 

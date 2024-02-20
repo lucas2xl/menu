@@ -28,33 +28,106 @@ enum OrderStatus {
   CANCELED
 }
 
+model AuthorizedEmailList {
+  id    String @id @default(cuid())
+  email String @unique
+
+  @@map("authorized_email_list")
+}
+
+model User {
+  id                 String    @id @default(cuid())
+  name               String
+  email              String
+  imageUrl           String?
+  password           String
+  role               UserRole  @default(USER)
+  isTwoFactorEnabled Boolean   @default(true) @map("is_two_factor_enabled")
+  createdAt          DateTime  @default(now()) @map("created_at")
+  updatedAt          DateTime  @updatedAt @map("updated_at")
+  stores             Store[]
+  plan               UserPlan?
+  Session            Session[]
+
+  @@unique([email])
+  @@map("users")
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  expiresAt DateTime
+  user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
+}
+
+model TwoFactorToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String
+  expires DateTime
+
+  @@unique([email, token])
+  @@map("two_factor_tokens")
+}
+
+model PasswordResetToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
+  @@map("password_reset_tokens")
+}
+
 model UserPlan {
   id       String     @id @default(cuid())
-  userId   String
   quantity Int        @default(1)
   price    Int        @default(0)
   status   StatusPlan @default(ACTIVE)
+  userId   String
+  user     User       @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId])
   @@map("user_plan")
 }
 
 model Store {
-  id         String     @id @default(cuid())
+  id         String          @id @default(cuid())
   name       String
   logo       String?
+  slug       String
   userId     String
-  slug       String     @unique
+  user       User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   orders     Order[]
   categories Category[]
   products   Product[]
+  qrcodes    Qrcode[]
+  settings   StoreSettings[]
 
-  @@unique([userId])
+  @@unique([slug])
   @@map("stores")
 }
 
+model StoreSettings {
+  id              String @id @default(cuid())
+  preparationTime Int    @default(0) @map("preparation_time")
+  storeId         String @map("store_id")
+  store           Store  @relation(fields: [storeId], references: [id], onDelete: Cascade)
+
+  @@map("store_settings")
+}
+
+model Qrcode {
+  id      String @id @default(cuid())
+  storeId String @map("store_id")
+  store   Store  @relation(fields: [storeId], references: [id], onDelete: Cascade)
+
+  @@map("qrcodes")
+}
+
 model Category {
-  id          Int       @id @default(autoincrement())
+  id          String    @id @default(cuid())
   name        String
   description String?
   storeId     String    @map("store_id")
@@ -65,74 +138,76 @@ model Category {
 }
 
 model Product {
-  id              Int               @id @default(autoincrement())
-  name            String
-  description     String?
-  price           Int
-  time            Int
-  serves          Int
-  isFeatured      Boolean?          @default(false) @map("is_featured")
-  discount        Int?              @default(0)
-  categoryId      Int               @map("category_id")
-  storeId         String            @map("store_id")
-  store           Store             @relation(fields: [storeId], references: [id], onDelete: Cascade)
-  category        Category          @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  images          ProductImage[]
-  orderItem       OrderItem[]
-  productCategory ProductCategory[]
+  id          String            @id @default(cuid())
+  name        String
+  description String?
+  price       Int
+  serves      Int               @default(1)
+  isFeatured  Boolean?          @default(false) @map("is_featured")
+  discount    Int?              @default(0)
+  categoryId  String            @map("category_id")
+  storeId     String            @map("store_id")
+  store       Store             @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  category    Category          @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  images      ProductImage[]
+  orderItems  OrderItem[]
+  categories  ProductCategory[]
 
   @@map("products")
 }
 
 model ProductImage {
-  id        Int     @id @default(autoincrement())
-  image     String
-  productId Int     @map("product_id")
+  id        String  @id @default(cuid())
+  url       String
+  productId String  @map("product_id")
   product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   @@map("product_images")
 }
 
 model ProductCategory {
-  id                   Int                   @id @default(autoincrement())
-  name                 String
-  productId            Int                   @map("product_id")
-  product              Product               @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productCategoryItems ProductCategoryItem[]
+  id        String                @id @default(cuid())
+  name      String
+  inputType String                @map("input_type")
+  quantity  Int                   @default(1)
+  productId String                @map("product_id")
+  product   Product               @relation(fields: [productId], references: [id], onDelete: Cascade)
+  items     ProductCategoryItem[]
 
   @@map("product_categories")
 }
 
 model ProductCategoryItem {
-  id                Int             @id @default(autoincrement())
+  id                String          @id @default(cuid())
   name              String
   description       String?
   price             Int
-  inputType         String          @map("input_type")
-  productCategoryId Int             @map("product_category_id")
-  productCategory   ProductCategory @relation(fields: [productCategoryId], references: [id], onDelete: Cascade)
+  productCategoryId String          @map("product_category_id")
+  categories        ProductCategory @relation(fields: [productCategoryId], references: [id], onDelete: Cascade)
 
   @@map("product_category_items")
 }
 
 model Order {
-  id          Int         @id @default(autoincrement())
+  id          String      @id @default(cuid())
   storeId     String      @map("store_id")
   qrcodeId    String      @map("qrcode_id")
   tableId     String      @map("table_id")
   total       Int
   observation String?
+  createdAt   DateTime    @default(now()) @map("created_at")
+  updatedAt   DateTime    @updatedAt @map("updated_at")
   status      OrderStatus @default(PENDING)
   store       Store       @relation(fields: [storeId], references: [id], onDelete: Cascade)
-  orderItems  OrderItem[]
+  items       OrderItem[]
 
   @@map("orders")
 }
 
 model OrderItem {
-  id        Int     @id @default(autoincrement())
-  orderId   Int     @map("order_id")
-  productId Int     @map("product_id")
+  id        String  @id @default(cuid())
+  orderId   String  @map("order_id")
+  productId String  @map("product_id")
   quantity  Int
   isDone    Boolean @default(false) @map("is_done")
   order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)

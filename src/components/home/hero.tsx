@@ -12,7 +12,7 @@ import { TextGenerateEffect } from "../ui/text-generate-effect";
 
 export function Hero() {
   return (
-    <section className="py-28 relative">
+    <section className="py-28">
       <LayoutEffect
         className="duration-1000 delay-300"
         isInviewState={{

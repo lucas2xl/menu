@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import { testimonials } from "@/lib/testimonials";
+import { testimonials } from "@/utils/testimonials";
 import { GradientWrapper } from "./gradient-wrapper";
 import { LayoutEffect } from "./layout-effect";
 import { SectionWrapper } from "./section-wrapper";
