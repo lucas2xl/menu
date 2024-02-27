@@ -22,7 +22,7 @@ export function useNewPassword() {
     defaultValues: { password: "" },
   });
 
-  const onSubmit = (values: NewPasswordSchema) => {
+  function onSubmit(values: NewPasswordSchema) {
     setError("");
     setSuccess("");
 
@@ -36,7 +36,7 @@ export function useNewPassword() {
       setSuccess(response.message);
       form.reset();
     });
-  };
+  }
 
   return { isPending, error, success, onSubmit, form };
 }

@@ -2,13 +2,13 @@
 
 import { auth } from "@/lib/auth/auth";
 import { db } from "@/lib/db";
-import { uploadImage } from "@/lib/supabase/upload-image";
+import { CreateProductSchema } from "@/schemas/product";
 import { ActionResponse } from "@/types/action-response";
 
 export async function createProductAction({
   values,
 }: {
-  values: FormData;
+  values: CreateProductSchema;
 }): Promise<ActionResponse<{ id: string }>> {
   const { userId } = await auth();
 
@@ -16,22 +16,16 @@ export async function createProductAction({
     return { message: "Usuário não fornecido", status: "error" };
   }
 
-  const images = values.getAll("images") as File[];
-  const name = values.get("name") as string;
-  const storeSlug = values.get("storeSlug") as string;
-  const categoryId = values.get("categoryId") as string;
-  const description = values.get("description") as string;
-  const serves = values.get("serves") as string;
-  const price = values.get("price") as string;
-  const discount = values.get("discount") as string;
-  const isFeatured = values.get("isFeatured") as string;
+  const validatedFields = CreateProductSchema.safeParse(values);
 
-  if (!name || !storeSlug || !categoryId || !price) {
+  if (!validatedFields.success) {
     return { message: "Campos inválidos", status: "error" };
   }
 
+  const data = validatedFields.data;
+
   const storeExists = await db.store.findUnique({
-    where: { slug: storeSlug },
+    where: { slug: data.storeSlug, userId },
   });
 
   if (!storeExists) {
@@ -39,36 +33,23 @@ export async function createProductAction({
   }
 
   const categoryExists = await db.category.findUnique({
-    where: { id: categoryId },
+    where: { id: data.categoryId, store: { userId } },
   });
 
   if (!categoryExists) {
     return { message: "Categoria não encontrada", status: "error" };
   }
 
-  const imagesUrl = await new Promise<string[]>((resolve) => {
-    const urls: string[] = [];
-    images.forEach(async (image) => {
-      const url = await uploadImage("products", image);
-      if (!url) return;
-      urls.push(url);
-      if (urls.length === images.length) {
-        resolve(urls);
-      }
-    });
-  });
-
   const product = await db.product.create({
     data: {
-      name,
-      description,
-      price: parseFloat(price),
-      serves: Number(serves),
-      discount: discount ? parseFloat(discount) : null,
-      isFeatured: isFeatured === "true" ? true : false,
+      name: data.name,
+      description: data.description,
+      price: Number(data.price),
+      serves: Number(data.serves),
+      discount: Number(data.discount),
+      isFeatured: data.isFeatured,
       categoryId: categoryExists.id,
       storeId: storeExists.id,
-      images: { create: imagesUrl.map((url) => ({ url })) },
     },
   });
 

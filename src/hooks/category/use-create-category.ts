@@ -17,7 +17,7 @@ export function useCreateCategory() {
     defaultValues: { name: "", description: "", storeSlug: params.slug },
   });
 
-  const onSubmit = (values: CreateCategorySchema) => {
+  function onSubmit(values: CreateCategorySchema) {
     startTransition(async () => {
       const response = await createCategoryAction({
         values,
@@ -32,7 +32,7 @@ export function useCreateCategory() {
       router.push(`/${params.slug}/categories`);
       router.refresh();
     });
-  };
+  }
 
   return { isPending, onSubmit, form };
 }

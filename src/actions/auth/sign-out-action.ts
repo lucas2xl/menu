@@ -1,6 +1,7 @@
 "use server";
 
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 import { lucia } from "@/lib/auth";
 import { validateRequest } from "@/lib/auth/validate-request";
@@ -19,5 +20,5 @@ export async function signOutAction(): Promise<ActionResponse> {
     sessionCookie.attributes
   );
 
-  return { message: "Logged out successfully", status: "success" };
+  return redirect("/");
 }

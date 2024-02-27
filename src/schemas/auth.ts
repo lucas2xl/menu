@@ -26,7 +26,7 @@ export const SignInSchema = z
 
 export const SignUpSchema = z
   .object({
-    name: z.string().min(1, {
+    username: z.string().min(1, {
       message: "Name is required",
     }),
     email: z
@@ -54,8 +54,8 @@ export const SignUpSchema = z
     if (data.email) {
       data.email = data.email.toLowerCase().trim();
     }
-    if (data.name) {
-      data.name = capitalize(data.name);
+    if (data.username) {
+      data.username = capitalize(data.username);
     }
 
     return true;

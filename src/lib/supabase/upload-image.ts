@@ -2,8 +2,8 @@ import { randomUUID } from "node:crypto";
 
 import { createClient } from "@/lib/supabase/server";
 
-export async function uploadImage(bucket: string, file?: File) {
-  if (!file) return null;
+export async function uploadImage(bucket: string, file: File) {
+  if (!file || !(file instanceof File)) return;
 
   const supabase = createClient();
 

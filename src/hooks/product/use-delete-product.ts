@@ -9,7 +9,7 @@ export function useDeleteProduct() {
   const [isPending, startTransition] = useTransition();
   const [isOpen, setIsOpen] = useState(false);
 
-  const onSubmit = ({ id }: { id: string }) => {
+  function onSubmit({ id }: { id: string }) {
     startTransition(async () => {
       const response = await deleteProductAction({ id });
       if (response.status === "error") {
@@ -20,7 +20,7 @@ export function useDeleteProduct() {
       toast.success(response.message);
       router.refresh();
     });
-  };
+  }
 
   return { isPending, onSubmit, isOpen, setIsOpen };
 }

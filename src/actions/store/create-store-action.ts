@@ -2,50 +2,51 @@
 
 import { auth } from "@/lib/auth/auth";
 import { db } from "@/lib/db";
-import { uploadImage } from "@/lib/supabase/upload-image";
+import { CreateStoreSchema } from "@/schemas/store";
 import { ActionResponse } from "@/types/action-response";
-import { Store } from "@prisma/client";
 
 export async function createStoreAction({
   values,
 }: {
-  values: FormData;
-}): Promise<ActionResponse<Store>> {
+  values: CreateStoreSchema;
+}): Promise<ActionResponse<{ id: string }>> {
   const { userId } = await auth();
   if (!userId) {
     return { message: "Usuário não fornecido", status: "error" };
   }
+  const validatedFields = CreateStoreSchema.safeParse(values);
 
-  const logo = values.get("logo") as File;
-  const name = values.get("name") as string;
-  const slug = values.get("slug") as string;
-
-  if (!name || !slug) {
+  if (!validatedFields.success) {
     return { message: "Campos inválidos", status: "error" };
   }
 
+  const { name, slug } = validatedFields.data;
+
   const storeExists = await db.store.findUnique({
-    where: { slug },
+    where: { slug, userId },
   });
 
   if (storeExists) {
     return { message: "Loja já existe", status: "error" };
   }
 
-  const logoUrl = await uploadImage("stores", logo);
-
   const store = await db.store.create({
     data: {
       name,
       slug,
-      logo: logoUrl,
       userId,
+      settings: {
+        create: {
+          preparationTime: 50,
+          isTableName: false,
+        },
+      },
     },
   });
 
   return {
     message: "Loja criada com sucesso",
     status: "success",
-    body: store,
+    body: { id: store.id },
   };
 }

@@ -3,7 +3,7 @@ import { toast } from "sonner";
 
 import { signOutAction } from "@/actions/auth/sign-out-action";
 import { deleteUserAction } from "@/actions/user/delete-user-action";
-import { redirects } from "@/lib/constants";
+import { redirects } from "@/utils/constants";
 
 export function useDeleteUser() {
   async function onDeleteAccount(id: string) {

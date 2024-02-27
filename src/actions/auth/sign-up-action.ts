@@ -1,9 +1,12 @@
 "use server";
 
+import { redirect } from "next/navigation";
+
 import { hashed } from "@/adapters/hash";
 import { db } from "@/lib/db";
 import { SignUpSchema } from "@/schemas/auth";
 import { ActionResponse } from "@/types/action-response";
+import { redirects } from "@/utils/constants";
 
 export async function signUpAction(
   values: SignUpSchema
@@ -13,7 +16,7 @@ export async function signUpAction(
   if (!validatedFields.success) {
     return { message: "Campos inválidos", status: "error" };
   }
-  const { name, email, password } = validatedFields.data;
+  const { username, email, password } = validatedFields.data;
 
   const authorizedEmailList = await db.authorizedEmailList.findUnique({
     where: { email },
@@ -31,7 +34,7 @@ export async function signUpAction(
 
   await db.user.create({
     data: {
-      name,
+      username,
       email,
       password: hashedPassword,
       plan: {
@@ -44,5 +47,5 @@ export async function signUpAction(
     },
   });
 
-  return { message: "Usuário criado com sucesso", status: "success" };
+  return redirect(redirects.toSignIn);
 }

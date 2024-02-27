@@ -1,5 +1,14 @@
-import { APP_TITLE } from "@/lib/constants";
-import { Body, Button, Preview, Text } from "@react-email/components";
+import { APP_TITLE } from "@/utils/constants";
+import {
+  Body,
+  Button,
+  Container,
+  Head,
+  Html,
+  Preview,
+  Section,
+  Text,
+} from "@react-email/components";
 import { render } from "@react-email/render";
 
 interface Props {

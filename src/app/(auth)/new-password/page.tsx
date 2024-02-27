@@ -5,6 +5,7 @@ import { Loader2Icon } from "lucide-react";
 import { AlertError } from "@/components/alert-error";
 import { AlertSuccess } from "@/components/alert-success";
 import { BackButton } from "@/components/back-button";
+import { PasswordInput } from "@/components/password-input";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -21,7 +22,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { useNewPassword } from "@/hooks/auth/use-new-password";
 
 export default function NewPasswordPage() {
@@ -48,11 +48,10 @@ export default function NewPasswordPage() {
                   <FormItem>
                     <FormLabel>New Password</FormLabel>
                     <FormControl>
-                      <Input
+                      <PasswordInput
                         {...field}
                         disabled={isPending}
                         placeholder="******"
-                        type="password"
                       />
                     </FormControl>
                     <FormMessage />

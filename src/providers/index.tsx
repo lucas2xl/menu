@@ -3,9 +3,9 @@
 import { ThemeProvider } from "next-themes";
 import type { ReactNode } from "react";
 
+import { StoreDialog } from "@/components/dialogs/store-dialog";
 import { TailwindIndicator } from "@/components/tailwind-indicator";
 import { Toaster } from "@/components/ui/sonner";
-import { DialogProvider } from "@/providers/dialog-provider";
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
@@ -15,8 +15,9 @@ export function Providers({ children }: { children: ReactNode }) {
       enableSystem
       disableTransitionOnChange
     >
-      <DialogProvider />
-      <Toaster />
+      <StoreDialog />
+      {/* <Analytics /> */}
+      <Toaster position="bottom-center" />
       <TailwindIndicator />
       {children}
     </ThemeProvider>

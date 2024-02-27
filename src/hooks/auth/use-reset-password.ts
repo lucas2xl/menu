@@ -15,7 +15,7 @@ export function useResetPassword() {
     defaultValues: { email: "" },
   });
 
-  const onSubmit = (values: ResetSchema) => {
+  function onSubmit(values: ResetSchema) {
     setError("");
     setSuccess("");
 
@@ -28,7 +28,7 @@ export function useResetPassword() {
       setSuccess(response.message);
       form.reset();
     });
-  };
+  }
 
   return { isPending, error, success, onSubmit, form };
 }

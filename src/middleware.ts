@@ -7,12 +7,11 @@ import {
   authRoutes,
   publicRoutes,
   redirects,
-} from "@/lib/constants";
+} from "@/utils/constants";
 
 export async function middleware(request: NextRequest) {
   const { nextUrl } = request;
   const session = cookies().get("session")?.value ?? null;
-
   const isLoggedIn = !!session;
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
@@ -28,7 +27,7 @@ export async function middleware(request: NextRequest) {
 
   if (isAuthRoute) {
     if (isLoggedIn) {
-      return Response.redirect(new URL(redirects.afterSignIn, nextUrl));
+      return Response.redirect(new URL(redirects.dashboard, nextUrl));
     }
     return null;
   }
@@ -40,7 +39,6 @@ export async function middleware(request: NextRequest) {
     }
 
     const encodedCallbackUrl = encodeURIComponent(callbackUrl);
-
     return Response.redirect(
       new URL(`/sign-in?callbackUrl=${encodedCallbackUrl}`, nextUrl)
     );

@@ -9,7 +9,7 @@ import {
 } from "@react-email/components";
 import { render } from "@react-email/render";
 
-import { APP_TITLE } from "@/lib/constants";
+import { APP_TITLE } from "@/utils/constants";
 
 interface Props {
   code: string;

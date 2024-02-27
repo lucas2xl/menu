@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 
 import { cn } from "@/lib/utils";
+import { redirects } from "@/utils/constants";
 
 export function MainNav({
   className,
@@ -19,50 +20,50 @@ export function MainNav({
       {...props}
     >
       <Link
-        href={`/${params.slug}`}
+        href={`${redirects.dashboard}/${params.slug}`}
         className={cn(
           "text-sm font-medium text-muted-foreground transition-colors hover:text-primary",
-          currentPath === "" && "text-primary"
+          currentPath === redirects.dashboard && "text-primary"
         )}
       >
         Dashboard
       </Link>
       <Link
-        href={`/${params.slug}/orders`}
+        href={`${redirects.dashboard}/${params.slug}/orders`}
         className={cn(
           "text-sm font-medium text-muted-foreground transition-colors hover:text-primary",
-          currentPath === "/orders" && "text-primary"
+          currentPath.includes("/orders") && "text-primary"
         )}
       >
-        Orders
+        Pedidos
       </Link>
       <Link
-        href={`/${params.slug}/categories`}
+        href={`${redirects.dashboard}/${params.slug}/categories`}
         className={cn(
           "text-sm font-medium text-muted-foreground transition-colors hover:text-primary",
-          currentPath === "/categories" && "text-primary"
+          currentPath.includes("/categories") && "text-primary"
         )}
       >
-        Categories
+        Categorias
       </Link>
       <Link
-        href={`/${params.slug}/products`}
+        href={`${redirects.dashboard}/${params.slug}/products`}
         className={cn(
           "text-sm font-medium text-muted-foreground transition-colors hover:text-primary",
-          currentPath === "/products" && "text-primary"
+          currentPath.includes("/products") && "text-primary"
         )}
       >
-        Products
+        Produtos
       </Link>
-      {/* <Link
-        href={`/${params.slug}/customers`}
+      <Link
+        href={`${redirects.dashboard}/${params.slug}/settings`}
         className={cn(
           "text-sm font-medium text-muted-foreground transition-colors hover:text-primary",
-          currentPath === "/customers" && "text-primary"
+          currentPath.includes("/settings") && "text-primary"
         )}
       >
-        Settings
-      </Link> */}
+        Configurações
+      </Link>
     </nav>
   );
 }

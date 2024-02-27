@@ -1,62 +1,53 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { redirect } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
+import { addStoreImageAction } from "@/actions/store/add-store-image-action";
 import { createStoreAction } from "@/actions/store/create-store-action";
 import { CreateStoreSchema } from "@/schemas/store";
 import { useStoreDialog } from "@/stores/use-store-dialog";
+import { allowedTypes } from "@/utils/image";
 
 export function useCreateStore() {
   const [isPending, startTransition] = useTransition();
   const { onClose } = useStoreDialog();
-
-  const [previewUrl, setPreviewUrl] = useState<string | undefined>(undefined);
 
   const form = useForm<CreateStoreSchema>({
     resolver: zodResolver(CreateStoreSchema),
     defaultValues: { name: "", slug: "", logo: undefined },
   });
 
-  const onSubmit = (values: CreateStoreSchema) => {
+  function onSubmit(values: CreateStoreSchema) {
     startTransition(async () => {
-      const validatedFields = CreateStoreSchema.safeParse(values);
+      const image = values.logo;
+      delete values.logo;
 
-      if (!validatedFields.success) {
-        toast.error("Campos inválidos");
-        return;
-      }
-      const { name, slug, logo } = validatedFields.data;
-
-      const formData = new FormData();
-
-      formData.append("name", name);
-      formData.append("slug", slug);
-      if (logo) {
-        formData.append("logo", logo);
-      }
-
-      const response = await createStoreAction({ values: formData });
+      const response = await createStoreAction({ values });
       if (response.status === "error") {
         toast.error(response.message);
         return;
       }
 
-      toast.success("Loja criada com sucesso!");
+      await addImage({ image, slug: values.slug });
+
+      toast.success(response.message);
       onClose();
-      redirect(`/${response.body?.slug}`);
+      redirect(`/${values.slug}`);
     });
-  };
+  }
+
+  async function addImage({ image, slug }: { image: File; slug: string }) {
+    const formData = new FormData();
+    formData.append("image", image);
+
+    return addStoreImageAction({ value: formData, slug });
+  }
 
   function onDrop(acceptedFiles: FileList | undefined) {
     if (!acceptedFiles) return;
 
-    const allowedTypes = [
-      { name: "png", types: ["image/png"] },
-      { name: "webp", types: ["image/webp"] },
-      { name: "jpeg", types: ["image/jpeg"] },
-    ];
     const fileType = allowedTypes.find((allowedType) =>
       allowedType.types.find((type) => type === acceptedFiles[0].type)
     );
@@ -72,20 +63,17 @@ export function useCreateStore() {
     if (acceptedFiles[0]) {
       const file = acceptedFiles[0];
       form.setValue("logo", file);
-      setPreviewUrl(URL.createObjectURL(file));
     }
   }
 
   function onRemoveImagePreview() {
     form.setValue("logo", undefined);
-    setPreviewUrl(undefined);
   }
 
   return {
     isPending,
     onSubmit,
     form,
-    previewUrl,
     onDrop,
     onRemoveImagePreview,
   };

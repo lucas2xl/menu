@@ -3,8 +3,8 @@ import { ChevronRightIcon } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
-import { redirects } from "@/lib/constants";
 import { cn } from "@/lib/utils";
+import { redirects } from "@/utils/constants";
 import { navigation } from "@/utils/navigation";
 import { buttonVariants } from "../ui/button";
 import { NavHeader } from "./nav-header";

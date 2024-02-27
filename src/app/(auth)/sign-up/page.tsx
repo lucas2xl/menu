@@ -7,6 +7,7 @@ import { toast } from "sonner";
 
 import { Icons } from "@/components/icons";
 import night from "@/components/images/night.avif";
+import { PasswordInput } from "@/components/password-input";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Form,
@@ -18,7 +19,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useSignUp } from "@/hooks/auth/use-sign-up";
-import { redirects } from "@/lib/constants";
+import { redirects } from "@/utils/constants";
 
 export default function SignUpPage() {
   const { isPending, error, success, onSubmit, form } = useSignUp();
@@ -121,7 +122,7 @@ export default function SignUpPage() {
                 <div className="space-y-4">
                   <FormField
                     control={form.control}
-                    name="name"
+                    name="username"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Nome completo</FormLabel>
@@ -165,10 +166,9 @@ export default function SignUpPage() {
                         <FormItem>
                           <FormLabel>Senha</FormLabel>
                           <FormControl>
-                            <Input
+                            <PasswordInput
                               {...field}
                               placeholder="******"
-                              type="password"
                               autoComplete="new-password"
                               disabled={isPending}
                             />
@@ -185,10 +185,9 @@ export default function SignUpPage() {
                         <FormItem>
                           <FormLabel>Confirmação de senha</FormLabel>
                           <FormControl>
-                            <Input
+                            <PasswordInput
                               {...field}
                               placeholder="******"
-                              type="password"
                               autoComplete="new-password"
                               disabled={isPending}
                             />

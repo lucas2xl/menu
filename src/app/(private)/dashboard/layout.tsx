@@ -1,25 +1,26 @@
+import { getPathname } from "next-impl-getters/get-pathname";
 import { redirect } from "next/navigation";
-import React from "react";
 
 import { auth } from "@/lib/auth/auth";
-import { redirects } from "@/lib/constants";
 import { db } from "@/lib/db";
+import { redirects } from "@/utils/constants";
 
-export default async function RootLayout({
+export default async function DashboardLayout({
   children,
-  params,
 }: {
   children: React.ReactNode;
-  params: { slug: string };
 }) {
   const { userId } = await auth();
-
+  const pathname = getPathname();
   if (!userId) return redirect(redirects.toSignIn);
+
   const store = await db.store.findFirst({
-    where: { slug: params.slug, userId },
+    where: { userId },
   });
 
-  if (store) return redirect(`/${store.slug}`);
+  if (store && pathname === redirects.dashboard) {
+    return redirect(`${redirects.dashboard}/${store.slug}`);
+  }
 
   return <>{children}</>;
 }

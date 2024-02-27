@@ -1,8 +1,8 @@
 "use client";
 
-import { Store, User, UserPlan } from "@prisma/client";
+import { Store, UserPlan } from "@prisma/client";
 import { CheckIcon, ChevronsUpDownIcon, PlusCircleIcon } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -28,17 +28,17 @@ import { useStoreDialog } from "@/stores/use-store-dialog";
 interface Props {
   stores: Store[];
   className?: string;
-  slug: string;
-  user: Omit<User, "password"> & { plan: UserPlan | null };
+  userPlan: UserPlan | null;
 }
 
-export function StoreSwitcher({ className, stores, slug, user }: Props) {
+export function StoreSwitcher({ className, stores, userPlan }: Props) {
+  const params = useParams() as { slug: string };
   const router = useRouter();
   const { onOpen } = useStoreDialog();
   const [open, setOpen] = useState(false);
   const [showNewStoreDialog, setShowNewStoreDialog] = useState(false);
 
-  const store = stores.find((store) => store.slug === slug);
+  const store = stores.find((store) => store.slug === params.slug);
   if (!store) return null;
 
   return (
@@ -111,7 +111,7 @@ export function StoreSwitcher({ className, stores, slug, user }: Props) {
                       onOpen();
                     }}
                     disabled={
-                      user.plan ? user.plan?.quantity <= stores.length : true
+                      userPlan ? userPlan.quantity <= stores.length : true
                     }
                   >
                     <PlusCircleIcon className="mr-2 h-5 w-5" />

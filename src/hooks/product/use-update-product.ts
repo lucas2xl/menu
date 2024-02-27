@@ -4,34 +4,33 @@ import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-import { updateCategoryAction } from "@/actions/category/update-category-action";
+import { updateProductAction } from "@/actions/product/update-category-action";
 import { UpdateProductSchema } from "@/schemas/product";
 
 export function useUpdateProduct() {
   const router = useRouter();
-
   const [isPending, startTransition] = useTransition();
   const params = useParams() as { slug: string };
+  const [tab, setTab] = useState<"product" | "subcategories">("product");
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
 
   const form = useForm<UpdateProductSchema>({
     resolver: zodResolver(UpdateProductSchema),
   });
 
-  const onSubmit = (values: UpdateProductSchema) => {
+  function onSubmit(values: UpdateProductSchema) {
     startTransition(async () => {
-      const response = await updateCategoryAction({ values });
-      console.log(response);
+      const response = await updateProductAction({ values });
       if (response.status === "error") {
         toast.error(response.message);
         return;
       }
 
       toast.success(response.message);
-      router.push(`/${params.slug}/categories`);
+      router.push(`/${params.slug}/products`);
       router.refresh();
     });
-  };
+  }
 
   function onDrop(acceptedFiles: FileList | undefined) {
     if (!acceptedFiles) return;
@@ -50,9 +49,9 @@ export function useUpdateProduct() {
 
   function onRemoveImagePreview(index: number) {
     const newPreviewUrls = previewUrls.filter((_, idx) => idx !== index);
-    const newFiles = (form.getValues("images") as File[] | undefined)?.filter(
-      (_, idx) => idx !== index
-    );
+    const newFiles = form
+      .getValues("images")
+      ?.filter((_, idx) => idx !== index);
 
     form.setValue("images", newFiles);
     setPreviewUrls(newPreviewUrls);
@@ -62,9 +61,11 @@ export function useUpdateProduct() {
     isPending,
     onSubmit,
     form,
-    setPreviewUrls,
-    previewUrls,
     onDrop,
+    previewUrls,
+    setPreviewUrls,
     onRemoveImagePreview,
+    tab,
+    setTab,
   };
 }

@@ -17,10 +17,9 @@ export function useUpdateCategory() {
     defaultValues: { name: "", description: "" },
   });
 
-  const onSubmit = (values: UpdateCategorySchema) => {
+  function onSubmit(values: UpdateCategorySchema) {
     startTransition(async () => {
       const response = await updateCategoryAction({ values });
-      console.log(response);
       if (response.status === "error") {
         toast.error(response.message);
         return;
@@ -30,7 +29,7 @@ export function useUpdateCategory() {
       router.push(`/${params.slug}/categories`);
       router.refresh();
     });
-  };
+  }
 
   return { isPending, onSubmit, form };
 }

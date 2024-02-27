@@ -24,13 +24,18 @@ export async function updateCategoryAction({
 
   const { name, description, id } = validatedFields.data;
 
-  const categoryExists = await db.category.findUnique({ where: { id } });
+  const categoryExists = await db.category.findUnique({
+    where: { id, store: { userId } },
+  });
 
   if (!categoryExists) {
     return { message: "Categoria não encontrada", status: "error" };
   }
 
-  await db.category.update({ where: { id }, data: { name, description } });
+  await db.category.update({
+    where: { id, store: { userId } },
+    data: { name, description },
+  });
 
   return { message: "Categoria atualizada com sucesso", status: "success" };
 }

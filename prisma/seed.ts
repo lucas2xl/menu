@@ -20,7 +20,7 @@ const getEmailList = (): Prisma.AuthorizedEmailListCreateInput[] => [
 const getAdmin = (password: string): Prisma.UserCreateInput => ({
   role: "ADMIN",
   email: "admin@admin.com",
-  name: "John Doe",
+  username: "John Doe",
   password,
   plan: {
     create: {
@@ -34,7 +34,7 @@ const getAdmin = (password: string): Prisma.UserCreateInput => ({
 const getStore = (user: User): Prisma.StoreCreateInput => ({
   name: "Loja 1",
   slug: "loja-1",
-  logo: "https://via.placeholder.com/150",
+  logo: "https://picsum.photos/200",
   user: {
     connect: {
       id: user.id,
@@ -43,23 +43,33 @@ const getStore = (user: User): Prisma.StoreCreateInput => ({
   settings: {
     create: {
       preparationTime: 50,
+      isTableName: false,
+      hasDelivery: false,
     },
   },
 });
 
-const getQRCodes = (store: Store): Prisma.QrcodeCreateInput[] =>
-  Array(10).fill({
-    store: {
-      connect: {
-        id: store.id,
+const getQRCodes = (store: Store): Prisma.QrcodeCreateInput[] => {
+  const qrCodeValue = 1;
+  const qrCodeList: Prisma.QrcodeCreateInput[] = [];
+  for (let i = 0; i < 10; i++) {
+    qrCodeList.push({
+      value: qrCodeValue + i,
+      store: {
+        connect: {
+          id: store.id,
+        },
       },
-    },
-  });
+    });
+  }
+  return qrCodeList;
+};
 
 const getCategories = (store: Store): Prisma.CategoryCreateInput[] => [
   {
     name: "Pratos para 2 pessoas",
     description: "Pratos completos para 2 pessoas",
+    index: 1,
     store: {
       connect: {
         id: store.id,
@@ -69,6 +79,7 @@ const getCategories = (store: Store): Prisma.CategoryCreateInput[] => [
   {
     name: "Frutos do mar",
     description: "Pratos completos de frutos do mar",
+    index: 2,
     store: {
       connect: {
         id: store.id,
@@ -78,6 +89,7 @@ const getCategories = (store: Store): Prisma.CategoryCreateInput[] => [
   {
     name: "Carnes grelhadas",
     description: "Pratos completos de carnes grelhadas",
+    index: 3,
     store: {
       connect: {
         id: store.id,
@@ -87,6 +99,7 @@ const getCategories = (store: Store): Prisma.CategoryCreateInput[] => [
   {
     name: "Pratos ao forno",
     description: "Pratos completos feitos no forno",
+    index: 4,
     store: {
       connect: {
         id: store.id,
@@ -96,6 +109,7 @@ const getCategories = (store: Store): Prisma.CategoryCreateInput[] => [
   {
     name: "Bebidas",
     description: "Bebidas alcoólicas e não alcoólicas",
+    index: 5,
     store: {
       connect: {
         id: store.id,
@@ -105,6 +119,7 @@ const getCategories = (store: Store): Prisma.CategoryCreateInput[] => [
   {
     name: "Sobremesas",
     description: "Doces e sobremesas variadas",
+    index: 6,
     store: {
       connect: {
         id: store.id,
@@ -125,10 +140,11 @@ const getProducts = (
     serves: 2,
     discount: 10,
     isFeatured: true,
+    index: 1,
     category: { connect: { id: categories[0].id } },
     store: { connect: { id: store.id } },
     images: {
-      createMany: { data: [{ url: "https://via.placeholder.com/150" }] },
+      createMany: { data: [{ url: "https://picsum.photos/200" }] },
     },
   },
   {
@@ -139,10 +155,11 @@ const getProducts = (
     serves: 2,
     discount: 0,
     isFeatured: false,
+    index: 2,
     category: { connect: { id: categories[0].id } },
     store: { connect: { id: store.id } },
     images: {
-      createMany: { data: [{ url: "https://via.placeholder.com/150" }] },
+      createMany: { data: [{ url: "https://picsum.photos/200" }] },
     },
   },
 
@@ -154,10 +171,11 @@ const getProducts = (
     serves: 2,
     discount: 0,
     isFeatured: false,
+    index: 3,
     category: { connect: { id: categories[1].id } },
     store: { connect: { id: store.id } },
     images: {
-      createMany: { data: [{ url: "https://via.placeholder.com/150" }] },
+      createMany: { data: [{ url: "https://picsum.photos/200" }] },
     },
   },
   {
@@ -168,10 +186,11 @@ const getProducts = (
     serves: 4,
     discount: 0,
     isFeatured: false,
+    index: 4,
     category: { connect: { id: categories[1].id } },
     store: { connect: { id: store.id } },
     images: {
-      createMany: { data: [{ url: "https://via.placeholder.com/150" }] },
+      createMany: { data: [{ url: "https://picsum.photos/200" }] },
     },
   },
   {
@@ -182,10 +201,11 @@ const getProducts = (
     serves: 2,
     discount: 0,
     isFeatured: true,
+    index: 5,
     category: { connect: { id: categories[2].id } },
     store: { connect: { id: store.id } },
     images: {
-      createMany: { data: [{ url: "https://via.placeholder.com/150" }] },
+      createMany: { data: [{ url: "https://picsum.photos/200" }] },
     },
   },
   {
@@ -196,10 +216,11 @@ const getProducts = (
     serves: 2,
     discount: 0,
     isFeatured: false,
+    index: 6,
     category: { connect: { id: categories[2].id } },
     store: { connect: { id: store.id } },
     images: {
-      createMany: { data: [{ url: "https://via.placeholder.com/150" }] },
+      createMany: { data: [{ url: "https://picsum.photos/200" }] },
     },
   },
   {
@@ -210,10 +231,11 @@ const getProducts = (
     serves: 2,
     discount: 0,
     isFeatured: false,
+    index: 7,
     category: { connect: { id: categories[3].id } },
     store: { connect: { id: store.id } },
     images: {
-      createMany: { data: [{ url: "https://via.placeholder.com/150" }] },
+      createMany: { data: [{ url: "https://picsum.photos/200" }] },
     },
   },
   {
@@ -224,10 +246,11 @@ const getProducts = (
     serves: 2,
     discount: 10,
     isFeatured: true,
+    index: 8,
     category: { connect: { id: categories[3].id } },
     store: { connect: { id: store.id } },
     images: {
-      createMany: { data: [{ url: "https://via.placeholder.com/150" }] },
+      createMany: { data: [{ url: "https://picsum.photos/200" }] },
     },
   },
   {
@@ -237,10 +260,11 @@ const getProducts = (
     serves: 0,
     discount: 0,
     isFeatured: false,
+    index: 9,
     category: { connect: { id: categories[4].id } },
     store: { connect: { id: store.id } },
     images: {
-      createMany: { data: [{ url: "https://via.placeholder.com/150" }] },
+      createMany: { data: [{ url: "https://picsum.photos/200" }] },
     },
   },
   {
@@ -250,10 +274,11 @@ const getProducts = (
     serves: 0,
     discount: 0,
     isFeatured: false,
+    index: 10,
     category: { connect: { id: categories[4].id } },
     store: { connect: { id: store.id } },
     images: {
-      createMany: { data: [{ url: "https://via.placeholder.com/150" }] },
+      createMany: { data: [{ url: "https://picsum.photos/200" }] },
     },
   },
   {
@@ -263,10 +288,11 @@ const getProducts = (
     serves: 1,
     discount: 0,
     isFeatured: false,
+    index: 11,
     category: { connect: { id: categories[5].id } },
     store: { connect: { id: store.id } },
     images: {
-      createMany: { data: [{ url: "https://via.placeholder.com/150" }] },
+      createMany: { data: [{ url: "https://picsum.photos/200" }] },
     },
   },
   {
@@ -276,10 +302,11 @@ const getProducts = (
     serves: 1,
     discount: 0,
     isFeatured: false,
+    index: 12,
     category: { connect: { id: categories[5].id } },
     store: { connect: { id: store.id } },
     images: {
-      createMany: { data: [{ url: "https://via.placeholder.com/150" }] },
+      createMany: { data: [{ url: "https://picsum.photos/200" }] },
     },
   },
 ];
@@ -291,6 +318,7 @@ const getProductCategory = (
     name: "Escolha sua porção",
     quantity: 1,
     inputType: "radio",
+    index: 1,
     product: {
       connect: {
         id: products[2].id,
@@ -303,16 +331,19 @@ const getProductCategory = (
             name: "1/4 de porção",
             price: 22799,
             description: "Serve de 3 a 4 pessoas",
+            index: 1,
           },
           {
             name: "1/2 de porção",
             price: 31299,
             description: "Serve de 5 a 6 pessoas",
+            index: 2,
           },
           {
             name: "Inteira",
             price: 37799,
             description: "Serve de 7 a 8 pessoas",
+            index: 3,
           },
         ],
       },
@@ -333,7 +364,7 @@ try {
   // Criação do usuário admin
   const passwordHash = await hashed.hash("12345678");
   const admin = await client.user.create({ data: getAdmin(passwordHash) });
-  console.log(`Usuário ${admin.name} criado com sucesso!`);
+  console.log(`Usuário ${admin.username} criado com sucesso!`);
 
   // Criação da loja
   const store = await client.store.create({ data: getStore(admin) });

@@ -5,7 +5,10 @@ const nextConfig = {
     return config;
   },
   images: {
-    remotePatterns: [{ protocol: "http", hostname: "**" }],
+    remotePatterns: [
+      { protocol: "http", hostname: "**" },
+      { protocol: "https", hostname: "**" },
+    ],
   },
 };
 

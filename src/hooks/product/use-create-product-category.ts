@@ -11,7 +11,6 @@ const defaultCategory = [{ name: "", quantity: "0", inputType: "", items: [] }];
 
 export function useCreateProductCategory() {
   const router = useRouter();
-
   const [isPending, startTransition] = useTransition();
   const params = useParams() as { slug: string };
 
@@ -32,7 +31,7 @@ export function useCreateProductCategory() {
     name: "categories",
   });
 
-  const onSubmit = (values: CreateProductCategorySchema) => {
+  function onSubmit(values: CreateProductCategorySchema) {
     startTransition(async () => {
       const response = await createProductCategoryAction({ values });
       if (response.status === "error") {
@@ -44,7 +43,7 @@ export function useCreateProductCategory() {
       router.push(`/${params.slug}/products`);
       router.refresh();
     });
-  };
+  }
 
   return {
     isPending,

@@ -40,7 +40,8 @@ export const CreateProductSchema = z.object({
     .refine(
       (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
       ".jpg, .jpeg, .png and .webp files are accepted."
-    ),
+    )
+    .optional(),
 });
 
 export const CreateProductCategorySchema = z.object({
@@ -75,19 +76,7 @@ export const UpdateProductSchema = z.object({
   discount: z.optional(z.string()),
   categoryId: z.optional(z.string()),
   storeSlug: z.optional(z.string()),
-  images: z.optional(
-    z
-      .array(z.any())
-      .refine((files) => files?.length > 0, "Imagem é obrigatória")
-      .refine(
-        (files) => files?.[0]?.size < MAX_FILE_SIZE,
-        `Max file size is 5MB.`
-      )
-      .refine(
-        (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
-        ".jpg, .jpeg, .png and .webp files are accepted."
-      )
-  ),
+  images: z.array(z.any()).optional(),
 });
 
 export type ProductSchema = z.infer<typeof ProductSchema>;

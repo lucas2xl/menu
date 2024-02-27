@@ -37,12 +37,13 @@ model AuthorizedEmailList {
 
 model User {
   id                 String    @id @default(cuid())
-  name               String
+  username           String
   email              String
   imageUrl           String?
   password           String
   role               UserRole  @default(USER)
   isTwoFactorEnabled Boolean   @default(true) @map("is_two_factor_enabled")
+  theme              String    @default("theme-default")
   createdAt          DateTime  @default(now()) @map("created_at")
   updatedAt          DateTime  @updatedAt @map("updated_at")
   stores             Store[]
@@ -95,36 +96,41 @@ model UserPlan {
 }
 
 model Store {
-  id         String          @id @default(cuid())
+  id         String         @id @default(cuid())
   name       String
   logo       String?
   slug       String
   userId     String
-  user       User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user       User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   orders     Order[]
   categories Category[]
   products   Product[]
   qrcodes    Qrcode[]
-  settings   StoreSettings[]
+  settings   StoreSettings?
 
   @@unique([slug])
   @@map("stores")
 }
 
 model StoreSettings {
-  id              String @id @default(cuid())
-  preparationTime Int    @default(0) @map("preparation_time")
-  storeId         String @map("store_id")
-  store           Store  @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  id              String  @id @default(cuid())
+  preparationTime Int     @default(0) @map("preparation_time")
+  isTableName     Boolean @default(false) @map("is_table_name")
+  hasDelivery     Boolean @default(false) @map("has_delivery")
+  tax             Int     @default(0)
+  storeId         String  @unique @map("store_id")
+  store           Store   @relation(fields: [storeId], references: [id], onDelete: Cascade)
 
   @@map("store_settings")
 }
 
 model Qrcode {
   id      String @id @default(cuid())
+  value   Int
   storeId String @map("store_id")
   store   Store  @relation(fields: [storeId], references: [id], onDelete: Cascade)
 
+  @@unique([storeId, value])
   @@map("qrcodes")
 }
 
@@ -132,6 +138,7 @@ model Category {
   id          String    @id @default(cuid())
   name        String
   description String?
+  index       Int       @default(0)
   storeId     String    @map("store_id")
   store       Store     @relation(fields: [storeId], references: [id], onDelete: Cascade)
   products    Product[]
@@ -149,6 +156,7 @@ model Product {
   discount    Int?              @default(0)
   categoryId  String            @map("category_id")
   storeId     String            @map("store_id")
+  index       Int               @default(0)
   store       Store             @relation(fields: [storeId], references: [id], onDelete: Cascade)
   category    Category          @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   images      ProductImage[]
@@ -170,6 +178,7 @@ model ProductImage {
 model ProductCategory {
   id        String                @id @default(cuid())
   name      String
+  index     Int                   @default(0)
   inputType String                @map("input_type")
   quantity  Int                   @default(1)
   productId String                @map("product_id")
@@ -184,6 +193,7 @@ model ProductCategoryItem {
   name              String
   description       String?
   price             Int
+  index             Int             @default(0)
   productCategoryId String          @map("product_category_id")
   categories        ProductCategory @relation(fields: [productCategoryId], references: [id], onDelete: Cascade)
 
@@ -191,19 +201,36 @@ model ProductCategoryItem {
 }
 
 model Order {
-  id          String      @id @default(cuid())
-  storeId     String      @map("store_id")
-  qrcodeId    String      @map("qrcode_id")
-  tableId     String      @map("table_id")
+  id          String         @id @default(cuid())
+  storeId     String         @map("store_id")
+  qrcodeId    String         @map("qrcode_id")
+  tableId     String         @map("table_id")
   total       Int
   observation String?
-  createdAt   DateTime    @default(now()) @map("created_at")
-  updatedAt   DateTime    @updatedAt @map("updated_at")
-  status      OrderStatus @default(PENDING)
-  store       Store       @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  isDelivery  Boolean        @default(false) @map("is_delivery")
+  createdAt   DateTime       @default(now()) @map("created_at")
+  updatedAt   DateTime       @updatedAt @map("updated_at")
+  status      OrderStatus    @default(PENDING)
+  store       Store          @relation(fields: [storeId], references: [id], onDelete: Cascade)
   items       OrderItem[]
+  address     OrderAddress[]
 
   @@map("orders")
+}
+
+model OrderAddress {
+  id           String  @id @default(cuid())
+  cep          String
+  state        String
+  city         String
+  neighborhood String
+  street       String
+  number       Int
+  complement   String?
+  orderId      String  @map("order_id")
+  order        Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@map("order_address")
 }
 
 model OrderItem {

@@ -25,7 +25,7 @@ export async function createProductCategoryAction({
   const { productId, categories } = validatedFields.data;
 
   const productExists = await db.product.findUnique({
-    where: { id: productId },
+    where: { id: productId, store: { userId } },
   });
 
   if (!productExists) {

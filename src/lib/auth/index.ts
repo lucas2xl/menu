@@ -12,7 +12,9 @@ export const lucia = new Lucia(adapter, {
   },
 
   getUserAttributes: (attributes) => {
-    return {};
+    return {
+      theme: attributes.theme,
+    };
   },
   sessionExpiresIn: new TimeSpan(7, "d"),
   sessionCookie: {
@@ -34,4 +36,6 @@ declare module "lucia" {
 }
 
 interface DatabaseSessionAttributes {}
-interface DatabaseUserAttributes {}
+interface DatabaseUserAttributes {
+  theme: string;
+}

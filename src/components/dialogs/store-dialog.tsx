@@ -1,11 +1,19 @@
 "use client";
 
 import { Dialog } from "@/components/dialogs/dialog";
-import { CreateStoreForm } from "@/components/forms/create-store-form";
+import { CreateStoreForm } from "@/components/forms/store/create-store-form";
 import { useStoreDialog } from "@/stores/use-store-dialog";
+import { useEffect, useState } from "react";
 
 export function StoreDialog() {
+  const [isMounted, setIsMounted] = useState(false);
   const { isOpen, onClose } = useStoreDialog();
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) return null;
 
   return (
     <Dialog

@@ -25,7 +25,7 @@ export async function createCategoryAction({
   const { name, description, storeSlug } = validatedFields.data;
 
   const storeExists = await db.store.findUnique({
-    where: { slug: storeSlug },
+    where: { slug: storeSlug, userId },
   });
 
   if (!storeExists) {
