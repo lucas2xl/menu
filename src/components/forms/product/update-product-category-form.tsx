@@ -1,9 +1,9 @@
 "use client";
+
 import { ProductCategory, ProductCategoryItem } from "@prisma/client";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronRightIcon, PlusCircleIcon, Trash2Icon } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { UseFormReturn, useFieldArray } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
@@ -31,16 +31,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { useCreateProductCategory } from "@/hooks/product/use-create-product-category";
+import { useUpdateProductCategory } from "@/hooks/product/use-update-product-category";
 import { cn } from "@/lib/utils";
-import { CreateProductCategorySchema } from "@/schemas/product";
+import { UpdateProductCategorySchema } from "@/schemas/product";
 
 export function UpdateProductCategoryForm({
   categories,
+  productId,
 }: {
   categories: (ProductCategory & { items: ProductCategoryItem[] })[];
+  productId: string;
 }) {
-  const router = useRouter();
   const {
     isPending,
     onSubmit,
@@ -48,24 +49,10 @@ export function UpdateProductCategoryForm({
     categoriesFields,
     appendCategory,
     removeCategory,
-  } = useCreateProductCategory();
-
-  useEffect(() => {
-    if (categories) {
-      form.reset({
-        categories: categories.map((category) => ({
-          name: category.name,
-          quantity: String(category.quantity),
-          inputType: category.inputType,
-          items: category.items.map((item) => ({
-            name: item.name,
-            price: String(item.price),
-            description: item.description || "",
-          })),
-        })),
-      });
-    }
-  }, [categories, form]);
+  } = useUpdateProductCategory({
+    categories,
+    productId,
+  });
 
   return (
     <Form {...form}>
@@ -166,13 +153,10 @@ export function UpdateProductCategoryForm({
                             Tipo de Input{" "}
                             <span className="text-destructive">*</span>
                           </FormLabel>
-                          <Select onValueChange={field.onChange}>
+                          <Select {...field} onValueChange={field.onChange}>
                             <FormControl>
                               <SelectTrigger>
-                                <SelectValue
-                                  {...field}
-                                  placeholder="Selecione um tipo de input"
-                                />
+                                <SelectValue placeholder="Selecione um tipo de input" />
                               </SelectTrigger>
                             </FormControl>
 
@@ -180,6 +164,9 @@ export function UpdateProductCategoryForm({
                               <SelectItem value="number">Numérico</SelectItem>
                               <SelectItem value="radio">
                                 Opção única (radio)
+                              </SelectItem>
+                              <SelectItem value="checkbox">
+                                Múltiplas opções (checkbox)
                               </SelectItem>
                             </SelectContent>
                           </Select>
@@ -197,11 +184,7 @@ export function UpdateProductCategoryForm({
         </div>
 
         <div className="flex gap-2 justify-end mt-auto">
-          <Button
-            loading
-            type="submit"
-            disabled={isPending || !form.getValues().categories.length}
-          >
+          <Button loading type="submit" disabled={isPending}>
             {isPending && <div className="loading" />}
             Atualizar Subcategorias
           </Button>
@@ -213,7 +196,7 @@ export function UpdateProductCategoryForm({
 
 type CategoryItemFormProps = {
   categoryIndex: number;
-  form: UseFormReturn<CreateProductCategorySchema>;
+  form: UseFormReturn<UpdateProductCategorySchema>;
 };
 
 function CategoryItemForm({ categoryIndex, form }: CategoryItemFormProps) {
@@ -227,10 +210,12 @@ function CategoryItemForm({ categoryIndex, form }: CategoryItemFormProps) {
     <>
       {!!fields.length && (
         <div className="flex items-center justify-between my-4">
-          <Label htmlFor="show-category-item">Itens da Categoria</Label>
+          <Label htmlFor={`show-category-item-${categoryIndex}`}>
+            {`Itens da Categoria (${fields.length})`}
+          </Label>
 
           <button
-            id="show-category-item"
+            id={`show-category-item-${categoryIndex}`}
             type="button"
             className="text-primary gap-2 flex items-center"
             onClick={() => setShowItems((prevState) => !prevState)}
@@ -302,9 +287,13 @@ function CategoryItemForm({ categoryIndex, form }: CategoryItemFormProps) {
                           </FormLabel>
                           <FormControl>
                             <Input
-                              type="number"
                               {...field}
-                              autoComplete="off"
+                              onChange={(e) => {
+                                let value = e.target.value.replace(/\D/g, "");
+                                value = (parseInt(value, 10) / 100).toFixed(2);
+                                field.onChange(value);
+                              }}
+                              type="number"
                               placeholder="Digite o preço do item"
                             />
                           </FormControl>

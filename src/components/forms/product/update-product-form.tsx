@@ -2,8 +2,6 @@
 
 import { ImagePlusIcon, XIcon } from "lucide-react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 
 import { UpdateProductCategoryForm } from "@/components/forms/product/update-product-category-form";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -45,33 +43,16 @@ type Props = {
   categories: Category[];
 };
 export function UpdateProductForm({ data, categories }: Props) {
-  const router = useRouter();
   const {
     isPending,
     onSubmit,
     form,
     onDrop,
     previewUrls,
-    setPreviewUrls,
     onRemoveImagePreview,
     tab,
     setTab,
-  } = useUpdateProduct();
-
-  useEffect(() => {
-    form.reset({
-      name: data.name,
-      description: data.description || "",
-      id: data.id,
-      price: String(data.price || ""),
-      discount: String(data.discount || ""),
-      serves: String(data.serves || ""),
-      categoryId: String(data.categoryId),
-      isFeatured: data.isFeatured || false,
-      images: data.images,
-    });
-    setPreviewUrls(data.images.map((image) => image.url));
-  }, [data, form, setPreviewUrls]);
+  } = useUpdateProduct({ data });
 
   return (
     <Tabs value={tab} className="space-y-4">
@@ -142,6 +123,11 @@ export function UpdateProductForm({ data, categories }: Props) {
                       <FormControl>
                         <Input
                           {...field}
+                          onChange={(e) => {
+                            let value = e.target.value.replace(/\D/g, "");
+                            value = (parseInt(value, 10) / 100).toFixed(2);
+                            field.onChange(value);
+                          }}
                           disabled={isPending}
                           type="number"
                           placeholder="Preço do produto"
@@ -205,7 +191,7 @@ export function UpdateProductForm({ data, categories }: Props) {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Categoria</FormLabel>
-                      <Select onValueChange={field.onChange}>
+                      <Select {...field} onValueChange={field.onChange}>
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Selecione uma categoria" />
@@ -214,10 +200,7 @@ export function UpdateProductForm({ data, categories }: Props) {
 
                         <SelectContent>
                           {categories?.map((category) => (
-                            <SelectItem
-                              key={category.id}
-                              value={category.id.toString()}
-                            >
+                            <SelectItem value={category.id} key={category.id}>
                               {category.name}
                             </SelectItem>
                           ))}
@@ -332,7 +315,10 @@ export function UpdateProductForm({ data, categories }: Props) {
       </TabsContent>
 
       <TabsContent value="subcategories">
-        <UpdateProductCategoryForm categories={data.categories} />
+        <UpdateProductCategoryForm
+          categories={data.categories}
+          productId={data.id}
+        />
       </TabsContent>
     </Tabs>
   );

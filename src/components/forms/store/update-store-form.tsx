@@ -2,7 +2,6 @@
 
 import { Store, StoreSettings } from "@prisma/client";
 import Image from "next/image";
-import { useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -22,18 +21,9 @@ import { toSlug } from "@/utils/to-slug";
 type Props = {
   store: Store & { settings: StoreSettings | null };
 };
-export function UpdateStoreForm({ store }: Props) {
-  const { isPending, onSubmit, onDrop, form } = useUpdateStore();
 
-  useEffect(() => {
-    if (store) {
-      form.reset({
-        slug: store.slug,
-        name: store.name,
-        logo: store.logo,
-      });
-    }
-  }, [form, store]);
+export function UpdateStoreForm({ store }: Props) {
+  const { isPending, onSubmit, onDrop, form } = useUpdateStore({ store });
 
   return (
     <Form {...form}>

@@ -1,7 +1,6 @@
 "use client";
 
 import { StoreSettings } from "@prisma/client";
-import { useEffect } from "react";
 
 import { Dialog } from "@/components/dialogs/dialog";
 import { Button } from "@/components/ui/button";
@@ -23,9 +22,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { useUpdateStoreSettings } from "@/hooks/store/use-update-store-settings";
+import { cn } from "@/lib/utils";
+import { themes } from "@/utils/themes";
 
 type Props = {
   settings: StoreSettings;
@@ -38,17 +40,7 @@ export function UpdateStoreSettingsForm({ settings }: Props) {
     showRemoveDialog,
     setShowRemoveDialog,
     onConfirmRemove,
-  } = useUpdateStoreSettings();
-
-  useEffect(() => {
-    if (settings) {
-      form.reset({
-        isTableName: settings.isTableName,
-        preparationTime: String(settings.preparationTime),
-        hasDelivery: settings.hasDelivery,
-      });
-    }
-  }, [form, settings]);
+  } = useUpdateStoreSettings({ settings });
 
   return (
     <>
@@ -129,6 +121,47 @@ export function UpdateStoreSettingsForm({ settings }: Props) {
               )}
             />
 
+            <FormField
+              control={form.control}
+              name="theme"
+              render={({ field }) => (
+                <FormItem className="space-y-1">
+                  <FormLabel>Tema</FormLabel>
+                  <FormDescription>
+                    Escolha um tema para a sua loja, essa opção irá alterar a
+                    aparência da sua loja.
+                  </FormDescription>
+                  <FormMessage />
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    value={field.value}
+                    className="flex flex-wrap gap-4 pt-2"
+                  >
+                    {themes.map((theme) => (
+                      <FormItem key={theme.value} className="">
+                        <FormLabel className="[&:has([data-state=checked])>div]:border-primary">
+                          <FormControl>
+                            <RadioGroupItem
+                              value={theme.value}
+                              className="sr-only"
+                            />
+                          </FormControl>
+
+                          <AppearanceCard color={theme.color} />
+
+                          <span className="block w-full p-2 text-center font-normal">
+                            {theme.label}
+                          </span>
+                        </FormLabel>
+                      </FormItem>
+                    ))}
+                  </RadioGroup>
+                </FormItem>
+              )}
+            />
+
+            <Separator />
+
             <Card>
               <CardHeader>
                 <CardTitle>Deletar loja</CardTitle>
@@ -189,5 +222,25 @@ export function UpdateStoreSettingsForm({ settings }: Props) {
         </div>
       </Dialog>
     </>
+  );
+}
+
+type AppearanceCardProps = {
+  color: string;
+};
+function AppearanceCard({ color }: AppearanceCardProps) {
+  return (
+    <div className="w-28 items-center rounded-md border-2 border-muted p-1 hover:border-accent cursor-pointer">
+      <div className={cn("space-y-2 rounded-sm p-1", color)}>
+        <div className="space-y-2 rounded-md bg-black p-2 shadow-sm">
+          <div className={cn("h-1 w-1/2 rounded-lg", color)} />
+          <div className={cn("h-1 w-2/3 rounded-lg", color)} />
+        </div>
+        <div className="flex items-center gap-2 rounded-md bg-black p-2 shadow-sm">
+          <div className={cn("h-2 w-2 rounded-full", color)} />
+          <div className={cn("h-1 w-full rounded-lg", color)} />
+        </div>
+      </div>
+    </div>
   );
 }

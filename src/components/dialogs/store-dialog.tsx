@@ -2,16 +2,12 @@
 
 import { Dialog } from "@/components/dialogs/dialog";
 import { CreateStoreForm } from "@/components/forms/store/create-store-form";
+import { useIsMounted } from "@/hooks/use-is-mounted";
 import { useStoreDialog } from "@/stores/use-store-dialog";
-import { useEffect, useState } from "react";
 
 export function StoreDialog() {
-  const [isMounted, setIsMounted] = useState(false);
+  const isMounted = useIsMounted();
   const { isOpen, onClose } = useStoreDialog();
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   if (!isMounted) return null;
 

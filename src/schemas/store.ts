@@ -48,6 +48,7 @@ export const UpdateStoreSettingsSchema = z.object({
   preparationTime: z.string().optional(),
   isTableName: z.boolean().optional(),
   hasDelivery: z.boolean().optional(),
+  theme: z.string().optional(),
 });
 
 export type CreateStoreSchema = z.infer<typeof CreateStoreSchema>;

@@ -64,7 +64,10 @@ export const columns: ColumnDef<Product>[] = [
       return (
         <div className="flex space-x-2">
           <span className="max-w-[100px] truncate font-medium">
-            {row.getValue("price")}
+            {Intl.NumberFormat("pt-BR", {
+              style: "currency",
+              currency: "BRL",
+            }).format((row.getValue("price") as number) / 100)}
           </span>
         </div>
       );

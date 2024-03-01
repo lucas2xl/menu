@@ -4,6 +4,8 @@ import React from "react";
 import { MainNav } from "@/components/dashboards/main-nav";
 import { StoreSwitcher } from "@/components/dashboards/store-switcher";
 import { ModeToggle } from "@/components/mode-toggle";
+import { OpenStoreButton } from "@/components/open-store-button";
+import { SwitchTheme } from "@/components/switch-theme";
 import { Separator } from "@/components/ui/separator";
 import { UserButton } from "@/components/user-button";
 import { auth } from "@/lib/auth/auth";
@@ -24,6 +26,7 @@ export default async function DashboardStoreLayout({
 
   const store = await db.store.findFirst({
     where: { slug: params.slug, userId },
+    include: { settings: true },
   });
 
   if (!store) return redirect(redirects.dashboard);
@@ -36,7 +39,8 @@ export default async function DashboardStoreLayout({
   if (!user) return redirect(redirects.toSignIn);
 
   return (
-    <>
+    <div className={store.settings?.theme}>
+      <SwitchTheme theme={store.settings?.theme} />
       <div className="px-8 pt-4 fixed h-20 mx-auto w-full backdrop-blur-lg">
         <div className="flex items-center">
           <StoreSwitcher
@@ -49,6 +53,7 @@ export default async function DashboardStoreLayout({
           <MainNav className="mx-6" />
           <div className="ml-auto flex items-center space-x-4">
             {/* <Search /> */}
+            <OpenStoreButton store={store} />
             <ModeToggle />
             <UserButton
               user={{
@@ -58,11 +63,11 @@ export default async function DashboardStoreLayout({
             />
           </div>
         </div>
-
         <Separator className="mt-4" />
+        SwitchTheme
       </div>
 
       <div className="pt-20 px-8">{children}</div>
-    </>
+    </div>
   );
 }

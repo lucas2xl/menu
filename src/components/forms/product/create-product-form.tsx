@@ -108,6 +108,11 @@ export function CreateProductForm() {
                       <FormControl>
                         <Input
                           {...field}
+                          onChange={(e) => {
+                            let value = e.target.value.replace(/\D/g, "");
+                            value = (parseInt(value, 10) / 100).toFixed(2);
+                            field.onChange(value);
+                          }}
                           disabled={isPending}
                           type="number"
                           placeholder="Preço do produto"
@@ -173,7 +178,7 @@ export function CreateProductForm() {
                       <FormLabel>
                         Categoria <span className="text-destructive">*</span>
                       </FormLabel>
-                      <Select onValueChange={field.onChange}>
+                      <Select {...field} onValueChange={field.onChange}>
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Selecione uma categoria" />

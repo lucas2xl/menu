@@ -1,12 +1,13 @@
 "use client";
 
+import { useIsMounted } from "@/hooks/use-is-mounted";
 import { signOut } from "next-auth/react";
 import { type ThemeProviderProps } from "next-themes/dist/types";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export function Commands({ children }: ThemeProviderProps) {
-  const [isMounted, setIsMounted] = useState(false);
+  const isMounted = useIsMounted();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -27,10 +28,6 @@ export function Commands({ children }: ThemeProviderProps) {
     document.addEventListener("keydown", down);
     return () => document.removeEventListener("keydown", down);
   }, [pathname, router]);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   if (!isMounted) return null;
 

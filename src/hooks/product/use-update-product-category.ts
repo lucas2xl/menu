@@ -1,28 +1,37 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ProductCategory, ProductCategoryItem } from "@prisma/client";
 import { useParams, useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-import { createProductCategoryAction } from "@/actions/product/create-product-category-action";
-import { CreateProductCategorySchema } from "@/schemas/product";
+import { updateProductCategoryAction } from "@/actions/product/update-product-category-action";
+import { UpdateProductCategorySchema } from "@/schemas/product";
 import { redirects } from "@/utils/constants";
 
-const defaultCategory = [{ name: "", quantity: "0", inputType: "", items: [] }];
-
 type Props = {
+  categories: (ProductCategory & { items: ProductCategoryItem[] })[];
   productId: string;
 };
-export function useCreateProductCategory({ productId }: Props) {
+export function useUpdateProductCategory({ productId, categories }: Props) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const params = useParams() as { slug: string };
 
-  const form = useForm<CreateProductCategorySchema>({
-    resolver: zodResolver(CreateProductCategorySchema),
+  const form = useForm<UpdateProductCategorySchema>({
+    resolver: zodResolver(UpdateProductCategorySchema),
     defaultValues: {
+      categories: categories.map((category) => ({
+        name: category.name,
+        quantity: String(category.quantity),
+        inputType: category.inputType,
+        items: category.items.map((item) => ({
+          name: item.name,
+          price: (item.price / 100).toFixed(2),
+          description: item.description || "",
+        })),
+      })),
       productId,
-      categories: defaultCategory,
     },
   });
 
@@ -35,9 +44,10 @@ export function useCreateProductCategory({ productId }: Props) {
     name: "categories",
   });
 
-  function onSubmit(values: CreateProductCategorySchema) {
+  function onSubmit(values: UpdateProductCategorySchema) {
+    console.log(values);
     startTransition(async () => {
-      const response = await createProductCategoryAction({ values });
+      const response = await updateProductCategoryAction({ values });
       if (response.status === "error") {
         toast.error(response.message);
         return;

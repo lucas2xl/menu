@@ -1,7 +1,6 @@
 import "@/styles/globals.css";
 import type { Metadata, Viewport } from "next";
 
-import { validateRequest } from "@/lib/auth/validate-request";
 import { fontSans } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import { Providers } from "@/providers";
@@ -21,6 +20,10 @@ export const viewport: Viewport = {
     { media: "(prefers-color-scheme: light)", color: "white" },
     { media: "(prefers-color-scheme: dark)", color: "black" },
   ],
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
 export default async function RootLayout({
@@ -28,15 +31,12 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { user } = await validateRequest();
-
   return (
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          "min-h-screen bg-background font-sans antialiased",
-          fontSans.variable,
-          user?.theme || "theme-default"
+          "min-h-screen bg-background font-sans antialiased theme-default",
+          fontSans.variable
         )}
       >
         <Providers>{children}</Providers>

@@ -1,12 +1,12 @@
 import { ResetPasswordEmailTemplate } from "@/components/email-template/reset-password";
 import { TwoFactorEmailTemplate } from "@/components/email-template/two-factor";
-import { env } from "@/config/env";
+import { config } from "@/lib/config";
 import { Resend } from "resend";
 
-const resend = new Resend(env.RESEND_API_KEY);
+const resend = new Resend(config.resend.RESEND_API_KEY);
 
 function makeLink(path: string, token: string) {
-  return `${env.NEXT_PUBLIC_APP_URL}${path}?token=${token}`;
+  return `${config.domain.NEXT_PUBLIC_APP_URL}${path}?token=${token}`;
 }
 
 export async function sendPasswordResetEmail({

@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { User } from "@prisma/client";
 import { useRouter } from "next/navigation";
-import { useTransition } from "react";
+import { useEffect, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -9,13 +10,27 @@ import { updateUserAction } from "@/actions/user/update-user-action ";
 import { UpdateUserSchema } from "@/schemas/user";
 import { allowedTypes } from "@/utils/image";
 
-export function useUpdateUser() {
+type Props = {
+  user: User;
+};
+export function useUpdateUser({ user }: Props) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<UpdateUserSchema>({
     resolver: zodResolver(UpdateUserSchema),
   });
+
+  useEffect(() => {
+    if (user) {
+      form.reset({
+        username: user.username,
+        email: user.email,
+        imageUrl: user.imageUrl,
+        isTwoFactorEnabled: user.isTwoFactorEnabled,
+      });
+    }
+  }, [user, form]);
 
   function onSubmit(values: UpdateUserSchema) {
     startTransition(async () => {

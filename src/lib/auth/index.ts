@@ -1,7 +1,7 @@
 import { PrismaAdapter } from "@lucia-auth/adapter-prisma";
 import { Lucia, TimeSpan } from "lucia";
 
-import { env } from "@/config/env";
+import { config } from "@/lib/config";
 import { db } from "@/lib/db";
 
 const adapter = new PrismaAdapter(db.session, db.user);
@@ -22,7 +22,7 @@ export const lucia = new Lucia(adapter, {
 
     expires: false,
     attributes: {
-      secure: env.NODE_ENV === "production",
+      secure: config.NODE_ENV === "production",
     },
   },
 });

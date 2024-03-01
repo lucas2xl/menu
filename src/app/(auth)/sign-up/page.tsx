@@ -148,7 +148,7 @@ export default function SignUpPage() {
                           <Input
                             {...field}
                             disabled={isPending}
-                            placeholder="john.doe@example.com"
+                            placeholder="m@example.com"
                             autoComplete="new-email"
                             type="email"
                           />

@@ -8,6 +8,7 @@ import { addStoreImageAction } from "@/actions/store/add-store-image-action";
 import { createStoreAction } from "@/actions/store/create-store-action";
 import { CreateStoreSchema } from "@/schemas/store";
 import { useStoreDialog } from "@/stores/use-store-dialog";
+import { redirects } from "@/utils/constants";
 import { allowedTypes } from "@/utils/image";
 
 export function useCreateStore() {
@@ -34,7 +35,7 @@ export function useCreateStore() {
 
       toast.success(response.message);
       onClose();
-      redirect(`/${values.slug}`);
+      redirect(`${redirects.dashboard}/${values.slug}`);
     });
   }
 

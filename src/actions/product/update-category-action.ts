@@ -45,7 +45,7 @@ export async function updateProductAction({
     data: {
       name: data.name,
       description: data.description,
-      price: Number(data.price),
+      price: Math.round(Number(data.price) * 100),
       serves: Number(data.serves),
       discount: Number(data.discount),
       isFeatured: data.isFeatured,

@@ -1,11 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useParams, useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { createCategoryAction } from "@/actions/category/create-category-action";
 import { CreateCategorySchema } from "@/schemas/category";
-import { useParams, useRouter } from "next/navigation";
+import { redirects } from "@/utils/constants";
 
 export function useCreateCategory() {
   const router = useRouter();
@@ -29,7 +30,7 @@ export function useCreateCategory() {
       }
 
       toast.success(response.message);
-      router.push(`/${params.slug}/categories`);
+      router.push(`${redirects.dashboard}/${params.slug}/categories`);
       router.refresh();
     });
   }

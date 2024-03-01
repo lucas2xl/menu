@@ -33,12 +33,6 @@ export const UpdateUserSchema = z
     return true;
   });
 
-export const AppearanceSchema = z.object({
-  theme: z.string({
-    required_error: "Theme is required",
-  }),
-});
-
 export const PlanSchema = z.object({
   quantity: z.number().int().default(1).optional(),
   price: z.number().int().default(0).optional(),
@@ -46,5 +40,4 @@ export const PlanSchema = z.object({
 });
 
 export type UpdateUserSchema = z.infer<typeof UpdateUserSchema>;
-export type AppearanceSchema = z.infer<typeof AppearanceSchema>;
 export type PlanSchema = z.infer<typeof PlanSchema>;

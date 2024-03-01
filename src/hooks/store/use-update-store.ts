@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Store, StoreSettings } from "@prisma/client";
 import { useRouter } from "next/navigation";
-import { useTransition } from "react";
+import { useEffect, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -9,13 +10,26 @@ import { updateStoreAction } from "@/actions/store/update-store-action";
 import { UpdateStoreSchema } from "@/schemas/store";
 import { allowedTypes } from "@/utils/image";
 
-export function useUpdateStore() {
+type Props = {
+  store: Store & { settings: StoreSettings | null };
+};
+export function useUpdateStore({ store }: Props) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<UpdateStoreSchema>({
     resolver: zodResolver(UpdateStoreSchema),
   });
+
+  useEffect(() => {
+    if (store) {
+      form.reset({
+        slug: store.slug,
+        name: store.name,
+        logo: store.logo,
+      });
+    }
+  }, [form, store]);
 
   function onSubmit(values: UpdateStoreSchema, slug: string) {
     startTransition(async () => {

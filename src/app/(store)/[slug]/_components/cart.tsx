@@ -1,7 +1,6 @@
 "use client";
 
 import { MinusIcon, Package2Icon, PlusIcon } from "lucide-react";
-import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -17,15 +16,13 @@ import {
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
+import { useIsMounted } from "@/hooks/use-is-mounted";
 
 export function Cart() {
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const isMounted = useIsMounted();
 
   if (!isMounted) return null;
+
   return (
     <Drawer>
       <DrawerTrigger>
@@ -34,7 +31,7 @@ export function Cart() {
         </Button>
       </DrawerTrigger>
       <DrawerContent>
-        <div className="mx-auto w-full max-w-2xl">
+        <div className="mx-auto w-full max-w-7xl">
           <DrawerHeader>
             <DrawerTitle>Comanda</DrawerTitle>
             <DrawerDescription>Mesa 4</DrawerDescription>

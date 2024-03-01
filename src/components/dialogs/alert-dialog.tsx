@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useIsMounted } from "@/hooks/use-is-mounted";
 import { Button } from "../ui/button";
 import { DialogFooter } from "../ui/dialog";
 import { Dialog } from "./dialog";
@@ -13,11 +13,7 @@ type Props = {
 };
 
 export function AlertDialog({ isOpen, onClose, onConfirm, isLoading }: Props) {
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const isMounted = useIsMounted();
 
   if (!isMounted) return null;
 

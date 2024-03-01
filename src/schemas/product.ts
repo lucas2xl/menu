@@ -61,6 +61,23 @@ export const CreateProductCategorySchema = z.object({
     })
   ),
 });
+export const UpdateProductCategorySchema = z.object({
+  productId: z.string(),
+  categories: z.array(
+    z.object({
+      name: z.string().min(1, { message: "Nome é obrigatório" }),
+      inputType: z.string(),
+      quantity: z.optional(z.string()),
+      items: z.array(
+        z.object({
+          name: z.string().min(1, { message: "Nome é obrigatório" }),
+          description: z.optional(z.string()),
+          price: z.string(),
+        })
+      ),
+    })
+  ),
+});
 
 export const UpdateProductSchema = z.object({
   id: z.string(),
@@ -83,5 +100,8 @@ export type ProductSchema = z.infer<typeof ProductSchema>;
 export type CreateProductSchema = z.infer<typeof CreateProductSchema>;
 export type CreateProductCategorySchema = z.infer<
   typeof CreateProductCategorySchema
+>;
+export type UpdateProductCategorySchema = z.infer<
+  typeof UpdateProductCategorySchema
 >;
 export type UpdateProductSchema = z.infer<typeof UpdateProductSchema>;

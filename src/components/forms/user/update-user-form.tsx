@@ -2,7 +2,6 @@
 
 import { User } from "@prisma/client";
 import Image from "next/image";
-import { useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog";
@@ -24,18 +23,7 @@ type Props = {
   user: User;
 };
 export function UpdateUserForm({ user }: Props) {
-  const { form, isPending, onSubmit, onDrop } = useUpdateUser();
-
-  useEffect(() => {
-    if (user) {
-      form.reset({
-        username: user.username,
-        email: user.email,
-        imageUrl: user.imageUrl,
-        isTwoFactorEnabled: user.isTwoFactorEnabled,
-      });
-    }
-  }, [user, form]);
+  const { form, isPending, onSubmit, onDrop } = useUpdateUser({ user });
 
   return (
     <Form {...form}>

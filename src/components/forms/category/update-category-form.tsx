@@ -13,22 +13,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { useUpdateCategory } from "@/hooks/category/use-update-category";
 import { Category } from "@prisma/client";
-import { useEffect } from "react";
 
 type Props = {
   data: Category;
 };
+
 export function UpdateCategoryForm({ data }: Props) {
   const router = useRouter();
-  const { isPending, onSubmit, form } = useUpdateCategory();
-
-  useEffect(() => {
-    form.reset({
-      name: data.name,
-      description: data.description || "",
-      id: data.id,
-    });
-  }, [data, form]);
+  const { isPending, onSubmit, form } = useUpdateCategory({ data });
 
   return (
     <Form {...form}>

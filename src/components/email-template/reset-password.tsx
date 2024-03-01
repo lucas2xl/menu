@@ -1,4 +1,4 @@
-import { env } from "@/config/env";
+import { config } from "@/lib/config";
 import {
   Body,
   Button,
@@ -45,7 +45,10 @@ export const ResetPasswordEmailTemplate = ({ link }: Props) => (
           This link and token will only be valid for the next 1 hour.
         </Text>
         <Hr className="border-gray-300 my-10" />
-        <Link href={env.NEXT_PUBLIC_APP_URL} className="text-14 text-gray-500">
+        <Link
+          href={config.domain.NEXT_PUBLIC_APP_URL}
+          className="text-14 text-gray-500"
+        >
           OX
         </Link>
       </Container>

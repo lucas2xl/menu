@@ -18,10 +18,6 @@ export default function UserSettingsLayout({
       title: "Plano",
       href: `${redirects.dashboard}/${params.slug}/user-settings/plan`,
     },
-    {
-      title: "Aparência",
-      href: `${redirects.dashboard}/${params.slug}/user-settings/appearance`,
-    },
   ];
 
   return (

@@ -2,13 +2,13 @@
 
 import { auth } from "@/lib/auth/auth";
 import { db } from "@/lib/db";
-import { CreateProductCategorySchema } from "@/schemas/product";
+import { UpdateProductCategorySchema } from "@/schemas/product";
 import { ActionResponse } from "@/types/action-response";
 
-export async function createProductCategoryAction({
+export async function updateProductCategoryAction({
   values,
 }: {
-  values: CreateProductCategorySchema;
+  values: UpdateProductCategorySchema;
 }): Promise<ActionResponse> {
   const { userId } = await auth();
 
@@ -16,16 +16,18 @@ export async function createProductCategoryAction({
     return { message: "Usuário não fornecido", status: "error" };
   }
 
-  const validatedFields = CreateProductCategorySchema.safeParse(values);
+  const validatedFields = UpdateProductCategorySchema.safeParse(values);
 
   if (!validatedFields.success) {
     return { message: "Campos inválidos", status: "error" };
   }
 
   const { productId, categories } = validatedFields.data;
+  console.log("productId", productId);
 
   const productExists = await db.product.findUnique({
     where: { id: productId, store: { userId } },
+    include: { categories: true },
   });
 
   if (!productExists) {
@@ -33,6 +35,10 @@ export async function createProductCategoryAction({
   }
 
   await db.$transaction(async (prisma) => {
+    await prisma.productCategory.deleteMany({ where: { productId } });
+
+    if (!categories?.length) return;
+
     for (const category of categories) {
       const categoryCreated = await prisma.productCategory.create({
         data: {

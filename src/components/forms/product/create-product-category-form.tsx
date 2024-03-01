@@ -2,7 +2,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronRightIcon, PlusCircleIcon, Trash2Icon } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { UseFormReturn, useFieldArray } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
@@ -47,13 +47,7 @@ export function CreateProductCategoryForm({
     categoriesFields,
     appendCategory,
     removeCategory,
-  } = useCreateProductCategory();
-
-  useEffect(() => {
-    if (productId) {
-      form.reset({ productId });
-    }
-  }, [productId, form]);
+  } = useCreateProductCategory({ productId });
 
   return (
     <Form {...form}>
@@ -154,13 +148,10 @@ export function CreateProductCategoryForm({
                             Tipo de Input{" "}
                             <span className="text-destructive">*</span>
                           </FormLabel>
-                          <Select onValueChange={field.onChange}>
+                          <Select {...field} onValueChange={field.onChange}>
                             <FormControl>
                               <SelectTrigger>
-                                <SelectValue
-                                  {...field}
-                                  placeholder="Selecione um tipo de input"
-                                />
+                                <SelectValue placeholder="Selecione um tipo de input" />
                               </SelectTrigger>
                             </FormControl>
 
@@ -219,7 +210,9 @@ function CategoryItemForm({ categoryIndex, form }: CategoryItemFormProps) {
     <>
       {!!fields?.length && (
         <div className="flex items-center justify-between my-4">
-          <Label htmlFor="show-category-item">Itens da Categoria</Label>
+          <Label htmlFor="show-category-item">
+            {`Itens da Categoria (${fields.length})`}
+          </Label>
 
           <button
             id="show-category-item"
@@ -294,9 +287,13 @@ function CategoryItemForm({ categoryIndex, form }: CategoryItemFormProps) {
                           </FormLabel>
                           <FormControl>
                             <Input
-                              type="number"
                               {...field}
-                              autoComplete="off"
+                              onChange={(e) => {
+                                let value = e.target.value.replace(/\D/g, "");
+                                value = (parseInt(value, 10) / 100).toFixed(2);
+                                field.onChange(value);
+                              }}
+                              type="number"
                               placeholder="Digite o preço do item"
                             />
                           </FormControl>

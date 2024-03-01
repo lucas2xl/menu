@@ -1,7 +1,6 @@
 "use client";
 
 import { UserPlan } from "@prisma/client";
-import { useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog";
@@ -28,17 +27,7 @@ type Props = {
   plan: UserPlan;
 };
 export function UpdatePlanForm({ plan }: Props) {
-  const { form, onSubmit } = useUpdatePlan();
-
-  useEffect(() => {
-    if (plan) {
-      form.reset({
-        price: plan.price,
-        quantity: plan.quantity,
-        status: plan.status,
-      });
-    }
-  }, [plan, form]);
+  const { form, onSubmit } = useUpdatePlan({ plan });
 
   return (
     <Form {...form}>

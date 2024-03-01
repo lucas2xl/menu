@@ -151,7 +151,7 @@ export default function SignInPage() {
                           <Input
                             {...field}
                             disabled={isPending}
-                            placeholder="john.doe@example.com"
+                            placeholder="m@example.com"
                             type="email"
                             autoComplete="current-email"
                           />

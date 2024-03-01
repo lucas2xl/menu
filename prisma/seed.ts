@@ -351,58 +351,70 @@ const getProductCategory = (
   },
 ];
 
-try {
-  console.log("🌱 Iniciando o seeding da base de dados...");
+async function main() {
+  try {
+    console.log("🌱 Iniciando o seeding da base de dados...");
 
-  // Criação do usuário admin
-  const authorizedEmailListPromise = getEmailList().map((email) =>
-    client.authorizedEmailList.create({ data: email })
-  );
-  await Promise.all(authorizedEmailListPromise);
-  console.log("Lista de e-mails autorizados criada com sucesso!");
+    // Criação do usuário admin
+    const authorizedEmailListPromise = getEmailList().map((email) =>
+      client.authorizedEmailList.create({ data: email })
+    );
+    await Promise.all(authorizedEmailListPromise);
+    console.log("Lista de e-mails autorizados criada com sucesso!");
 
-  // Criação do usuário admin
-  const passwordHash = await hashed.hash("12345678");
-  const admin = await client.user.create({ data: getAdmin(passwordHash) });
-  console.log(`Usuário ${admin.username} criado com sucesso!`);
+    // Criação do usuário admin
+    const passwordHash = await hashed.hash("12345678");
+    const admin = await client.user.create({ data: getAdmin(passwordHash) });
+    console.log(`Usuário ${admin.username} criado com sucesso!`);
 
-  // Criação da loja
-  const store = await client.store.create({ data: getStore(admin) });
-  console.log(`Loja ${store.name} criada com sucesso!`);
+    // Criação da loja
+    const store = await client.store.create({ data: getStore(admin) });
+    console.log(`Loja ${store.name} criada com sucesso!`);
 
-  // Criação dos QR codes
-  const qrCodesPromises = getQRCodes(store).map((qrcode) =>
-    client.qrcode.create({ data: qrcode })
-  );
-  await Promise.all(qrCodesPromises);
-  console.log("QR codes criados com sucesso!");
+    // Criação dos QR codes
+    const qrCodesPromises = getQRCodes(store).map((qrcode) =>
+      client.qrcode.create({ data: qrcode })
+    );
+    await Promise.all(qrCodesPromises);
+    console.log("QR codes criados com sucesso!");
 
-  // Criação das categorias
-  const categoriesPromises = getCategories(store).map((category) =>
-    client.category.create({ data: category })
-  );
-  const categories = await Promise.all(categoriesPromises);
-  console.log("Categorias criadas com sucesso!");
+    // Criação das categorias
+    const categoriesPromises = getCategories(store).map((category) =>
+      client.category.create({ data: category })
+    );
+    const categories = await Promise.all(categoriesPromises);
+    console.log("Categorias criadas com sucesso!");
 
-  // Criação dos produtos
-  const productsPromises = getProducts(store, categories).map((product) =>
-    client.product.create({ data: product })
-  );
-  const products = await Promise.all(productsPromises);
-  console.log("Produtos criados com sucesso!");
+    // Criação dos produtos
+    const productsPromises = getProducts(store, categories).map((product) =>
+      client.product.create({ data: product })
+    );
+    const products = await Promise.all(productsPromises);
+    console.log("Produtos criados com sucesso!");
 
-  // Criação das categorias de produtos
-  const productCategoriesPromises = getProductCategory(products).map(
-    (productCategory) =>
-      client.productCategory.create({ data: productCategory })
-  );
-  await Promise.all(productCategoriesPromises);
-  console.log("Categorias de produtos criadas com sucesso!");
+    // Criação das categorias de produtos
+    const productCategoriesPromises = getProductCategory(products).map(
+      (productCategory) =>
+        client.productCategory.create({ data: productCategory })
+    );
+    await Promise.all(productCategoriesPromises);
+    console.log("Categorias de produtos criadas com sucesso!");
 
-  console.log("🌱 Seeding completo!");
-} catch (e) {
-  console.error("Erro durante o seeding:", e);
-} finally {
-  await client.$disconnect();
-  console.log("Desconectado do Prisma Client.");
+    console.log("🌱 Seeding completo!");
+  } catch (e) {
+    console.error("Erro durante o seeding:", e);
+  } finally {
+    await client.$disconnect();
+    console.log("Desconectado do Prisma Client.");
+  }
 }
+
+main()
+  .then(async () => {
+    await client.$disconnect();
+  })
+  .catch(async (e) => {
+    console.error(e);
+    await client.$disconnect();
+    process.exit(1);
+  });

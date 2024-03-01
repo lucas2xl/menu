@@ -602,6 +602,18 @@ html {
     @apply min-w-0;
     @apply border-border;
   }
+  ::-webkit-scrollbar {
+    @apply w-0.5;
+  }
+  ::-webkit-scrollbar {
+    @apply h-0.5;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-primary;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-background/60 rounded;
+  }
   body {
     @apply bg-background text-foreground;
   }

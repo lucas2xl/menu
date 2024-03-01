@@ -1,13 +1,26 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Product,
+  ProductCategory,
+  ProductCategoryItem,
+  ProductImage,
+} from "@prisma/client";
 import { useParams, useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { updateProductAction } from "@/actions/product/update-category-action";
 import { UpdateProductSchema } from "@/schemas/product";
+import { redirects } from "@/utils/constants";
 
-export function useUpdateProduct() {
+type Props = {
+  data: Product & {
+    images: ProductImage[];
+    categories: (ProductCategory & { items: ProductCategoryItem[] })[];
+  };
+};
+export function useUpdateProduct({ data }: Props) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const params = useParams() as { slug: string };
@@ -18,6 +31,21 @@ export function useUpdateProduct() {
     resolver: zodResolver(UpdateProductSchema),
   });
 
+  useEffect(() => {
+    form.reset({
+      name: data.name,
+      description: data.description || "",
+      id: data.id,
+      price: (data.price / 100).toFixed(2),
+      discount: String(data.discount || ""),
+      serves: String(data.serves || ""),
+      categoryId: data.categoryId,
+      isFeatured: data.isFeatured || false,
+      images: data.images,
+    });
+    setPreviewUrls(data.images.map((image) => image.url));
+  }, [data, form, setPreviewUrls]);
+
   function onSubmit(values: UpdateProductSchema) {
     startTransition(async () => {
       const response = await updateProductAction({ values });
@@ -27,7 +55,7 @@ export function useUpdateProduct() {
       }
 
       toast.success(response.message);
-      router.push(`/${params.slug}/products`);
+      router.push(`${redirects.dashboard}/${params.slug}/products`);
       router.refresh();
     });
   }
@@ -63,7 +91,6 @@ export function useUpdateProduct() {
     form,
     onDrop,
     previewUrls,
-    setPreviewUrls,
     onRemoveImagePreview,
     tab,
     setTab,
