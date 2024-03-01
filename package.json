@@ -16,7 +16,7 @@
     "db:stop": "supabase stop --backup"
   },
   "prisma": {
-    "seed": "bun run prisma/seed.ts"
+    "seed": "ts-node prisma/seed.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",

@@ -5,8 +5,8 @@ import { SectionWrapper } from "./section-wrapper";
 
 export function Features() {
   return (
-    <SectionWrapper>
-      <div id="features">
+    <SectionWrapper id="features">
+      <div>
         <LayoutEffect
           className="duration-1000 delay-300"
           isInviewState={{

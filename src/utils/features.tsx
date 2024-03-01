@@ -40,9 +40,9 @@ export const features = [
   },
   {
     icon: <SendIcon />,
-    title: "Experiência de Pedido Personalizada",
+    title: "Pedidos personalizados",
     description:
-      "Ofereça uma experiência de pedido personalizada para cada cliente, permitindo que cada um faça pedidos de acordo com suas preferências.",
+      "Oferecemos uma experiência de pedido personalizada através de nosso aplicativo móvel, onde os clientes podem fazer seus pedidos com apenas alguns cliques, sem precisar esperar na mesa até serem atendidos.",
   },
   {
     icon: <AwardIcon />,
