@@ -8,6 +8,7 @@ import { removeImages } from "@/lib/supabase/remove-images";
 import { uploadImage } from "@/lib/supabase/upload-image";
 import { ActionResponse } from "@/types/action-response";
 
+// TODO: otimizar a questão de remoção de imagens
 export async function addProductImagesAction({
   values,
   productId,
@@ -35,7 +36,6 @@ export async function addProductImagesAction({
   }
 
   if (!!productExists.images.length) {
-    // não há a necessidade de aguardar a remoção da imagem
     removeImages(
       "products",
       productExists.images.map((image) => image.url)
@@ -54,9 +54,14 @@ export async function addProductImagesAction({
     });
   });
 
-  await db.product.update({
-    where: { id: productId, store: { userId } },
-    data: { images: { create: imagesUrl.map((url) => ({ url })) } },
+  await db.$transaction(async (prisma) => {
+    await prisma.productImage.deleteMany({
+      where: { productId },
+    });
+    await prisma.product.update({
+      where: { id: productId, store: { userId } },
+      data: { images: { create: imagesUrl.map((url) => ({ url })) } },
+    });
   });
 
   return { message: "Imagem adicionada com sucesso", status: "success" };

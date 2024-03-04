@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { db } from "@/lib/db";
 import { getPublicUrl } from "@/lib/supabase/get-public-url";
 import { Carousel } from "./_components/carousel";
-import { Form } from "./_components/from";
+import { Form } from "./_components/form";
 
 export default async function ProductPage({
   params,

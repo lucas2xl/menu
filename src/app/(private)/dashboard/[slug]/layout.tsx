@@ -64,7 +64,6 @@ export default async function DashboardStoreLayout({
           </div>
         </div>
         <Separator className="mt-4" />
-        SwitchTheme
       </div>
 
       <div className="pt-20 px-8">{children}</div>

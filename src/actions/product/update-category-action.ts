@@ -40,7 +40,7 @@ export async function updateProductAction({
     return { message: "Categoria não encontrada", status: "error" };
   }
 
-  await db.product.update({
+  const product = await db.product.update({
     where: { id: data.id, store: { userId } },
     data: {
       name: data.name,
@@ -53,5 +53,9 @@ export async function updateProductAction({
     },
   });
 
-  return { message: "Produto atualizado com sucesso", status: "success" };
+  return {
+    message: "Produto atualizado com sucesso",
+    status: "success",
+    body: { id: product.id },
+  };
 }

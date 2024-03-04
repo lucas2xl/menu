@@ -56,6 +56,15 @@ export function MainNav({
         Produtos
       </Link>
       <Link
+        href={`${redirects.dashboard}/${params.slug}/qrcodes`}
+        className={cn(
+          "text-sm font-medium text-muted-foreground transition-colors hover:text-primary",
+          currentPath.includes("/qrcodes") && "text-primary"
+        )}
+      >
+        QRCodes
+      </Link>
+      <Link
         href={`${redirects.dashboard}/${params.slug}/settings`}
         className={cn(
           "text-sm font-medium text-muted-foreground transition-colors hover:text-primary",

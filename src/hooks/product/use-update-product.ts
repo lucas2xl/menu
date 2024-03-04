@@ -5,14 +5,14 @@ import {
   ProductCategoryItem,
   ProductImage,
 } from "@prisma/client";
-import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState, useTransition } from "react";
+import { useParams } from "next/navigation";
+import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
+import { addProductImagesAction } from "@/actions/product/add-product-images-action";
 import { updateProductAction } from "@/actions/product/update-category-action";
 import { UpdateProductSchema } from "@/schemas/product";
-import { redirects } from "@/utils/constants";
 
 type Props = {
   data: Product & {
@@ -21,43 +21,62 @@ type Props = {
   };
 };
 export function useUpdateProduct({ data }: Props) {
-  const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const params = useParams() as { slug: string };
   const [tab, setTab] = useState<"product" | "subcategories">("product");
-  const [previewUrls, setPreviewUrls] = useState<string[]>([]);
+  const [previewUrls, setPreviewUrls] = useState<string[]>(
+    data.images.map((image) => image.url)
+  );
 
   const form = useForm<UpdateProductSchema>({
     resolver: zodResolver(UpdateProductSchema),
-  });
-
-  useEffect(() => {
-    form.reset({
+    defaultValues: {
+      id: data.id,
       name: data.name,
       description: data.description || "",
-      id: data.id,
       price: (data.price / 100).toFixed(2),
       discount: String(data.discount || ""),
       serves: String(data.serves || ""),
       categoryId: data.categoryId,
       isFeatured: data.isFeatured || false,
       images: data.images,
-    });
-    setPreviewUrls(data.images.map((image) => image.url));
-  }, [data, form, setPreviewUrls]);
+    },
+  });
 
   function onSubmit(values: UpdateProductSchema) {
     startTransition(async () => {
+      const images = values.images as File[];
+      delete (values as { images?: any }).images;
+
       const response = await updateProductAction({ values });
       if (response.status === "error") {
         toast.error(response.message);
         return;
       }
+      if (!response.body?.id) {
+        toast.error("Erro ao criar produto");
+        return;
+      }
+
+      await addImages({ images, productId: response.body?.id });
 
       toast.success(response.message);
-      router.push(`${redirects.dashboard}/${params.slug}/products`);
-      router.refresh();
     });
+  }
+
+  async function addImages({
+    images,
+    productId,
+  }: {
+    images: File[];
+    productId: string;
+  }) {
+    const formData = new FormData();
+    for (const image of images) {
+      formData.append("images", image);
+    }
+
+    return addProductImagesAction({ values: formData, productId });
   }
 
   function onDrop(acceptedFiles: FileList | undefined) {

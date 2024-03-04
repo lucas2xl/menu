@@ -34,7 +34,6 @@ export async function addStoreImageAction({
   }
 
   if (storeExists.logo) {
-    // não há a necessidade de aguardar a remoção da imagem
     removeImages("stores", [storeExists.logo]);
   }
 

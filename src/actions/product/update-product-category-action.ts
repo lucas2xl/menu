@@ -5,6 +5,7 @@ import { db } from "@/lib/db";
 import { UpdateProductCategorySchema } from "@/schemas/product";
 import { ActionResponse } from "@/types/action-response";
 
+// TODO: otimizar a questão de update das subcategorias
 export async function updateProductCategoryAction({
   values,
 }: {

@@ -15,7 +15,7 @@ type Props = {
 };
 export function Form({ product }: Props) {
   return product.categories.map((category, index) => (
-    <div key={category.id} className="space-y-4">
+    <div key={category.id} className="space-y-6">
       <div className="space-y-2">
         <p className="text-xl font-bold tracking-tight">{category.name}</p>
         <span className="text-sm text-muted-foreground">
@@ -33,12 +33,14 @@ export function Form({ product }: Props) {
                   <span className="text-xs text-muted-foreground">
                     {item.description}
                   </span>
+                </div>
+
+                <div className="space-x-4">
                   <span className="text-sm">
                     + R$ {(item.price / 100).toFixed(2)}
                   </span>
+                  <RadioGroupItem value={item.id} id={item.id} />
                 </div>
-
-                <RadioGroupItem value={item.id} id={item.id} />
               </div>
             ))}
           </RadioGroup>

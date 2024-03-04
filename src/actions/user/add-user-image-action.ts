@@ -33,7 +33,6 @@ export async function addUserImageAction({
   }
 
   if (userExists.imageUrl) {
-    // não há a necessidade de aguardar a remoção da imagem
     removeImages("users", [userExists.imageUrl]);
   }
 

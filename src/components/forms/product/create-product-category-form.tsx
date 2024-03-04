@@ -160,6 +160,9 @@ export function CreateProductCategoryForm({
                               <SelectItem value="radio">
                                 Opção única (radio)
                               </SelectItem>
+                              <SelectItem value="checkbox">
+                                Múltiplas opções (checkbox)
+                              </SelectItem>
                             </SelectContent>
                           </Select>
                           <FormMessage />

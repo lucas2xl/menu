@@ -115,6 +115,10 @@ export function UpdateStoreForm({ store }: Props) {
                 <FormControl>
                   <Input {...field} disabled />
                 </FormControl>
+                <FormDescription>
+                  Caso o slug seja alterado, os qrcodes gerados anteriormente
+                  não funcionarão.
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
