@@ -1,11 +1,12 @@
 import { CTA } from "@/components/home/cta";
+import { End } from "@/components/home/end";
 import { FAQs } from "@/components/home/faqs";
 import { Features } from "@/components/home/features";
 import { Footer } from "@/components/home/footer";
 import { Hero } from "@/components/home/hero";
 import { Leverage } from "@/components/home/leverage";
 import { Navbar } from "@/components/home/navbar";
-import { Pricing } from "@/components/home/pricing";
+import { Steps } from "@/components/home/steps";
 import { VisualFeatures } from "@/components/home/visual-features";
 
 export default function HomePage() {
@@ -14,10 +15,12 @@ export default function HomePage() {
       <Navbar />
       <Hero />
       <VisualFeatures />
-      <Features />
       <CTA />
+      <Features />
       <Leverage />
-      <Pricing />
+      <Steps />
+      {/* <Pricing /> */}
+      <End />
       <FAQs />
       <Footer />
     </div>

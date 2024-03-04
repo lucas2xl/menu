@@ -9,7 +9,7 @@ export function Leverage() {
       <div id="testimonials">
         <div className="max-w-2xl text-center md:mx-auto">
           <h2 className="text-foreground text-3xl font-semibold sm:text-4xl">
-            Como vamos alavancar as suas vendas?
+            Use a tecnologia a seu favor!
           </h2>
           <p className="mt-5">
             Transforme sua gestão de vendas com nossa plataforma moderna.

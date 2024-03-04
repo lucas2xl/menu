@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 export const HoverEffect = ({
   items,
   className,
+  isIcon = true,
 }: {
   items: {
     title: string;
@@ -14,6 +15,7 @@ export const HoverEffect = ({
     icon: React.ReactNode;
   }[];
   className?: string;
+  isIcon?: boolean;
 }) => {
   let [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
@@ -50,7 +52,12 @@ export const HoverEffect = ({
           </AnimatePresence>
 
           <div className="space-y-3 h-full p-4 rounded-xl border border-border bg-card overflow-hidden group-hover:border-primary relative z-20 min-h-56">
-            <div className="w-12 h-12 flex items-center justify-center bg-foreground rounded-lg text-background">
+            <div
+              className={cn(
+                "flex items-center justify-center bg-foreground rounded-lg text-background",
+                isIcon ? "w-12 h-12" : "p-2 w-fit font-medium"
+              )}
+            >
               {item.icon}
             </div>
             <h4 className="text-lg text-foreground font-semibold tracking-wide">
