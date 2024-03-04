@@ -11,7 +11,7 @@ import {
 
 export async function middleware(request: NextRequest) {
   const { nextUrl } = request;
-  const session = cookies().get("session")?.value ?? null;
+  const session = cookies().get("menu@session")?.value ?? null;
   const isLoggedIn = !!session;
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);

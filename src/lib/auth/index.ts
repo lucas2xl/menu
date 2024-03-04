@@ -16,11 +16,11 @@ export const lucia = new Lucia(adapter, {
       theme: attributes.theme,
     };
   },
-  sessionExpiresIn: new TimeSpan(7, "d"),
+  sessionExpiresIn: new TimeSpan(1, "d"),
   sessionCookie: {
-    name: "session",
+    name: "menu@session",
 
-    expires: false,
+    expires: true,
     attributes: {
       secure: config.NODE_ENV === "production",
     },

@@ -1,11 +1,10 @@
+import { Benefits } from "@/components/home/benefits";
 import { CTA } from "@/components/home/cta";
 import { FAQs } from "@/components/home/faqs";
 import { Features } from "@/components/home/features";
 import { Footer } from "@/components/home/footer";
 import { Hero } from "@/components/home/hero";
 import { Navbar } from "@/components/home/navbar";
-import { Pricing } from "@/components/home/pricing";
-import { Testimonial } from "@/components/home/testimonial";
 import { VisualFeatures } from "@/components/home/visual-features";
 
 export default function HomePage() {
@@ -16,8 +15,7 @@ export default function HomePage() {
       <VisualFeatures />
       <Features />
       <CTA />
-      <Testimonial />
-      <Pricing />
+      <Benefits />
       <FAQs />
       <Footer />
     </div>
