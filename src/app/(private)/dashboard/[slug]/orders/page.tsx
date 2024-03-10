@@ -9,12 +9,6 @@ import {
   TicketIcon,
 } from "lucide-react";
 
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -106,7 +100,7 @@ function OrderCard() {
           </div>
         </div>
 
-        <Accordion type="single" collapsible className="mt-4">
+        {/* <Accordion type="single" collapsible className="mt-4">
           <AccordionItem value="item-1">
             <AccordionTrigger>Itens do pedido</AccordionTrigger>
             <AccordionContent>
@@ -122,7 +116,7 @@ function OrderCard() {
               </div>
             </AccordionContent>
           </AccordionItem>
-        </Accordion>
+        </Accordion> */}
       </CardContent>
 
       <div className="flex items-center justify-center rounded-t-sm h-10 ">
