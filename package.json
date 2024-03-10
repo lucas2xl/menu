@@ -13,7 +13,8 @@
     "preview": "next build && next start",
     "lint": "next lint",
     "db:start": "supabase start",
-    "db:stop": "supabase stop --backup"
+    "db:stop": "supabase stop --backup",
+    "postinstall": "prisma generate"
   },
   "prisma": {
     "seed": "bun run prisma/seed.ts"
