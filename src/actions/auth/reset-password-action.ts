@@ -2,7 +2,7 @@
 
 import { db } from "@/lib/db";
 import { generatePasswordResetToken } from "@/lib/db/generate-tokens";
-import { sendPasswordResetEmail } from "@/lib/resend";
+// import { sendPasswordResetEmail } from "@/lib/resend";
 import { ResetSchema } from "@/schemas/auth";
 import { ActionResponse } from "@/types/action-response";
 
@@ -23,10 +23,10 @@ export async function resetPasswordAction(
   }
 
   const passwordResetToken = await generatePasswordResetToken(email);
-  sendPasswordResetEmail({
-    email: passwordResetToken.email,
-    token: passwordResetToken.token,
-  });
+  // sendPasswordResetEmail({
+  //   email: passwordResetToken.email,
+  //   token: passwordResetToken.token,
+  // });
 
   return { message: "Email de reset enviado!", status: "success" };
 }
