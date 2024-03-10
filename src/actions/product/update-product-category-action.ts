@@ -24,7 +24,6 @@ export async function updateProductCategoryAction({
   }
 
   const { productId, categories } = validatedFields.data;
-  console.log("productId", productId);
 
   const productExists = await db.product.findUnique({
     where: { id: productId, store: { userId } },

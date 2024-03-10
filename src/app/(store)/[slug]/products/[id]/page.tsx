@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { db } from "@/lib/db";
-import { getPublicUrl } from "@/lib/supabase/get-public-url";
+
 import { Carousel } from "./_components/carousel";
 import { Form } from "./_components/form";
 
@@ -28,15 +28,7 @@ export default async function ProductPage({
 
   return (
     <div className="space-y-4">
-      <Carousel
-        product={{
-          ...product,
-          images: product.images.map((image) => ({
-            ...image,
-            url: getPublicUrl("products", image.url) as string,
-          })),
-        }}
-      />
+      <Carousel product={product} />
 
       <div className="space-y-2">
         <div className="flex items-center justify-between gap-x-4">

@@ -1,25 +1,26 @@
+import { Footer } from "@/components/home/footer";
+import { ModeToggle } from "@/components/mode-toggle";
+import { Button } from "@/components/ui/button";
+import { db } from "@/lib/db";
+import { cn } from "@/lib/utils";
 import { SearchIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { Footer } from "@/components/home/footer";
-import { ModeToggle } from "@/components/mode-toggle";
-import { Button } from "@/components/ui/button";
-import { db } from "@/lib/db";
-import { getPublicUrl } from "@/lib/supabase/get-public-url";
-import { cn } from "@/lib/utils";
+import { SwitchTheme } from "@/components/switch-theme";
 
-import { SwitchTheme } from "../../../components/switch-theme";
 import { Cart } from "./_components/cart";
 import { StoreClosedModal } from "./_components/store-closed-modal";
+
+export const dynamic = "force-dynamic";
 
 export default async function StoreLayout({
   children,
   params,
 }: {
   children: React.ReactNode;
-  params: { slug: string };
+  params: { slug: string; qrcode: string };
 }) {
   const store = await db.store.findUnique({
     where: { slug: params.slug },
@@ -36,7 +37,7 @@ export default async function StoreLayout({
         <Link href={`/${params.slug}`}>
           <div className="flex items-center gap-2">
             <Image
-              src={getPublicUrl("stores", store.logo) || ""}
+              src={store.logo || ""}
               alt={store.name}
               width={40}
               height={40}

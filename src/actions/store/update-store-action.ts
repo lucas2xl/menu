@@ -34,7 +34,7 @@ export async function updateStoreAction({
 
   if (slug !== data.slug) {
     const storeWithNewSlugExists = await db.store.findUnique({
-      where: { slug: data.slug, userId },
+      where: { slug: data.slug },
     });
 
     if (storeWithNewSlugExists) {

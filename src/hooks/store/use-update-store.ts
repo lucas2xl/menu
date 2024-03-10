@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Store, StoreSettings } from "@prisma/client";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useEffect, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { addStoreImageAction } from "@/actions/store/add-store-image-action";
 import { updateStoreAction } from "@/actions/store/update-store-action";
 import { UpdateStoreSchema } from "@/schemas/store";
+import { redirects } from "@/utils/constants";
 import { allowedTypes } from "@/utils/image";
 
 type Props = {
@@ -49,13 +50,13 @@ export function useUpdateStore({ store }: Props) {
       await addImage({ image, slug });
 
       toast.success(response.message);
-      router.refresh();
+      redirect(`${redirects.dashboard}/${values.slug}`);
     });
   }
 
   async function addImage({ image, slug }: { image: File; slug: string }) {
     const formData = new FormData();
-    formData.append("logo", image);
+    formData.append("image", image);
 
     return addStoreImageAction({ value: formData, slug });
   }

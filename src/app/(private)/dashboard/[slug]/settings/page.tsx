@@ -2,7 +2,6 @@ import { UpdateStoreForm } from "@/components/forms/store/update-store-form";
 import { Separator } from "@/components/ui/separator";
 import { auth } from "@/lib/auth/auth";
 import { db } from "@/lib/db";
-import { getPublicUrl } from "@/lib/supabase/get-public-url";
 
 export default async function SettingsPage({
   params,
@@ -28,12 +27,7 @@ export default async function SettingsPage({
       </div>
 
       <Separator />
-      <UpdateStoreForm
-        store={{
-          ...store,
-          logo: store.logo && getPublicUrl("stores", store.logo),
-        }}
-      />
+      <UpdateStoreForm store={store} />
     </div>
   );
 }

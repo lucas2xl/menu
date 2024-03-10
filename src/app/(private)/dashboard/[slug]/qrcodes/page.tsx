@@ -18,7 +18,7 @@ export default async function QRCodesPage({
       <div className="flex items-center justify-between space-y-2">
         <h2 className="text-3xl font-bold tracking-tight">QRCodes</h2>
         <div className="flex items-center space-x-2">
-          <DownloadQRCodeButton />
+          <DownloadQRCodeButton qrcodes={qrcodes} storeSlug={params.slug} />
           <GenerateQRCodeButton storeSlug={params.slug} />
         </div>
       </div>

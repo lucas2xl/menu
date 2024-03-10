@@ -7,7 +7,6 @@ import {
   Section,
   Text,
 } from "@react-email/components";
-import { render } from "@react-email/render";
 
 import { APP_TITLE } from "@/utils/constants";
 
@@ -15,35 +14,31 @@ interface Props {
   code: string;
 }
 
-export const VerificationCodeEmail = ({ code }: Props) => {
+export const TwoFactorEmail = ({ code }: Props) => {
   return (
     <Html>
       <Head />
       <Preview>
-        Verify your email address to complete your {APP_TITLE} registration
+        Copie e cole o código abaixo para acessar sua conta no {APP_TITLE}
       </Preview>
       <Body style={main}>
         <Container style={container}>
           <Section>
             <Text style={title}>{APP_TITLE}</Text>
-            <Text style={text}>Hi,</Text>
+            <Text style={text}>Olá,</Text>
             <Text style={text}>
-              Thank you for registering for an account on {APP_TITLE}. To
-              complete your registration, please verify your your account by
-              using the following code:
+              Obrigado por logar na sua conta no {APP_TITLE}. Para acessar sua
+              conta, por favor utilize o código abaixo:
             </Text>
             <Text style={codePlaceholder}>{code}</Text>
 
-            <Text style={text}>Have a nice day!</Text>
+            <Text style={text}>Tenha um bom dia!</Text>
           </Section>
         </Container>
       </Body>
     </Html>
   );
 };
-
-export const renderVerificationCodeEmail = ({ code }: Props) =>
-  render(<VerificationCodeEmail code={code} />);
 
 const main = {
   backgroundColor: "#f6f9fc",

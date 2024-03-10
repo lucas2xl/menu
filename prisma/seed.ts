@@ -69,7 +69,7 @@ const getCategories = (store: Store): Prisma.CategoryCreateInput[] => [
   {
     name: "Pratos para 2 pessoas",
     description: "Pratos completos para 2 pessoas",
-    index: 1,
+    order: 1,
     store: {
       connect: {
         id: store.id,
@@ -79,7 +79,7 @@ const getCategories = (store: Store): Prisma.CategoryCreateInput[] => [
   {
     name: "Frutos do mar",
     description: "Pratos completos de frutos do mar",
-    index: 2,
+    order: 2,
     store: {
       connect: {
         id: store.id,
@@ -89,7 +89,7 @@ const getCategories = (store: Store): Prisma.CategoryCreateInput[] => [
   {
     name: "Carnes grelhadas",
     description: "Pratos completos de carnes grelhadas",
-    index: 3,
+    order: 3,
     store: {
       connect: {
         id: store.id,
@@ -99,7 +99,7 @@ const getCategories = (store: Store): Prisma.CategoryCreateInput[] => [
   {
     name: "Pratos ao forno",
     description: "Pratos completos feitos no forno",
-    index: 4,
+    order: 4,
     store: {
       connect: {
         id: store.id,
@@ -109,7 +109,7 @@ const getCategories = (store: Store): Prisma.CategoryCreateInput[] => [
   {
     name: "Bebidas",
     description: "Bebidas alcoólicas e não alcoólicas",
-    index: 5,
+    order: 5,
     store: {
       connect: {
         id: store.id,
@@ -119,7 +119,7 @@ const getCategories = (store: Store): Prisma.CategoryCreateInput[] => [
   {
     name: "Sobremesas",
     description: "Doces e sobremesas variadas",
-    index: 6,
+    order: 6,
     store: {
       connect: {
         id: store.id,
@@ -140,7 +140,7 @@ const getProducts = (
     serves: 2,
     discount: 10,
     isFeatured: true,
-    index: 1,
+    order: 1,
     category: { connect: { id: categories[0].id } },
     store: { connect: { id: store.id } },
     images: {
@@ -155,7 +155,7 @@ const getProducts = (
     serves: 2,
     discount: 0,
     isFeatured: false,
-    index: 2,
+    order: 2,
     category: { connect: { id: categories[0].id } },
     store: { connect: { id: store.id } },
     images: {
@@ -171,7 +171,7 @@ const getProducts = (
     serves: 2,
     discount: 0,
     isFeatured: false,
-    index: 3,
+    order: 3,
     category: { connect: { id: categories[1].id } },
     store: { connect: { id: store.id } },
     images: {
@@ -186,7 +186,7 @@ const getProducts = (
     serves: 4,
     discount: 0,
     isFeatured: false,
-    index: 4,
+    order: 4,
     category: { connect: { id: categories[1].id } },
     store: { connect: { id: store.id } },
     images: {
@@ -201,7 +201,7 @@ const getProducts = (
     serves: 2,
     discount: 0,
     isFeatured: true,
-    index: 5,
+    order: 5,
     category: { connect: { id: categories[2].id } },
     store: { connect: { id: store.id } },
     images: {
@@ -216,7 +216,7 @@ const getProducts = (
     serves: 2,
     discount: 0,
     isFeatured: false,
-    index: 6,
+    order: 6,
     category: { connect: { id: categories[2].id } },
     store: { connect: { id: store.id } },
     images: {
@@ -231,7 +231,7 @@ const getProducts = (
     serves: 2,
     discount: 0,
     isFeatured: false,
-    index: 7,
+    order: 7,
     category: { connect: { id: categories[3].id } },
     store: { connect: { id: store.id } },
     images: {
@@ -246,7 +246,7 @@ const getProducts = (
     serves: 2,
     discount: 10,
     isFeatured: true,
-    index: 8,
+    order: 8,
     category: { connect: { id: categories[3].id } },
     store: { connect: { id: store.id } },
     images: {
@@ -260,7 +260,7 @@ const getProducts = (
     serves: 0,
     discount: 0,
     isFeatured: false,
-    index: 9,
+    order: 9,
     category: { connect: { id: categories[4].id } },
     store: { connect: { id: store.id } },
     images: {
@@ -274,7 +274,7 @@ const getProducts = (
     serves: 0,
     discount: 0,
     isFeatured: false,
-    index: 10,
+    order: 10,
     category: { connect: { id: categories[4].id } },
     store: { connect: { id: store.id } },
     images: {
@@ -288,7 +288,7 @@ const getProducts = (
     serves: 1,
     discount: 0,
     isFeatured: false,
-    index: 11,
+    order: 11,
     category: { connect: { id: categories[5].id } },
     store: { connect: { id: store.id } },
     images: {
@@ -302,7 +302,7 @@ const getProducts = (
     serves: 1,
     discount: 0,
     isFeatured: false,
-    index: 12,
+    order: 12,
     category: { connect: { id: categories[5].id } },
     store: { connect: { id: store.id } },
     images: {
@@ -318,7 +318,7 @@ const getProductCategory = (
     name: "Escolha sua porção",
     quantity: 1,
     inputType: "radio",
-    index: 1,
+    order: 1,
     product: {
       connect: {
         id: products[2].id,
@@ -331,19 +331,19 @@ const getProductCategory = (
             name: "1/4 de porção",
             price: 22799,
             description: "Serve de 3 a 4 pessoas",
-            index: 1,
+            order: 1,
           },
           {
             name: "1/2 de porção",
             price: 31299,
             description: "Serve de 5 a 6 pessoas",
-            index: 2,
+            order: 2,
           },
           {
             name: "Inteira",
             price: 37799,
             description: "Serve de 7 a 8 pessoas",
-            index: 3,
+            order: 3,
           },
         ],
       },

@@ -2,7 +2,6 @@ import Link from "next/link";
 
 import { buttonVariants } from "@/components/ui/button";
 import { db } from "@/lib/db";
-import { getPublicUrl } from "@/lib/supabase/get-public-url";
 import { redirects } from "@/utils/constants";
 
 import { columns } from "./_components/columns";
@@ -43,13 +42,7 @@ export default async function ProductsPage({
       </div>
 
       <DataTable
-        data={productsData.map((product) => ({
-          ...product,
-          images: product.images.map((image) => ({
-            ...image,
-            url: getPublicUrl("products", image.url) as string,
-          })),
-        }))}
+        data={productsData}
         categories={categoriesData}
         columns={columns}
       />

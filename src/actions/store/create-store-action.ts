@@ -23,7 +23,7 @@ export async function createStoreAction({
   const { name, slug } = validatedFields.data;
 
   const storeExists = await db.store.findUnique({
-    where: { slug, userId },
+    where: { slug },
   });
 
   if (storeExists) {

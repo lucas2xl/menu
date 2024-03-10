@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 
 import { db } from "@/lib/db";
-import { getPublicUrl } from "@/lib/supabase/get-public-url";
 import { toSlug } from "@/utils/to-slug";
 
 import { Carousel } from "./_components/carousel";
@@ -25,14 +24,7 @@ export default async function StorePage({
 
   const productsFeatured = store.categories
     .flatMap((category) => category.products)
-    .filter((product) => product.isFeatured)
-    .map((product) => ({
-      ...product,
-      images: product.images.map((image) => ({
-        ...image,
-        url: getPublicUrl("products", image.url) as string,
-      })),
-    }));
+    .filter((product) => product.isFeatured);
 
   return (
     <main className="flex flex-col gap-8 relative">
@@ -61,16 +53,7 @@ export default async function StorePage({
             </p>
           </div>
           {category.products.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={{
-                ...product,
-                images: product.images.map((image) => ({
-                  ...image,
-                  url: getPublicUrl("products", image.url) as string,
-                })),
-              }}
-            />
+            <ProductCard key={product.id} product={product} />
           ))}
         </div>
       ))}

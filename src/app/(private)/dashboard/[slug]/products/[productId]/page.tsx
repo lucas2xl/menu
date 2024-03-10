@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 
 import { UpdateProductForm } from "@/components/forms/product/update-product-form";
 import { db } from "@/lib/db";
-import { getPublicUrl } from "@/lib/supabase/get-public-url";
 
 export default async function UpdateProduct({
   params,
@@ -38,16 +37,7 @@ export default async function UpdateProduct({
         </div>
       </div>
 
-      <UpdateProductForm
-        data={{
-          ...productData,
-          images: productData.images.map((image) => ({
-            ...image,
-            url: getPublicUrl("products", image.url) as string,
-          })),
-        }}
-        categories={categoriesData}
-      />
+      <UpdateProductForm data={productData} categories={categoriesData} />
     </div>
   );
 }

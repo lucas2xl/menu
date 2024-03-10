@@ -12,7 +12,14 @@ export default async function DashboardLayout({
 }) {
   const { userId } = await auth();
   const pathname = getPathname();
+
   if (!userId) return redirect(redirects.toSignIn);
+
+  const user = await db.user.findUnique({
+    where: { id: userId },
+  });
+
+  if (!user) return redirect(redirects.toSignIn);
 
   const store = await db.store.findFirst({
     where: { userId },

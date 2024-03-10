@@ -19,5 +19,9 @@ export async function uploadImage(bucket: string, file: File) {
     return null;
   }
 
-  return data.path;
+  const storagePublicUrl = supabase.storage
+    .from(bucket)
+    .getPublicUrl(data.path);
+
+  return storagePublicUrl.data.publicUrl;
 }

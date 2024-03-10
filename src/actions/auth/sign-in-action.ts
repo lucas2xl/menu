@@ -7,6 +7,7 @@ import { hashed } from "@/adapters/hash";
 import { lucia } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { generateTwoFactorToken } from "@/lib/db/generate-tokens";
+import { sendTwoFactorEmail } from "@/lib/resend";
 import { SignInSchema } from "@/schemas/auth";
 import { ActionResponse } from "@/types/action-response";
 import { redirects } from "@/utils/constants";
@@ -47,8 +48,8 @@ export async function signInAction({
   }
 
   if (!code && user.isTwoFactorEnabled) {
-    await generateTwoFactorToken(email);
-    // TODO: Send email with code
+    const { token } = await generateTwoFactorToken(email);
+    sendTwoFactorEmail({ email, token });
     return {
       message: "Código de dois fatores enviado para o seu email",
       status: "success",

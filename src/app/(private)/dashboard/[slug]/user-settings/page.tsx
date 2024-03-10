@@ -2,7 +2,6 @@ import { UpdateUserForm } from "@/components/forms/user/update-user-form";
 import { Separator } from "@/components/ui/separator";
 import { auth } from "@/lib/auth/auth";
 import { db } from "@/lib/db";
-import { getPublicUrl } from "@/lib/supabase/get-public-url";
 
 export default async function UserSettingsPage() {
   const { userId } = await auth();
@@ -19,12 +18,7 @@ export default async function UserSettingsPage() {
         </p>
       </div>
       <Separator />
-      <UpdateUserForm
-        user={{
-          ...user,
-          imageUrl: user.imageUrl && getPublicUrl("users", user.imageUrl),
-        }}
-      />
+      <UpdateUserForm user={user} />
     </div>
   );
 }

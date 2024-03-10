@@ -13,6 +13,7 @@ export async function middleware(request: NextRequest) {
   const { nextUrl } = request;
   const session = cookies().get("menu@session")?.value ?? null;
   const isLoggedIn = !!session;
+  const res = NextResponse.next();
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
@@ -42,6 +43,17 @@ export async function middleware(request: NextRequest) {
     return Response.redirect(
       new URL(`/sign-in?callbackUrl=${encodedCallbackUrl}`, nextUrl)
     );
+  }
+
+  const qrocde = nextUrl.searchParams.get("qrcode");
+  if (qrocde) {
+    res.cookies.set("menu@qrcode", qrocde);
+    return NextResponse.redirect(new URL(nextUrl.pathname, nextUrl), {
+      status: 303,
+      headers: {
+        "Set-Cookie": res.cookies.toString(),
+      },
+    });
   }
 
   return NextResponse.next();

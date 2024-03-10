@@ -45,7 +45,6 @@ export function useUpdateProductCategory({ productId, categories }: Props) {
   });
 
   function onSubmit(values: UpdateProductCategorySchema) {
-    console.log(values);
     startTransition(async () => {
       const response = await updateProductCategoryAction({ values });
       if (response.status === "error") {

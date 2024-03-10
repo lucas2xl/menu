@@ -12,14 +12,11 @@ export const lucia = new Lucia(adapter, {
   },
 
   getUserAttributes: (attributes) => {
-    return {
-      theme: attributes.theme,
-    };
+    return {};
   },
-  sessionExpiresIn: new TimeSpan(1, "d"),
+  sessionExpiresIn: new TimeSpan(7, "d"),
   sessionCookie: {
     name: "menu@session",
-
     expires: true,
     attributes: {
       secure: config.NODE_ENV === "production",

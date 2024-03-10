@@ -1,7 +1,7 @@
 import { Separator } from "@/components/ui/separator";
 import { redirects } from "@/utils/constants";
 
-import { SidebarNav } from "./sidebar-nav";
+import { SidebarNav } from "./_components/sidebar-nav";
 
 export default function UserSettingsLayout({
   children,

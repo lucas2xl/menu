@@ -4,7 +4,7 @@ import {
   ArmchairIcon,
   CalendarIcon,
   ClockIcon,
-  DollarSignIcon,
+  QrCodeIcon,
   TicketCheckIcon,
   TicketIcon,
 } from "lucide-react";
@@ -76,11 +76,15 @@ export default function OrdersPage() {
 
 function OrderCard() {
   return (
-    <Card>
-      <CardContent className="p-6 relative">
-        <div className="flex items-center gap-4">
-          <TicketIcon className="w-6 h-6" />
-          <span className="font-semibold">Pedido #12</span>
+    <Card className="relative overflow-hidden border-none">
+      <CardContent className="p-6">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <TicketIcon className="w-6 h-6" />
+            <span className="font-semibold">Pedido #12</span>
+          </div>
+
+          <span className="font-semibold">R$ 120,00</span>
         </div>
 
         <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
@@ -97,8 +101,8 @@ function OrderCard() {
             Mesa 12
           </div>
           <div className="flex items-center gap-2">
-            <DollarSignIcon className="w-4 h-4 opacity-50" />
-            R$ 120,00
+            <QrCodeIcon className="w-4 h-4 opacity-50" />
+            QRCode 2
           </div>
         </div>
 
@@ -121,7 +125,7 @@ function OrderCard() {
         </Accordion>
       </CardContent>
 
-      <div className="flex items-center justify-center rounded-t-sm h-10">
+      <div className="flex items-center justify-center rounded-t-sm h-10 ">
         <div className="w-6 h-6 rounded-full bg-background -translate-x-2" />
 
         <div className="w-full border-t-2 border-white border-dashed" />
