@@ -19,6 +19,7 @@ export function useDeleteCategory() {
       }
 
       toast.success(response.message);
+      setIsOpen(false);
       router.refresh();
     });
   }

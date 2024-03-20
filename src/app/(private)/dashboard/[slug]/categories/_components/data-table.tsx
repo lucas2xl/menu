@@ -33,6 +33,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { useRouter } from "next/navigation";
 import * as React from "react";
 
 import {
@@ -56,10 +57,10 @@ interface DataTableProps<TData, TValue> {
 
 export function DataTable<TData, TValue>({
   columns,
-  data: currentData,
+  data,
   slug,
 }: DataTableProps<TData, TValue>) {
-  const [data, setData] = React.useState<TData[]>(currentData);
+  const router = useRouter();
   const dataIds = React.useMemo<UniqueIdentifier[]>(
     () => data?.map(({ id }: any) => id),
     [data]
@@ -106,8 +107,6 @@ export function DataTable<TData, TValue>({
       const oldIndex = dataIds.indexOf(active.id);
       const newIndex = dataIds.indexOf(over.id);
 
-      setData(arrayMove(data, oldIndex, newIndex));
-
       await updateCategoriesIndexAction({
         categories: arrayMove(data, oldIndex, newIndex).map(
           (category: any, index) => ({
@@ -117,6 +116,7 @@ export function DataTable<TData, TValue>({
         ),
         slug,
       });
+      router.refresh();
     }
   }
 

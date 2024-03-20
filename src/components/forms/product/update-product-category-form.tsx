@@ -16,6 +16,7 @@ import {
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -30,6 +31,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { useUpdateProductCategory } from "@/hooks/product/use-update-product-category";
 import { cn } from "@/lib/utils";
@@ -73,6 +75,7 @@ export function UpdateProductCategoryForm({
                   name: "",
                   quantity: "0",
                   inputType: "",
+                  isRequired: false,
                   items: [],
                 })
               }
@@ -142,7 +145,7 @@ export function UpdateProductCategoryForm({
                     />
                   </div>
 
-                  <div className="mt-4">
+                  <div className="mt-4 space-y-4">
                     <FormField
                       control={form.control}
                       key={field.id}
@@ -171,6 +174,27 @@ export function UpdateProductCategoryForm({
                             </SelectContent>
                           </Select>
                           <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name={`categories.${index}.isRequired`}
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                          <div className="space-y-0.5">
+                            <FormLabel>Obrigatório</FormLabel>
+                            <FormDescription>
+                              Ative para tornar a categoria obrigatória.
+                            </FormDescription>
+                          </div>
+                          <FormControl>
+                            <Switch
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
                         </FormItem>
                       )}
                     />

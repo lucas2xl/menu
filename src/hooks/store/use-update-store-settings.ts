@@ -28,6 +28,8 @@ export function useUpdateStoreSettings({ settings }: Props) {
         isTableName: settings.isTableName,
         preparationTime: String(settings.preparationTime),
         hasDelivery: settings.hasDelivery,
+        tax: String(settings.tax),
+        couvert: (settings.couvert / 100).toFixed(2),
         theme: settings.theme,
       });
     }

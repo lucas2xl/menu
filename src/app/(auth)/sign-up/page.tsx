@@ -6,7 +6,6 @@ import { useEffect } from "react";
 import { toast } from "sonner";
 
 import { Icons } from "@/components/icons";
-import night from "@/components/images/night.avif";
 import { PasswordInput } from "@/components/password-input";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
@@ -20,6 +19,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { useSignUp } from "@/hooks/auth/use-sign-up";
 import { redirects } from "@/utils/constants";
+
+import food from "@/components/images/food.webp";
 
 export default function SignUpPage() {
   const { isPending, error, success, onSubmit, form } = useSignUp();
@@ -58,12 +59,12 @@ export default function SignUpPage() {
           </div>
 
           <Image
-            src={night}
-            alt="Night"
+            src={food}
+            alt="Food"
             placeholder="blur"
             width={870}
             height={580}
-            className="absolute inset-0 h-full w-full object-cover opacity-80"
+            className="absolute inset-0 h-full w-full object-cover object-right opacity-80"
           />
 
           <div className="hidden lg:relative lg:flex lg:justify-between lg:flex-col lg:h-full lg:p-12">

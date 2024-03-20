@@ -35,7 +35,7 @@ export function Carousel({ products }: Props) {
               <Card>
                 <CardContent className="flex h-40 items-center justify-center relative overflow-hidden rounded">
                   <Image
-                    src={product.images?.[0].url}
+                    src={product.images?.[0]?.url}
                     alt={product.name}
                     fill
                     className="absolute inset-0 w full h-full object-cover"

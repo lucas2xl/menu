@@ -8,7 +8,7 @@ import { createProductCategoryAction } from "@/actions/product/create-product-ca
 import { CreateProductCategorySchema } from "@/schemas/product";
 import { redirects } from "@/utils/constants";
 
-const defaultCategory = [{ name: "", quantity: "0", inputType: "", items: [] }];
+const defaultCategory = [{ name: "", quantity: "", inputType: "", items: [] }];
 
 type Props = {
   productId: string;

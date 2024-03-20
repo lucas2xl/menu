@@ -15,6 +15,7 @@ export default async function ProductsPage({
   const products = db.product.findMany({
     where: { store: { slug: params.slug } },
     include: { images: true },
+    orderBy: { order: "asc" },
   });
 
   const categories = db.category.findMany();
@@ -45,6 +46,7 @@ export default async function ProductsPage({
         data={productsData}
         categories={categoriesData}
         columns={columns}
+        slug={params.slug}
       />
     </div>
   );

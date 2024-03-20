@@ -82,6 +82,10 @@ const config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "caret-blink": {
+          "0%,70%,100%": { opacity: "1" },
+          "20%,50%": { opacity: "0" },
+        },
         loading: {
           "0%": {
             transform: "scaleX(0)",
@@ -106,6 +110,7 @@ const config = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "caret-blink": "caret-blink 1.25s ease-out infinite",
         loading: "loading 2s linear infinite",
         spotlight: "spotlight 2s ease .75s 1 forwards",
       },

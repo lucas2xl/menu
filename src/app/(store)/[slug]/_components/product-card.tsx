@@ -28,7 +28,7 @@ export function ProductCard({ product }: Props) {
       >
         <div className="relative w-36">
           <Image
-            src={product.images?.[0].url}
+            src={product.images?.[0]?.url}
             alt={product.name}
             fill
             className="absolute inset-0 w-full h-full object-cover"

@@ -51,6 +51,7 @@ export const CreateProductCategorySchema = z.object({
       name: z.string().min(1, { message: "Nome é obrigatório" }),
       inputType: z.string(),
       quantity: z.optional(z.string()),
+      isRequired: z.boolean(),
       items: z.array(
         z.object({
           name: z.string().min(1, { message: "Nome é obrigatório" }),
@@ -68,6 +69,7 @@ export const UpdateProductCategorySchema = z.object({
       name: z.string().min(1, { message: "Nome é obrigatório" }),
       inputType: z.string(),
       quantity: z.optional(z.string()),
+      isRequired: z.boolean(),
       items: z.array(
         z.object({
           name: z.string().min(1, { message: "Nome é obrigatório" }),

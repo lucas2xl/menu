@@ -29,7 +29,7 @@ export const useAuthStore = create<useCartStore>()(
       }),
 
       {
-        name: `menu:cart`,
+        name: "menu:cart",
       }
     )
   )

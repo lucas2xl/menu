@@ -2,13 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { toast } from "sonner";
 
 import { AlertError } from "@/components/alert-error";
 import { AlertSuccess } from "@/components/alert-success";
 import { Icons } from "@/components/icons";
-import { PinCodeInput } from "@/components/pin-code-input";
+import { PasswordInput } from "@/components/password-input";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Dialog,
@@ -26,11 +26,16 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
 import { useSignIn } from "@/hooks/auth/use-sign-in";
-
-import night from "@/components/images/night.avif";
-import { PasswordInput } from "@/components/password-input";
 import { redirects } from "@/utils/constants";
+
+import food from "@/components/images/food.webp";
 
 const PIN_LENGTH = 6;
 
@@ -79,12 +84,12 @@ export default function SignInPage() {
           </div>
 
           <Image
-            src={night}
-            alt="Night"
+            alt="Food"
+            src={food}
             placeholder="blur"
             width={870}
             height={580}
-            className="absolute inset-0 h-full w-full object-cover opacity-80"
+            className="absolute inset-0 h-full w-full object-cover object-right opacity-80"
           />
 
           <div className="hidden lg:relative lg:flex lg:justify-between lg:flex-col lg:h-full lg:p-12">
@@ -224,7 +229,25 @@ export default function SignInPage() {
                   <FormItem>
                     <FormLabel>Código de dois fatores</FormLabel>
                     <FormControl>
-                      <PinCodeInput {...field} length={PIN_LENGTH} />
+                      <InputOTP
+                        maxLength={6}
+                        render={({ slots }) => (
+                          <InputOTPGroup className="gap-2">
+                            {slots.map((slot, index) => (
+                              <React.Fragment key={index}>
+                                <InputOTPSlot
+                                  className="rounded-md border"
+                                  {...slot}
+                                />
+                                {index !== slots.length - 1 && (
+                                  <InputOTPSeparator />
+                                )}
+                              </React.Fragment>
+                            ))}{" "}
+                          </InputOTPGroup>
+                        )}
+                        {...field}
+                      />
                     </FormControl>
                   </FormItem>
                 )}

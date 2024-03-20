@@ -32,6 +32,7 @@ import { themes } from "@/utils/themes";
 type Props = {
   settings: StoreSettings;
 };
+
 export function UpdateStoreSettingsForm({ settings }: Props) {
   const {
     isPending,
@@ -57,12 +58,14 @@ export function UpdateStoreSettingsForm({ settings }: Props) {
               name="preparationTime"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Tempo de preparo (em minutos)</FormLabel>
+                  <FormLabel>
+                    Tempo de preparo{" "}
+                    <span className="text-muted-foreground">(minutos)</span>
+                  </FormLabel>
                   <FormControl>
                     <Input
                       {...field}
                       type="number"
-                      disabled={isPending}
                       placeholder="Digite o tempo de preparo"
                     />
                   </FormControl>
@@ -70,6 +73,58 @@ export function UpdateStoreSettingsForm({ settings }: Props) {
                   <FormDescription>
                     O tempo de preparo é utilizado para calcular o tempo de
                     entrega do pedido.
+                  </FormDescription>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="tax"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    Taxa de serviço{" "}
+                    <span className="text-muted-foreground">(%)</span>
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      type="number"
+                      placeholder="Digite a taxa de serviço"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                  <FormDescription>
+                    A taxa de serviço é adicionada ao valor total do pedido.
+                  </FormDescription>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="couvert"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    Couvert <span className="text-muted-foreground">(R$)</span>
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      type="number"
+                      placeholder="Digite o valor do couvert"
+                      onChange={(e) => {
+                        let value = e.target.value.replace(/\D/g, "");
+                        value = (parseInt(value, 10) / 100).toFixed(2);
+                        field.onChange(value);
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                  <FormDescription>
+                    O couvert é adicionado ao valor total do pedido.
                   </FormDescription>
                 </FormItem>
               )}

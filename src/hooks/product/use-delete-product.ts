@@ -18,6 +18,7 @@ export function useDeleteProduct() {
       }
 
       toast.success(response.message);
+      setIsOpen(false);
       router.refresh();
     });
   }

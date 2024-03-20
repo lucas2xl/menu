@@ -40,6 +40,7 @@ export async function createProductCategoryAction({
           name: category.name,
           quantity: Number(category.quantity),
           inputType: category.inputType,
+          isRequired: category.isRequired,
         },
       });
 

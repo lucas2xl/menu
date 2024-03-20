@@ -15,6 +15,7 @@ import {
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -29,6 +30,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { useCreateProductCategory } from "@/hooks/product/use-create-product-category";
 import { cn } from "@/lib/utils";
@@ -68,6 +70,7 @@ export function CreateProductCategoryForm({
                   name: "",
                   quantity: "0",
                   inputType: "",
+                  isRequired: false,
                   items: [],
                 })
               }
@@ -137,7 +140,7 @@ export function CreateProductCategoryForm({
                     />
                   </div>
 
-                  <div className="mt-4">
+                  <div className="mt-4 space-y-4">
                     <FormField
                       control={form.control}
                       key={field.id}
@@ -166,6 +169,27 @@ export function CreateProductCategoryForm({
                             </SelectContent>
                           </Select>
                           <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name={`categories.${index}.isRequired`}
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                          <div className="space-y-0.5">
+                            <FormLabel>Obrigatório</FormLabel>
+                            <FormDescription>
+                              Ative para tornar a categoria obrigatória.
+                            </FormDescription>
+                          </div>
+                          <FormControl>
+                            <Switch
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
                         </FormItem>
                       )}
                     />
@@ -286,7 +310,9 @@ function CategoryItemForm({ categoryIndex, form }: CategoryItemFormProps) {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>
-                            Preço <span className="text-destructive">*</span>
+                            Preço{" "}
+                            <span className="text-muted-foreground">(R$)</span>{" "}
+                            <span className="text-destructive">*</span>
                           </FormLabel>
                           <FormControl>
                             <Input

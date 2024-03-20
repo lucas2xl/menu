@@ -5,7 +5,6 @@ import {
   ProductCategoryItem,
   ProductImage,
 } from "@prisma/client";
-import { useParams } from "next/navigation";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -22,7 +21,6 @@ type Props = {
 };
 export function useUpdateProduct({ data }: Props) {
   const [isPending, startTransition] = useTransition();
-  const params = useParams() as { slug: string };
   const [tab, setTab] = useState<"product" | "subcategories">("product");
   const [previewUrls, setPreviewUrls] = useState<string[]>(
     data.images.map((image) => image.url)
@@ -43,8 +41,11 @@ export function useUpdateProduct({ data }: Props) {
     },
   });
 
+  console.log(previewUrls);
+
   function onSubmit(values: UpdateProductSchema) {
     startTransition(async () => {
+      console.log("values", values.images);
       const images = values.images as File[];
       delete (values as { images?: any }).images;
 
@@ -68,15 +69,22 @@ export function useUpdateProduct({ data }: Props) {
     images,
     productId,
   }: {
-    images: File[];
+    images: File[] | ProductImage[];
     productId: string;
   }) {
     const formData = new FormData();
+
     for (const image of images) {
-      formData.append("images", image);
+      if (image instanceof File) {
+        formData.append("images", image);
+      }
     }
 
-    return addProductImagesAction({ values: formData, productId });
+    return addProductImagesAction({
+      values: formData,
+      productId,
+      imagesUrl: previewUrls.filter((url) => url.startsWith("http")),
+    });
   }
 
   function onDrop(acceptedFiles: FileList | undefined) {

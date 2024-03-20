@@ -117,6 +117,7 @@ model StoreSettings {
   isTableName     Boolean @default(false) @map("is_table_name")
   hasDelivery     Boolean @default(false) @map("has_delivery")
   tax             Int     @default(0)
+  couvert         Int     @default(0)
   theme           String  @default("theme-default")
   isOpen          Boolean @default(false) @map("is_open")
   storeId         String  @unique @map("store_id")
@@ -155,8 +156,8 @@ model Product {
   description String?
   price       Int
   serves      Int               @default(1)
-  isFeatured  Boolean?          @default(false) @map("is_featured")
-  discount    Int?              @default(0)
+  isFeatured  Boolean           @default(false) @map("is_featured")
+  discount    Int               @default(0)
   categoryId  String            @map("category_id")
   storeId     String            @map("store_id")
   order       Int               @default(0)
@@ -180,14 +181,15 @@ model ProductImage {
 }
 
 model ProductCategory {
-  id        String                @id @default(cuid())
-  name      String
-  order     Int                   @default(0)
-  inputType String                @map("input_type")
-  quantity  Int                   @default(1)
-  productId String                @map("product_id")
-  product   Product               @relation(fields: [productId], references: [id], onDelete: Cascade)
-  items     ProductCategoryItem[]
+  id         String                @id @default(cuid())
+  name       String
+  order      Int                   @default(0)
+  inputType  String                @map("input_type")
+  quantity   Int                   @default(1)
+  isRequired Boolean               @default(false) @map("is_required")
+  productId  String                @map("product_id")
+  product    Product               @relation(fields: [productId], references: [id], onDelete: Cascade)
+  items      ProductCategoryItem[]
 
   @@map("product_categories")
 }

@@ -8,13 +8,14 @@ import { removeImages } from "@/lib/supabase/remove-images";
 import { uploadImage } from "@/lib/supabase/upload-image";
 import { ActionResponse } from "@/types/action-response";
 
-// TODO: otimizar a questão de remoção de imagens
 export async function addProductImagesAction({
   values,
   productId,
+  imagesUrl,
 }: {
   values: FormData;
   productId: string;
+  imagesUrl: string[];
 }): Promise<ActionResponse<Store>> {
   const { userId } = await auth();
   if (!userId) {
@@ -22,9 +23,6 @@ export async function addProductImagesAction({
   }
 
   const images = values.getAll("images") as File[];
-  if (!images.length) {
-    return { message: "Imagens não fornecidas", status: "error" };
-  }
 
   const productExists = await db.product.findUnique({
     where: { id: productId, store: { userId } },
@@ -35,15 +33,21 @@ export async function addProductImagesAction({
     return { message: "Produto não existe", status: "error" };
   }
 
-  if (!!productExists.images.length) {
+  const imagesToRemove = productExists.images.filter(
+    (image) => !imagesUrl.some((img) => img === image.url)
+  );
+
+  if (!!imagesToRemove.length) {
     removeImages(
       "products",
-      productExists.images.map((image) => image.url)
+      imagesToRemove.map((image) => image.url)
     );
   }
 
-  const imagesUrl = await new Promise<string[]>((resolve) => {
+  const newImagesUrl = await new Promise<string[]>((resolve) => {
     const urls: string[] = [];
+    if (!images.length) resolve([]);
+
     images.forEach(async (image) => {
       const url = await uploadImage("products", image);
       if (!url) return;
@@ -55,13 +59,16 @@ export async function addProductImagesAction({
   });
 
   await db.$transaction(async (prisma) => {
-    await prisma.productImage.deleteMany({
-      where: { productId },
+    await db.productImage.deleteMany({
+      where: { id: { in: imagesToRemove.map((image) => image.id) } },
     });
-    await prisma.product.update({
-      where: { id: productId, store: { userId } },
-      data: { images: { create: imagesUrl.map((url) => ({ url })) } },
-    });
+
+    if (!!newImagesUrl.length) {
+      await prisma.product.update({
+        where: { id: productId, store: { userId } },
+        data: { images: { create: newImagesUrl.map((url) => ({ url })) } },
+      });
+    }
   });
 
   return { message: "Imagem adicionada com sucesso", status: "success" };

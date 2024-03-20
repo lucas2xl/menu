@@ -25,6 +25,7 @@ export function useUpdateProductCategory({ productId, categories }: Props) {
         name: category.name,
         quantity: String(category.quantity),
         inputType: category.inputType,
+        isRequired: category.isRequired,
         items: category.items.map((item) => ({
           name: item.name,
           price: (item.price / 100).toFixed(2),

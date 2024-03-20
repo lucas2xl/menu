@@ -79,10 +79,16 @@ export function useCreateProduct() {
   }) {
     const formData = new FormData();
     for (const image of images) {
-      formData.append("images", image);
+      if (image instanceof File) {
+        formData.append("images", image);
+      }
     }
 
-    return addProductImagesAction({ values: formData, productId });
+    return addProductImagesAction({
+      values: formData,
+      productId,
+      imagesUrl: [],
+    });
   }
 
   function onDrop(acceptedFiles: FileList | undefined) {

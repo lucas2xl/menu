@@ -4,12 +4,12 @@ import { Button } from "@/components/ui/button";
 import { db } from "@/lib/db";
 import { cn } from "@/lib/utils";
 import { SearchIcon } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { SwitchTheme } from "@/components/switch-theme";
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Cart } from "./_components/cart";
 import { StoreClosedModal } from "./_components/store-closed-modal";
 
@@ -36,13 +36,12 @@ export default async function StoreLayout({
       <header className="flex items-center justify-between h-24 border-b border-border">
         <Link href={`/${params.slug}`}>
           <div className="flex items-center gap-2">
-            <Image
-              src={store.logo || ""}
-              alt={store.name}
-              width={40}
-              height={40}
-              className="rounded-full"
-            />
+            <Avatar>
+              <AvatarImage src={store.logo || ""} />
+              <AvatarFallback>
+                {store?.name?.slice(0, 2).toUpperCase()}
+              </AvatarFallback>
+            </Avatar>
             <span>{store.name}</span>
           </div>
         </Link>

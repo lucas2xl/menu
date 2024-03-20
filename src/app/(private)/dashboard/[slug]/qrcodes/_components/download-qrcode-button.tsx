@@ -1,6 +1,7 @@
 "use client";
 
 import { Qrcode } from "@prisma/client";
+import saveAs from "file-saver";
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
 import JSZip from "jszip";
@@ -15,7 +16,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useIsMounted } from "@/hooks/use-is-mounted";
-import saveAs from "file-saver";
 
 type Props = {
   qrcodes: Qrcode[];

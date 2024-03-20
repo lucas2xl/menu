@@ -16,7 +16,12 @@ export default async function StorePage({
     where: { slug: params.slug },
     include: {
       settings: true,
-      categories: { include: { products: { include: { images: true } } } },
+      categories: {
+        orderBy: { order: "asc" },
+        include: {
+          products: { include: { images: true }, orderBy: { order: "asc" } },
+        },
+      },
     },
   });
 

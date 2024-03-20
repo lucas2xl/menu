@@ -46,6 +46,7 @@ export async function updateProductCategoryAction({
           name: category.name,
           quantity: Number(category.quantity),
           inputType: category.inputType,
+          isRequired: category.isRequired,
         },
       });
 
