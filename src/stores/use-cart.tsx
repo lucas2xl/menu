@@ -1,35 +1,63 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
-type Order = {
-  id: string;
-  quantity: number;
-  subCategory: {
+export type Order = {
+  product: {
     id: string;
-    items: {
+    quantity: number;
+    price: number;
+    name: string;
+    description?: string | null;
+    observation?: string | null;
+    categories: {
       id: string;
-      quantity: number;
-      price: number;
+      items: {
+        id: string;
+        quantity: number;
+        price: number;
+        name: string;
+      }[];
     }[];
-  }[];
+  };
 };
 type useCartStore = {
   data: Order[] | null;
-  setData: (data: Order[]) => void;
+  setData: (data: Order) => void;
+  updateData: (id: string, quantity: number) => void;
+  removeData: (id: string) => void;
   clearData: () => void;
 };
 
-export const useAuthStore = create<useCartStore>()(
+export const useCart = create<useCartStore>()(
   devtools(
     persist(
-      (set) => ({
+      (set, get) => ({
         data: null,
-        setData: (data) => set({ data }),
+        setData: (data) => set({ data: [...(get().data || []), data] }),
+        removeData: (id) =>
+          set({
+            data: (get().data || []).filter((order) => order.product.id !== id),
+          }),
+        updateData: (id, quantity) => {
+          const newData = (get().data || []).map((order) => {
+            if (order.product.id === id) {
+              return {
+                ...order,
+                product: {
+                  ...order.product,
+                  quantity: Number(quantity),
+                },
+              };
+            }
+            return order;
+          });
+          set({ data: newData });
+        },
         clearData: () => set({ data: null }),
       }),
 
       {
-        name: "menu:cart",
+        name: "2xl@menu@cart",
       }
     )
   )

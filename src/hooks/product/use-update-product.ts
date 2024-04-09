@@ -41,11 +41,8 @@ export function useUpdateProduct({ data }: Props) {
     },
   });
 
-  console.log(previewUrls);
-
   function onSubmit(values: UpdateProductSchema) {
     startTransition(async () => {
-      console.log("values", values.images);
       const images = values.images as File[];
       delete (values as { images?: any }).images;
 

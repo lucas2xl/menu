@@ -17,7 +17,7 @@ export function Providers({ children }: { children: ReactNode }) {
     >
       <StoreDialog />
       {/* <Analytics /> */}
-      <Toaster richColors />
+      <Toaster richColors position="bottom-left" />
       <TailwindIndicator />
       {children}
     </ThemeProvider>

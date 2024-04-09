@@ -34,7 +34,7 @@ export default async function StorePage({
   return (
     <main className="flex flex-col gap-8 relative">
       <div className="space-y-2">
-        <div>
+        <div className="px-4 md:px-8">
           <h2 className="text-2xl font-bold tracking-tight">
             Destaques do Menu
           </h2>
@@ -42,26 +42,36 @@ export default async function StorePage({
             Confira os produtos em destaque do restaurante.
           </p>
         </div>
-        <Carousel products={productsFeatured} />
+        <div className="pl-4 md:pl-8">
+          <Carousel products={productsFeatured} />
+        </div>
       </div>
 
-      <CategoryFilter categories={store.categories} />
+      <div className="pl-4 md:pl-8">
+        <CategoryFilter categories={store.categories} />
+      </div>
 
-      {store.categories.map((category) => (
-        <div id={toSlug(category.name)} key={category.id} className="space-y-4">
-          <div>
-            <h2 className="text-2xl font-bold tracking-tight">
-              {category.name}
-            </h2>
-            <p className="text-muted-foreground line-clamp-1">
-              {category.description}
-            </p>
+      <div className="px-4 md:px-8 flex flex-col gap-8">
+        {store.categories.map((category) => (
+          <div
+            id={toSlug(category.name)}
+            key={category.id}
+            className="space-y-4"
+          >
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight">
+                {category.name}
+              </h2>
+              <p className="text-muted-foreground line-clamp-1">
+                {category.description}
+              </p>
+            </div>
+            {category.products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
           </div>
-          {category.products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-      ))}
+        ))}
+      </div>
     </main>
   );
 }

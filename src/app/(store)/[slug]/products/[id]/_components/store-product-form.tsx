@@ -24,7 +24,8 @@ import {
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
-import { useIsMounted } from "@/hooks/use-is-mounted";
+import { useCart } from "@/stores/use-cart";
+import { useRouter } from "next/navigation";
 import { createRef, useRef, useState } from "react";
 import { toast } from "sonner";
 
@@ -35,7 +36,7 @@ const formatQuantityMessage = function (qtd: number) {
 
 const StoreProductSchema = z.object({
   id: z.string(),
-  description: z.string().optional(),
+  observation: z.string().optional(),
   categories: z.array(
     z.object({
       id: z.string(),
@@ -71,7 +72,8 @@ type Props = {
 };
 
 export function StoreProductForm({ product }: Props) {
-  const isMounted = useIsMounted();
+  const router = useRouter();
+  const { setData: addCart } = useCart();
   const [selectedItems, setSelectedItems] = useState<SelectedItemsState>(
     product.categories.reduce((acc: any, category) => {
       acc[category.id] = category.items.reduce((itemsAcc: any, item) => {
@@ -91,7 +93,7 @@ export function StoreProductForm({ product }: Props) {
     resolver: zodResolver(StoreProductSchema),
     defaultValues: {
       id: product.id,
-      description: "",
+      observation: "",
       categories: product.categories.map((category) => ({
         id: category.id,
         items: category.items.map((item) => ({
@@ -136,6 +138,10 @@ export function StoreProductForm({ product }: Props) {
     const filteredItems = {
       product: {
         id: product.id,
+        quantity: 1,
+        price: product.price,
+        name: product.name,
+        description: product.description,
         categories: product.categories
           .map((category) => ({
             id: category.id,
@@ -144,20 +150,17 @@ export function StoreProductForm({ product }: Props) {
               .map(([itemId, itemState]) => ({
                 id: itemId,
                 quantity: itemState.quantity,
+                price: category.items.find((item) => item.id === itemId)!.price,
+                name: category.items.find((item) => item.id === itemId)!.name,
               })),
           }))
           .filter((categoryWrapper) => categoryWrapper.items.length > 0),
+        observation: values.observation,
       },
     };
-
+    addCart(filteredItems);
+    router.back();
     toast.success("Produto adicionado ao carrinho");
-    toast(
-      <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-        <code className="text-white">
-          {JSON.stringify(filteredItems, null, 2)}
-        </code>
-      </pre>
-    );
   }
 
   const handleCheckedChange = (
@@ -223,8 +226,6 @@ export function StoreProductForm({ product }: Props) {
     });
   };
 
-  if (!isMounted) return null;
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -273,11 +274,15 @@ export function StoreProductForm({ product }: Props) {
                             </span>
                           </div>
 
-                          <div className="space-x-4">
-                            <span className="text-sm">
+                          <div className="flex gap-6 items-center">
+                            <Label htmlFor={item.id} className="text-sm">
                               + R$ {(item.price / 100).toFixed(2)}
-                            </span>
-                            <RadioGroupItem value={item.id} id={item.id} />
+                            </Label>
+                            <RadioGroupItem
+                              value={item.id}
+                              id={item.id}
+                              className="size-6"
+                            />
                           </div>
                         </div>
                       ))}
@@ -291,63 +296,72 @@ export function StoreProductForm({ product }: Props) {
                     tabIndex={-1}
                     className="space-y-4 focus:ring-1 focus:ring-red-500 focus:p-2 rounded transition-all duration-200 ease-in-out"
                   >
-                    {category.items.map((item) => (
-                      <div
-                        key={item.id}
-                        className="flex items-center justify-between"
-                      >
-                        <div className="flex flex-col gap-2 mr-4">
-                          <span className="font-semibold">{item.name}</span>
-                          <span className="text-xs text-muted-foreground">
-                            {item.description}
-                          </span>
-                          <span className="text-sm">
-                            + R$ {(item.price / 100).toFixed(2)}
-                          </span>
-                        </div>
-
-                        <div className="flex items-center justify-center space-x-4">
-                          <Button
-                            variant="outline"
-                            size="icon"
-                            className="h-8 w-8 shrink-0 rounded-full"
-                            onClick={() =>
-                              handleQuantityChange(category.id, item.id, false)
-                            }
-                            disabled={
-                              selectedItems[category.id][item.id].quantity === 0
-                            }
-                            type="button"
-                          >
-                            <MinusIcon className="h-4 w-4" />
-                            <span className="sr-only">Decrease</span>
-                          </Button>
-                          <div className="flex-1 text-center">
-                            <div className="text-lg font-bold tracking-tighter">
-                              {selectedItems[category.id][item.id].quantity}
-                            </div>
+                    <RadioGroup>
+                      {category.items.map((item) => (
+                        <div
+                          key={item.id}
+                          className="flex items-center justify-between"
+                        >
+                          <div className="flex flex-col gap-2 mr-4">
+                            <span className="font-semibold">{item.name}</span>
+                            <span className="text-xs text-muted-foreground">
+                              {item.description}
+                            </span>
+                            <span className="text-sm">
+                              + R$ {(item.price / 100).toFixed(2)}
+                            </span>
                           </div>
-                          <Button
-                            variant="outline"
-                            size="icon"
-                            className="h-8 w-8 shrink-0 rounded-full"
-                            onClick={() =>
-                              handleQuantityChange(category.id, item.id, true)
-                            }
-                            disabled={
-                              Object.values(selectedItems[category.id]).reduce(
-                                (total, { quantity }) => total + quantity,
+
+                          <div className="flex items-center justify-center space-x-4">
+                            <Button
+                              variant="outline"
+                              size="icon"
+                              className="h-8 w-8 shrink-0 rounded-full"
+                              onClick={() =>
+                                handleQuantityChange(
+                                  category.id,
+                                  item.id,
+                                  false
+                                )
+                              }
+                              disabled={
+                                selectedItems[category.id][item.id].quantity ===
                                 0
-                              ) >= category.quantity
-                            }
-                            type="button"
-                          >
-                            <PlusIcon className="h-4 w-4" />
-                            <span className="sr-only">Increase</span>
-                          </Button>
+                              }
+                              type="button"
+                            >
+                              <MinusIcon className="h-4 w-4" />
+                              <span className="sr-only">Decrease</span>
+                            </Button>
+                            <div className="flex-1 text-center">
+                              <div className="text-lg font-bold tracking-tighter">
+                                {selectedItems[category.id][item.id].quantity}
+                              </div>
+                            </div>
+                            <Button
+                              variant="outline"
+                              size="icon"
+                              className="h-8 w-8 shrink-0 rounded-full"
+                              onClick={() =>
+                                handleQuantityChange(category.id, item.id, true)
+                              }
+                              disabled={
+                                Object.values(
+                                  selectedItems[category.id]
+                                ).reduce(
+                                  (total, { quantity }) => total + quantity,
+                                  0
+                                ) >= category.quantity
+                              }
+                              type="button"
+                            >
+                              <PlusIcon className="h-4 w-4" />
+                              <span className="sr-only">Increase</span>
+                            </Button>
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </RadioGroup>
                   </div>
                 )}
 
@@ -357,39 +371,43 @@ export function StoreProductForm({ product }: Props) {
                     tabIndex={-1}
                     className="space-y-4 focus:ring-1 focus:ring-red-500 focus:p-2 rounded transition-all duration-200 ease-in-out"
                   >
-                    {category.items.map((item) => (
-                      <div
-                        key={item.id}
-                        className="flex items-center justify-between"
-                      >
-                        <div className="flex flex-col gap-2 mr-4">
-                          <span className="font-semibold">{item.name}</span>
-                          <span className="text-xs text-muted-foreground">
-                            {item.description}
-                          </span>
-                          <span className="text-sm">
-                            + R$ {(item.price / 100).toFixed(2)}
-                          </span>
-                        </div>
+                    <RadioGroup>
+                      {category.items.map((item) => (
+                        <div
+                          key={item.id}
+                          className="flex items-center justify-between"
+                        >
+                          <div className="flex flex-col gap-2 mr-4">
+                            <span className="font-semibold">{item.name}</span>
+                            <span className="text-xs text-muted-foreground">
+                              {item.description}
+                            </span>
+                            <span className="text-sm">
+                              + R$ {(item.price / 100).toFixed(2)}
+                            </span>
+                            RadioGroup
+                          </div>
 
-                        <div className="flex flex-row items-start space-x-3 space-y-0">
-                          <div>
-                            <Checkbox
-                              checked={
-                                selectedItems[category.id][item.id].checked
-                              }
-                              onCheckedChange={(checked: boolean) =>
-                                handleCheckedChange(
-                                  category.id,
-                                  item.id,
-                                  checked
-                                )
-                              }
-                            />
+                          <div className="flex flex-row items-start space-x-3 space-y-0">
+                            <div>
+                              <Checkbox
+                                className="size-6"
+                                checked={
+                                  selectedItems[category.id][item.id].checked
+                                }
+                                onCheckedChange={(checked: boolean) =>
+                                  handleCheckedChange(
+                                    category.id,
+                                    item.id,
+                                    checked
+                                  )
+                                }
+                              />
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </RadioGroup>
                   </div>
                 )}
               </div>
@@ -408,15 +426,15 @@ export function StoreProductForm({ product }: Props) {
         <div className="space-y-2">
           <FormField
             control={form.control}
-            name={"description"}
+            name={"observation"}
             render={({ field }) => (
               <FormItem>
-                <FormLabel htmlFor="description">Alguma observação?</FormLabel>
+                <FormLabel htmlFor="observation">Alguma observação?</FormLabel>
                 <FormControl>
                   <Textarea
                     {...field}
                     placeholder="Ex: Tirar a cebola, adicionar mais queijo, etc."
-                    id="description"
+                    id="observation"
                   />
                 </FormControl>
                 <FormMessage />

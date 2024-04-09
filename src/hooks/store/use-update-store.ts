@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Store, StoreSettings } from "@prisma/client";
-import { redirect, useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import { useEffect, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -15,7 +15,6 @@ type Props = {
   store: Store & { settings: StoreSettings | null };
 };
 export function useUpdateStore({ store }: Props) {
-  const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<UpdateStoreSchema>({
@@ -70,7 +69,7 @@ export function useUpdateStore({ store }: Props) {
     if (!fileType) {
       form.setValue("logo", undefined);
       form.setError("logo", {
-        message: "Logo type is not valid",
+        message: "Tipo de arquivo inválido",
         type: "typeError",
       });
       return;

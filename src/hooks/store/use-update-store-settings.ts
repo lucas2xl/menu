@@ -29,6 +29,7 @@ export function useUpdateStoreSettings({ settings }: Props) {
         preparationTime: String(settings.preparationTime),
         hasDelivery: settings.hasDelivery,
         tax: String(settings.tax),
+        deliveryTax: (settings.deliveryTax / 100).toFixed(2),
         couvert: (settings.couvert / 100).toFixed(2),
         theme: settings.theme,
       });

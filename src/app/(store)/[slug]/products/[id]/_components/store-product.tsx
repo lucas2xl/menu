@@ -21,9 +21,11 @@ type Props = {
 export function StoreProduct({ product, total }: Props) {
   return (
     <div className="space-y-4">
-      <Carousel product={product} />
+      <div className="pl-4 md:pl-8">
+        <Carousel product={product} />
+      </div>
 
-      <div className="space-y-2 pb-6">
+      <div className="space-y-2 pb-6 px-4 md:px-8">
         <div className="flex items-center justify-between gap-x-4">
           <h2 className="text-2xl font-bold tracking-tight">{product.name}</h2>
           {product.isFeatured && (
@@ -58,7 +60,9 @@ export function StoreProduct({ product, total }: Props) {
         </div>
       </div>
 
-      <StoreProductForm product={product} />
+      <div className="px-4 md:px-8">
+        <StoreProductForm product={product} />
+      </div>
     </div>
   );
 }

@@ -153,28 +153,58 @@ export function UpdateStoreSettingsForm({ settings }: Props) {
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="hasDelivery"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-                  <div className="space-y-0.5">
-                    <FormLabel>Loja com entrega</FormLabel>
-                    <FormDescription>
-                      Ative para permitir que os clientes façam pedidos com
-                      entrega, caso contrário, os pedidos serão feitos apenas
-                      para retirada.
-                    </FormDescription>
-                  </div>
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                </FormItem>
+            <div className=" rounded-lg border p-4">
+              <FormField
+                control={form.control}
+                name="hasDelivery"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-center justify-between">
+                    <div className="space-y-0.5">
+                      <FormLabel>Loja com entrega</FormLabel>
+                      <FormDescription>
+                        Ative para permitir que os clientes façam pedidos com
+                        entrega, caso contrário, os pedidos serão feitos apenas
+                        para retirada.
+                      </FormDescription>
+                    </div>
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
+              {form.watch("hasDelivery") && (
+                <FormField
+                  control={form.control}
+                  name="deliveryTax"
+                  render={({ field }) => (
+                    <FormItem className="mt-4">
+                      <FormLabel>
+                        Taxa de entrega{" "}
+                        <span className="text-muted-foreground">(R$)</span>
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          type="number"
+                          placeholder="Digite o valor da taxa de entrega"
+                          onChange={(e) => {
+                            let value = e.target.value.replace(/\D/g, "");
+                            value = (parseInt(value, 10) / 100).toFixed(2);
+                            field.onChange(value);
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               )}
-            />
+            </div>
 
             <FormField
               control={form.control}

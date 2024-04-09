@@ -24,16 +24,16 @@ export default async function StoreLayout({
 }) {
   const store = await db.store.findUnique({
     where: { slug: params.slug },
-    select: { settings: true, name: true, logo: true },
+    include: { settings: true },
   });
 
   if (!store) return notFound();
 
   return (
-    <div className={cn("px-8 max-w-7xl mx-auto", store.settings?.theme)}>
+    <div className={cn("max-w-7xl mx-auto", store.settings?.theme)}>
       <SwitchTheme theme={store.settings?.theme} />
       <StoreClosedModal storeOpen={store.settings?.isOpen} />
-      <header className="flex items-center justify-between h-24 border-b border-border">
+      <header className="flex items-center justify-between h-24 border-b border-border px-4 md:px-8">
         <Link href={`/${params.slug}`}>
           <div className="flex items-center gap-2">
             <Avatar>
@@ -65,7 +65,7 @@ export default async function StoreLayout({
       <Footer />
 
       <div className="fixed bottom-4 right-4">
-        <Cart />
+        <Cart store={store} />
       </div>
     </div>
   );

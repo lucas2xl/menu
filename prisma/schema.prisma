@@ -117,6 +117,7 @@ model StoreSettings {
   isTableName     Boolean @default(false) @map("is_table_name")
   hasDelivery     Boolean @default(false) @map("has_delivery")
   tax             Int     @default(0)
+  deliveryTax     Int     @default(0) @map("delivery_tax")
   couvert         Int     @default(0)
   theme           String  @default("theme-default")
   isOpen          Boolean @default(false) @map("is_open")

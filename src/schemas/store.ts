@@ -49,6 +49,7 @@ export const UpdateStoreSettingsSchema = z.object({
   isTableName: z.boolean().optional(),
   hasDelivery: z.boolean().optional(),
   tax: z.string().optional(),
+  deliveryTax: z.string().optional(),
   couvert: z.string().optional(),
   theme: z.string().optional(),
 });

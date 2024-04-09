@@ -55,7 +55,7 @@ export function useCreateStore() {
     if (!fileType) {
       form.setValue("logo", undefined);
       form.setError("logo", {
-        message: "Logo type is not valid",
+        message: "Tipo de arquivo inválido",
         type: "typeError",
       });
       return;

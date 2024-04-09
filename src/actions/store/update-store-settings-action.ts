@@ -35,8 +35,10 @@ export async function updateStoreSettingsAction({
     data: {
       ...validatedFields.data,
       preparationTime: Number(validatedFields.data.preparationTime),
+      hasDelivery: validatedFields.data.hasDelivery,
       tax: Number(validatedFields.data.tax),
       couvert: Math.round(Number(validatedFields.data.couvert) * 100),
+      deliveryTax: Math.round(Number(validatedFields.data.deliveryTax) * 100),
     },
   });
 

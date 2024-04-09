@@ -5,6 +5,13 @@ import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
 import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
   Form,
   FormControl,
   FormDescription,
@@ -29,108 +36,120 @@ export function UpdateStoreForm({ store }: Props) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit((values) => onSubmit(values, store.slug))}
-        className="flex flex-col gap-6"
+        className="grid grid-cols-4 gap-4"
       >
-        <div className="flex flex-col gap-4">
-          <FormField
-            control={form.control}
-            name="logo"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Label
-                    htmlFor="file-input"
-                    className="rounded-md ring ring-primary border-border size-32 overflow-hidden flex items-center justify-center cursor-pointer"
-                  >
-                    {field.value && (
-                      <Image
-                        src={
-                          field.value instanceof File
-                            ? URL.createObjectURL(field.value)
-                            : field.value
-                        }
-                        alt="Avatar"
-                        width={100}
-                        height={100}
-                        className="object-cover h-full w-full"
-                      />
-                    )}
-
-                    {!field.value && (
-                      <div className="flex items-center justify-center h-full w-full bg-slate-950 text-white text-lg">
-                        <span className="text-2xl">
-                          {store.name.slice(0, 2).toUpperCase()}
-                        </span>
-                      </div>
-                    )}
-
+        <div className="col-span-3 flex flex-col gap-6">
+          <div className="flex flex-col gap-4 h-full">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    Nome <span className="text-destructive">*</span>
+                  </FormLabel>
+                  <FormControl>
                     <Input
                       {...field}
-                      value={undefined}
-                      type="file"
-                      className="sr-only"
-                      multiple
-                      id="file-input"
-                      onChange={(e) => onDrop(e.target.files || undefined)}
+                      onChange={(e) => {
+                        field.onChange(e);
+                        form.setValue("slug", toSlug(e.target.value));
+                      }}
+                      disabled={isPending}
+                      placeholder="Digite o nome da loja"
                     />
-                  </Label>
-                </FormControl>
-                <FormDescription>
-                  Você pode alterar seu avatar clicando na imagem.
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="slug"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Slug</FormLabel>
+                  <FormControl>
+                    <Input {...field} disabled />
+                  </FormControl>
+                  <FormDescription>
+                    Caso o slug seja alterado, os qrcodes gerados anteriormente
+                    não funcionarão.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  Nome <span className="text-destructive">*</span>
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    onChange={(e) => {
-                      field.onChange(e);
-                      form.setValue("slug", toSlug(e.target.value));
-                    }}
-                    disabled={isPending}
-                    placeholder="Digite o nome da loja"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="slug"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Slug</FormLabel>
-                <FormControl>
-                  <Input {...field} disabled />
-                </FormControl>
-                <FormDescription>
-                  Caso o slug seja alterado, os qrcodes gerados anteriormente
-                  não funcionarão.
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            <div className="w-full flex justify-end mt-auto">
+              <Button loading type="submit" disabled={isPending}>
+                {isPending && <div className="loading" />}
+                Salvar
+              </Button>
+            </div>
+          </div>
         </div>
 
-        <div className="w-full flex justify-end">
-          <Button loading type="submit" disabled={isPending}>
-            {isPending && <div className="loading" />}
-            Salvar
-          </Button>
-        </div>
+        <Card className="overflow-hidden">
+          <CardHeader>
+            <CardTitle>Logo</CardTitle>
+            <CardDescription>
+              Adicione uma imagem para representar sua loja.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <FormField
+              control={form.control}
+              name="logo"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Label
+                      htmlFor="file-input"
+                      className="rounded-md ring ring-primary border-border w-full h-32 overflow-hidden flex items-center justify-center cursor-pointer"
+                    >
+                      {field.value && (
+                        <Image
+                          src={
+                            field.value instanceof File
+                              ? URL.createObjectURL(field.value)
+                              : field.value
+                          }
+                          alt="Avatar"
+                          width={100}
+                          height={100}
+                          className="object-cover h-full w-full"
+                        />
+                      )}
+
+                      {!field.value && (
+                        <div className="flex items-center justify-center h-full w-full bg-slate-950 text-white text-lg">
+                          <span className="text-2xl">
+                            {store.name.slice(0, 2).toUpperCase()}
+                          </span>
+                        </div>
+                      )}
+
+                      <Input
+                        {...field}
+                        value={undefined}
+                        type="file"
+                        className="sr-only"
+                        multiple
+                        id="file-input"
+                        onChange={(e) => onDrop(e.target.files || undefined)}
+                      />
+                    </Label>
+                  </FormControl>
+                  <FormDescription>
+                    Você pode alterar sua logo clicando na imagem.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </CardContent>
+        </Card>
       </form>
     </Form>
   );
