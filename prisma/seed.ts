@@ -15,6 +15,9 @@ const getEmailList = (): Prisma.AuthorizedEmailListCreateInput[] => [
   {
     email: "admin@admin.com",
   },
+  {
+    email: "test@test.com",
+  },
 ];
 
 const getAdmin = (password: string): Prisma.UserCreateInput => ({

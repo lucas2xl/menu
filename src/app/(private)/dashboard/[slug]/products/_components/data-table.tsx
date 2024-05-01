@@ -43,31 +43,30 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Category } from "@prisma/client";
+import { Category, Product } from "@prisma/client";
 
 import { updateProductsIndexAction } from "@/actions/product/update-products-index-action";
 import { cn } from "@/lib/utils";
 
-import { useRouter } from "next/navigation";
 import { DataTableToolbar } from "./data-table-toolbar";
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+interface DataTableProps<TValue> {
+  columns: ColumnDef<Product, TValue>[];
+  data: Product[];
   slug: string;
   categories: Category[];
 }
 
-export function DataTable<TData, TValue>({
+export function DataTable<TValue>({
   columns,
   data,
   slug,
   categories,
-}: DataTableProps<TData, TValue>) {
-  const router = useRouter();
+}: DataTableProps<TValue>) {
+  const [products, setProducts] = React.useState<Product[]>(data);
   const dataIds = React.useMemo<UniqueIdentifier[]>(
-    () => data?.map(({ id }: any) => id),
-    [data]
+    () => products?.map(({ id }: any) => id),
+    [products]
   );
 
   const [rowSelection, setRowSelection] = React.useState({});
@@ -78,7 +77,7 @@ export function DataTable<TData, TValue>({
   );
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const table = useReactTable({
-    data,
+    data: products,
     columns,
     getRowId: (row: any) => row.id,
     state: {
@@ -108,20 +107,25 @@ export function DataTable<TData, TValue>({
   async function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
     if (active && over && active.id !== over.id) {
-      const oldIndex = dataIds.indexOf(active.id);
-      const newIndex = dataIds.indexOf(over.id);
-
-      await updateProductsIndexAction({
-        products: arrayMove(data, oldIndex, newIndex).map(
-          (product: any, index) => ({
-            id: product.id,
-            order: index + 1,
-          })
-        ),
-        slug,
+      const oldIndex = products.findIndex((cat) => {
+        return cat.id === active.id;
       });
+      const newIndex = products.findIndex((cat) => cat.id === over.id);
+      const newProducts = arrayMove(products, oldIndex, newIndex);
+
+      setProducts(newProducts);
+      try {
+        await updateProductsIndexAction({
+          products: newProducts.map((category, index) => ({
+            id: category.id,
+            order: index + 1,
+          })),
+          slug,
+        });
+      } catch (error) {
+        setProducts(products);
+      }
     }
-    router.refresh();
   }
 
   return (

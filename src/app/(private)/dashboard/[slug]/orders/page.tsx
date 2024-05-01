@@ -100,7 +100,7 @@ type OrderCardProps = {
 };
 function OrderCard({ id, total, date, time, table, qrcode }: OrderCardProps) {
   return (
-    <Card className="relative overflow-hidden border-none">
+    <Card className="relative border-none">
       <CardContent className="p-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
@@ -164,7 +164,7 @@ function OrderCard({ id, total, date, time, table, qrcode }: OrderCardProps) {
       </div>
 
       <div className="flex flex-col items-center gap-2 p-4">
-        <Button size="sm" variant="ghost" className="gap-2">
+        <Button size="sm" variant="ghost" className="gap-2 hover:underline">
           Aceitar pedido
           <TicketCheckIcon className="w-5 h-5" />
         </Button>

@@ -2,8 +2,18 @@
 
 import { Store, StoreSettings } from "@prisma/client";
 import { MinusIcon, Package2Icon, PlusIcon, Trash2Icon } from "lucide-react";
+import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import {
   Drawer,
   DrawerClose,
@@ -14,6 +24,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
@@ -55,6 +66,9 @@ type Props = {
 };
 
 export function Cart({ store }: Props) {
+  const [isDelivery, setIsDelivery] = useState(false);
+  const [tableNumber, setTableNumber] = useState("");
+
   const {
     data: cart,
     updateData: updateCart,
@@ -70,6 +84,9 @@ export function Cart({ store }: Props) {
     tax: store.settings?.tax,
     couvert: store.settings?.couvert,
   });
+
+  function onSubmit() {}
+
   return (
     <Drawer>
       <DrawerTrigger>
@@ -203,13 +220,22 @@ export function Cart({ store }: Props) {
               ))}
 
               {store.settings?.hasDelivery && (
-                <div className="flex flex-row items-center justify-between rounded-lg border p-4">
+                <Label
+                  htmlFor="delivery"
+                  className="flex flex-row items-center justify-between rounded-lg border p-4"
+                >
                   <div>
-                    <Label>Entregar pedido?</Label>
+                    <span>Entregar pedido?</span>
                   </div>
 
-                  <Switch checked={false} />
-                </div>
+                  <Switch
+                    id="delivery"
+                    onCheckedChange={() =>
+                      setIsDelivery((provState) => !provState)
+                    }
+                    checked={isDelivery}
+                  />
+                </Label>
               )}
 
               <Separator />
@@ -245,7 +271,44 @@ export function Cart({ store }: Props) {
             </div>
 
             <DrawerFooter className="px-2">
-              <Button>Fazer pedido</Button>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button>Fazer pedido</Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Estamos quase lá!</DialogTitle>
+                    <DialogDescription>
+                      Para finalizar o pedido, confirme os dados abaixo.
+                    </DialogDescription>
+                  </DialogHeader>
+
+                  <div className="flex flex-col gap-2">
+                    <span>
+                      {store.settings?.isTableName
+                        ? "Nome completo"
+                        : "Número da mesa"}
+                    </span>
+                    <Input
+                      placeholder={
+                        store.settings?.isTableName
+                          ? "Digite seu nome"
+                          : "Digite o número da mesa"
+                      }
+                      autoFocus
+                      value={tableNumber}
+                      onChange={(e: any) => setTableNumber(e.target.value)}
+                    />
+                  </div>
+
+                  <DialogFooter>
+                    <Button type="submit" onClick={onSubmit}>
+                      Confirmar
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+
               <DrawerClose>
                 <Button variant="outline" className="w-full">
                   Fechar

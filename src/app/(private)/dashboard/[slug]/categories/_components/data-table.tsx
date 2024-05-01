@@ -33,7 +33,6 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useRouter } from "next/navigation";
 import * as React from "react";
 
 import {
@@ -47,23 +46,24 @@ import {
 
 import { updateCategoriesIndexAction } from "@/actions/category/update-categories-index-action";
 import { cn } from "@/lib/utils";
+import { Category } from "@prisma/client";
 import { DataTableToolbar } from "./data-table-toolbar";
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+interface DataTableProps<TValue> {
+  columns: ColumnDef<Category, TValue>[];
+  data: Category[];
   slug: string;
 }
 
-export function DataTable<TData, TValue>({
+export function DataTable<TValue>({
   columns,
   data,
   slug,
-}: DataTableProps<TData, TValue>) {
-  const router = useRouter();
+}: DataTableProps<TValue>) {
+  const [categories, setCategories] = React.useState(data);
   const dataIds = React.useMemo<UniqueIdentifier[]>(
-    () => data?.map(({ id }: any) => id),
-    [data]
+    () => categories?.map(({ id }: any) => id),
+    [categories]
   );
 
   const [rowSelection, setRowSelection] = React.useState({});
@@ -74,7 +74,7 @@ export function DataTable<TData, TValue>({
   );
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const table = useReactTable({
-    data,
+    data: categories,
     columns,
     getRowId: (row: any) => row.id,
     state: {
@@ -104,19 +104,24 @@ export function DataTable<TData, TValue>({
   async function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
     if (active && over && active.id !== over.id) {
-      const oldIndex = dataIds.indexOf(active.id);
-      const newIndex = dataIds.indexOf(over.id);
+      const oldIndex = categories.findIndex((cat) => {
+        return cat.id === active.id;
+      });
+      const newIndex = categories.findIndex((cat) => cat.id === over.id);
+      const newCategories = arrayMove(categories, oldIndex, newIndex);
 
-      await updateCategoriesIndexAction({
-        categories: arrayMove(data, oldIndex, newIndex).map(
-          (category: any, index) => ({
+      setCategories(newCategories);
+      try {
+        await updateCategoriesIndexAction({
+          categories: newCategories.map((category, index) => ({
             id: category.id,
             order: index + 1,
-          })
-        ),
-        slug,
-      });
-      router.refresh();
+          })),
+          slug,
+        });
+      } catch (error) {
+        setCategories(categories);
+      }
     }
   }
 

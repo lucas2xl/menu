@@ -47,7 +47,7 @@ export default async function StorePage({
         </div>
       </div>
 
-      <div className="pl-4 md:pl-8">
+      <div>
         <CategoryFilter categories={store.categories} />
       </div>
 

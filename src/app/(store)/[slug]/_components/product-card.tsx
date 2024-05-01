@@ -20,6 +20,7 @@ type Props = {
 
 export function ProductCard({ product }: Props) {
   const pathname = usePathname();
+
   return (
     <Card key={product.id} className="overflow-hidden">
       <Link
@@ -32,6 +33,8 @@ export function ProductCard({ product }: Props) {
             alt={product.name}
             fill
             className="absolute inset-0 w-full h-full object-cover"
+            placeholder="blur"
+            blurDataURL="/placeholder.svg"
           />
         </div>
 

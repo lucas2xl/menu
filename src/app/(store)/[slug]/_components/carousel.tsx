@@ -38,7 +38,10 @@ export function Carousel({ products }: Props) {
                     src={product.images?.[0]?.url}
                     alt={product.name}
                     fill
+                    priority
                     className="absolute inset-0 w full h-full object-cover"
+                    placeholder="blur"
+                    blurDataURL="/placeholder.svg"
                   />
                   <div className="flex flex-col absolute bottom-0 left-0 bg-black/30 w-full p-1 text-white">
                     <span className="text-lg font-semibold line-clamp-1">

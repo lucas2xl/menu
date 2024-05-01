@@ -36,10 +36,10 @@ export default async function DashboardStoreLayout({
   return (
     <div className={store.settings?.theme}>
       <SwitchTheme theme={store.settings?.theme} />
-      <div className="px-8 pt-4 fixed h-20 mx-auto w-full bg-background/80 backdrop-blur-lg z-50 border-b border-border">
-        <div className="flex items-center">
+      <div className="px-8 h-20 mx-auto border-b border-border sticky top-0 z-50 w-full bg-background/90 backdrop-blur-lg supports-[backdrop-filter]:bg-background/60">
+        <div className="flex items-center h-full">
           <StoreSwitcher stores={user.stores} userPlan={user.plan} />
-          <MainNav className="mx-6" />
+          <MainNav className="mx-4 hidden md:flex" />
           <div className="ml-auto flex items-center space-x-4">
             <OpenStoreButton store={store} />
             <ModeToggle />
@@ -48,7 +48,7 @@ export default async function DashboardStoreLayout({
         </div>
       </div>
 
-      <div className="pt-20 px-8">{children}</div>
+      <div className="px-8">{children}</div>
     </div>
   );
 }

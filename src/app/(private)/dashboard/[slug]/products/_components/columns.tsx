@@ -59,7 +59,9 @@ export const columns: ColumnDef<Product>[] = [
         width={50}
         height={50}
         alt={row.getValue("name")}
-        className="rounded-md h-10 w-10 object-cover"
+        className="rounded-md h-10 w-10 object-cover min-h-10 min-w-10"
+        placeholder="blur"
+        blurDataURL="/placeholder.svg"
       />
     ),
     enableSorting: false,

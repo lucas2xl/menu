@@ -30,10 +30,11 @@ export default async function StoreLayout({
   if (!store) return notFound();
 
   return (
-    <div className={cn("max-w-7xl mx-auto", store.settings?.theme)}>
+    <div className={cn("max-w-7xl mx-auto ", store.settings?.theme)}>
       <SwitchTheme theme={store.settings?.theme} />
       <StoreClosedModal storeOpen={store.settings?.isOpen} />
-      <header className="flex items-center justify-between h-24 border-b border-border px-4 md:px-8">
+
+      <header className="flex items-center justify-between h-24 border-b border-border px-4 md:px-8 sticky top-0 z-50 w-full bg-background/90 backdrop-blur-lg supports-[backdrop-filter]:bg-background/60">
         <Link href={`/${params.slug}`}>
           <div className="flex items-center gap-2">
             <Avatar>

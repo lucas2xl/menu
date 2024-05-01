@@ -261,8 +261,9 @@ export function StoreProductForm({ product }: Props) {
                       className="gap-4"
                     >
                       {category.items.map((item) => (
-                        <div
+                        <Label
                           key={item.id}
+                          htmlFor={item.id}
                           className="flex items-center justify-between"
                         >
                           <div className="flex flex-col gap-2 mr-4">
@@ -275,7 +276,7 @@ export function StoreProductForm({ product }: Props) {
                           </div>
 
                           <div className="flex gap-6 items-center">
-                            <Label htmlFor={item.id} className="text-sm">
+                            <Label className="text-sm">
                               + R$ {(item.price / 100).toFixed(2)}
                             </Label>
                             <RadioGroupItem
@@ -284,7 +285,7 @@ export function StoreProductForm({ product }: Props) {
                               className="size-6"
                             />
                           </div>
-                        </div>
+                        </Label>
                       ))}
                     </RadioGroup>
                   </div>
@@ -373,7 +374,8 @@ export function StoreProductForm({ product }: Props) {
                   >
                     <RadioGroup>
                       {category.items.map((item) => (
-                        <div
+                        <Label
+                          htmlFor={item.id}
                           key={item.id}
                           className="flex items-center justify-between"
                         >
@@ -392,6 +394,7 @@ export function StoreProductForm({ product }: Props) {
                             <div>
                               <Checkbox
                                 className="size-6"
+                                id={item.id}
                                 checked={
                                   selectedItems[category.id][item.id].checked
                                 }
@@ -405,7 +408,7 @@ export function StoreProductForm({ product }: Props) {
                               />
                             </div>
                           </div>
-                        </div>
+                        </Label>
                       ))}
                     </RadioGroup>
                   </div>
