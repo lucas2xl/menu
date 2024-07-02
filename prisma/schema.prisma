@@ -128,12 +128,10 @@ model StoreSettings {
 }
 
 model Qrcode {
-  id        String   @id @default(cuid())
-  value     Int
-  storeId   String   @map("store_id")
-  store     Store    @relation(fields: [storeId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  id      String @id @default(cuid())
+  value   Int
+  storeId String @map("store_id")
+  store   Store  @relation(fields: [storeId], references: [id], onDelete: Cascade)
 
   @@unique([storeId, value])
   @@map("qrcodes")

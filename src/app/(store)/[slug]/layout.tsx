@@ -4,14 +4,15 @@ import { Button } from "@/components/ui/button";
 import { db } from "@/lib/db";
 import { cn } from "@/lib/utils";
 import { SearchIcon } from "lucide-react";
+import { cookies } from "next/headers";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { SwitchTheme } from "@/components/switch-theme";
-
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Cart } from "./_components/cart";
 import { StoreClosedModal } from "./_components/store-closed-modal";
+import { StoreDeliveryModal } from "./_components/store-delivery-modal";
 
 export const dynamic = "force-dynamic";
 
@@ -28,11 +29,16 @@ export default async function StoreLayout({
   });
 
   if (!store) return notFound();
+  const qrCode = cookies().get("menu@qrcode");
+  console.log({ qrCode });
 
   return (
     <div className={cn("max-w-7xl mx-auto ", store.settings?.theme)}>
       <SwitchTheme theme={store.settings?.theme} />
       <StoreClosedModal storeOpen={store.settings?.isOpen} />
+      <StoreDeliveryModal
+        showDeliveryModal={!store.settings?.hasDelivery && !qrCode}
+      />
 
       <header className="flex items-center justify-between h-24 border-b border-border px-4 md:px-8 sticky top-0 z-50 w-full bg-background/90 backdrop-blur-lg supports-[backdrop-filter]:bg-background/60">
         <Link href={`/${params.slug}`}>
@@ -65,8 +71,14 @@ export default async function StoreLayout({
       <div className="min-h-[calc(100vh-96px)] my-6">{children}</div>
       <Footer />
 
-      <div className="fixed bottom-4 right-4">
-        <Cart store={store} />
+      <div
+        className={cn(
+          "fixed bottom-4 right-4",
+          !store.settings?.isOpen && "hidden",
+          !store.settings?.hasDelivery && !qrCode && "hidden"
+        )}
+      >
+        <Cart store={store} forceDelivery={!qrCode} />
       </div>
     </div>
   );

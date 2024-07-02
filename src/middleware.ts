@@ -9,6 +9,10 @@ import {
   redirects,
 } from "@/utils/constants";
 
+export const config = {
+  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
+};
+
 export async function middleware(request: NextRequest) {
   const { nextUrl } = request;
   const session = cookies().get("menu@session")?.value ?? null;
@@ -58,7 +62,3 @@ export async function middleware(request: NextRequest) {
 
   return NextResponse.next();
 }
-
-export const config = {
-  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
-};

@@ -12,12 +12,8 @@ import { hashed } from "@/adapters/hash";
 const client = new PrismaClient();
 
 const getEmailList = (): Prisma.AuthorizedEmailListCreateInput[] => [
-  {
-    email: "admin@admin.com",
-  },
-  {
-    email: "test@test.com",
-  },
+  { email: "admin@admin.com" },
+  { email: "test@test.com" },
 ];
 
 const getAdmin = (password: string): Prisma.UserCreateInput => ({

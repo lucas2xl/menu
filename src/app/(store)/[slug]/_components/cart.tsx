@@ -53,39 +53,51 @@ function sumTotal({
   total,
   tax,
   couvert,
+  deliveryTax,
 }: {
   total: number;
   tax?: number;
   couvert?: number;
+  deliveryTax?: number;
 }) {
-  return total + (total * (tax || 0)) / 100 + (couvert || 0);
+  let sunTotal = total + (total * (tax || 0)) / 100 + (couvert || 0);
+  if (deliveryTax) sunTotal += deliveryTax || 0;
+
+  return sunTotal;
 }
 
 type Props = {
   store: Store & { settings: StoreSettings | null };
+  forceDelivery: boolean;
 };
 
-export function Cart({ store }: Props) {
-  const [isDelivery, setIsDelivery] = useState(false);
+export function Cart({ store, forceDelivery }: Props) {
+  const [isDelivery, setIsDelivery] = useState(forceDelivery);
   const [tableNumber, setTableNumber] = useState("");
-
+  const isMounted = useIsMounted();
   const {
     data: cart,
     updateData: updateCart,
     removeData: removeCart,
   } = useCart();
-  const isMounted = useIsMounted();
 
   if (!isMounted) return null;
 
   const subtotal = !!cart?.length ? sumCart(cart) : 0;
+  const tax = (subtotal * (store.settings?.tax || 0)) / 100;
   const total = sumTotal({
     total: subtotal,
     tax: store.settings?.tax,
     couvert: store.settings?.couvert,
+    deliveryTax: isDelivery ? store.settings?.deliveryTax : 0,
   });
 
-  function onSubmit() {}
+  function onSubmit() {
+    // qual é a loja
+    // qual o qrcode
+    // itens
+    // tem entrega? ? endereço : table id(ou nome do cliente)
+  }
 
   return (
     <Drawer>
@@ -233,7 +245,8 @@ export function Cart({ store }: Props) {
                     onCheckedChange={() =>
                       setIsDelivery((provState) => !provState)
                     }
-                    checked={isDelivery}
+                    checked={forceDelivery || isDelivery}
+                    disabled={forceDelivery}
                   />
                 </Label>
               )}
@@ -246,23 +259,34 @@ export function Cart({ store }: Props) {
                   <span>R$ {(subtotal / 100).toFixed(2)}</span>
                 </div>
 
-                <div className="flex justify-between text-sm md:text-lg">
-                  <span>Frete</span>
-                  {!!store.settings?.tax ? (
-                    <span>{store.settings.tax}%</span>
-                  ) : (
-                    <span>Grátis</span>
-                  )}
-                </div>
+                {!!store.settings?.tax && (
+                  <div className="flex justify-between text-sm md:text-lg">
+                    <span>Taxa</span>
 
-                <div className="flex justify-between text-sm md:text-lg">
-                  <span>Taxa</span>
-                  {!!store.settings?.couvert ? (
+                    <span>R$ {(tax / 100).toFixed(2)}</span>
+                  </div>
+                )}
+
+                {!!store.settings?.couvert && (
+                  <div className="flex justify-between text-sm md:text-lg">
+                    <span>Couvert</span>
                     <span>R$ {(store.settings.couvert / 100).toFixed(2)}</span>
-                  ) : (
-                    <span>Grátis</span>
-                  )}
-                </div>
+                  </div>
+                )}
+
+                {isDelivery && (
+                  <div className="flex justify-between text-sm md:text-lg">
+                    <span>Frete</span>
+                    {!!store.settings?.deliveryTax ? (
+                      <span>
+                        R$ {(store.settings.deliveryTax / 100).toFixed(2)}
+                      </span>
+                    ) : (
+                      <span>Grátis</span>
+                    )}
+                  </div>
+                )}
+
                 <div className="flex justify-between font-bold text-base md:text-xl">
                   <span>Total</span>
                   <span>R$ {(total / 100).toFixed(2)}</span>

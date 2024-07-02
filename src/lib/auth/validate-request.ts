@@ -19,7 +19,7 @@ export const uncachedValidateRequest = async (): Promise<
       cookies().set(
         sessionCookie.name,
         sessionCookie.value,
-        sessionCookie.attributes
+        sessionCookie.attributes,
       );
     }
 
@@ -28,7 +28,7 @@ export const uncachedValidateRequest = async (): Promise<
       cookies().set(
         sessionCookie.name,
         sessionCookie.value,
-        sessionCookie.attributes
+        sessionCookie.attributes,
       );
     }
   } catch {

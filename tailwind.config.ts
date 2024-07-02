@@ -24,6 +24,7 @@ const config = {
     "bg-yellow-500",
     "bg-violet-500",
   ],
+
   theme: {
     container: {
       center: true,
